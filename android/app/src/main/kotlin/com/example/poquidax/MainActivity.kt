@@ -1,0 +1,5 @@
+package com.example.poquidax
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity : FlutterActivity()
