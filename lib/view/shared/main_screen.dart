@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 
-LayoutBuilder pokeScreenFrameContainer(Widget screenContent,double height) {
-  return LayoutBuilder(
+SizedBox pokeScreenFrameContainer(Widget screenContent,double width, double height) {
+  return SizedBox(
+              height: height,
+              width: width,
+              child: LayoutBuilder(
     builder: (context, constraints) {
       double sidePadding = constraints.maxWidth * 0.15;
       double topPadding = constraints.maxHeight*0.05; // Subtract top padding
       return SizedBox(
         child: Padding(
           padding: EdgeInsets.only(left: sidePadding, top: topPadding, right: sidePadding),
-          child: PokeScreenFrame.pokedexScreenFrame(screenContent: screenContent, width: constraints.maxWidth-sidePadding*2, height: height,),
+          child: PokeScreenFrame.pokedexScreenFrame(screenContent: screenContent, width: width, height: height,),
         ),
       );
     },
-  );
+  ));
 }
 
 class PokeScreenFrame extends StatelessWidget {

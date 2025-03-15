@@ -43,11 +43,7 @@ class MainApp extends StatelessWidget {
               height:MediaQuery.of(context).size.height*0.15,
               child: bannerContainer(colorScheme: myColorScheme),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height*0.4,
-              width: MediaQuery.of(context).size.width,
-              child: pokeScreenFrameContainer(Placeholder(), MediaQuery.of(context).size.height*0.4),
-            ),
+            pokeScreenFrameContainer(Placeholder(), MediaQuery.of(context).size.width, MediaQuery.of(context).size.height*0.4),
             Expanded(child: Placeholder())
           ],
         ),
