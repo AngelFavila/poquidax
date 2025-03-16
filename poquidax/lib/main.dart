@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'view/shared/main_screen.dart';
+import 'package:provider/provider.dart';
 import 'view/shared/pokedex_banner.dart';
+import 'viewmodel/main_view_model.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown, 
+    DeviceOrientation.portraitDown,
   ]).then((_) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky); // Force fullscreen
+    SystemChrome.setEnabledSystemUIMode(
+        SystemUiMode.immersiveSticky); // Force fullscreen
     runApp(const MainApp());
   });
 }
-
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -32,22 +32,37 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: myColorScheme.primary,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(
-              height:MediaQuery.of(context).size.height*0.15,
-              child: bannerContainer(colorScheme: myColorScheme),
-            ),
-            pokeScreenFrameContainer(Placeholder(), MediaQuery.of(context).size.width, MediaQuery.of(context).size.height*0.4),
-            Expanded(child: Placeholder())
-          ],
-        ),
-      ),
+    return Builder(
+      builder: (context) {
+        Size screenSize = MediaQuery.of(context).size;
+
+        return ChangeNotifierProvider(
+          create: (_) => MainViewModel(screenSize: screenSize),
+          child: Consumer<MainViewModel>(
+            builder: (context, viewModel, child) {
+              return PokedexBody(screenSize, viewModel);
+            },
+          ),
+        );
+      },
     );
+  }
+
+  MaterialApp PokedexBody(Size screenSize, MainViewModel viewModel) {
+    return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              home: Scaffold(
+                backgroundColor: myColorScheme.primary,
+                body: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    bannerContainer(
+                        height: screenSize.height,
+                        colorScheme: myColorScheme), //Banner que esta estatico en pantallas
+                    ...viewModel.screenWidgets, // Carga lista de Widgets del view model
+                  ],
+                ),
+              ),
+            );
   }
 }

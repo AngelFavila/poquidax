@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
-Widget bannerContainer({required ColorScheme colorScheme}) {
-  return LayoutBuilder(
+Widget bannerContainer({required double height,required ColorScheme colorScheme}) {
+  return SizedBox(
+                  height: height * 0.15,
+                  child: 
+                LayoutBuilder(
     builder: (context, constraints) {
       return BannerFrame(
         colorScheme: colorScheme,
@@ -9,7 +12,7 @@ Widget bannerContainer({required ColorScheme colorScheme}) {
         height: constraints.maxHeight,
       );
     },
-  );
+  ));
 }
 
 class BannerFrame extends StatelessWidget {
