@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pokedax/viewmodel/main_viewModel.dart';
-
 import '../../viewmodel/home_viewModel.dart';
 
+// ignore: must_be_immutable
 class HomeView extends StatelessWidget {
   final Widget screenContent;
   HomeViewModel _viewModel;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../viewmodel/login_viewModel.dart';
 
+// ignore: must_be_immutable
 class LoginView extends StatefulWidget {
   LoginViewModel _viewModel;
   final Size screenSize;
