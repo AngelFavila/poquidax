@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'view/shared/pokedex_banner.dart';
-import 'viewmodel/main_view_model.dart';
+import 'viewmodel/main_viewModel.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,19 +50,20 @@ class MainApp extends StatelessWidget {
 
   MaterialApp PokedexBody(Size screenSize, MainViewModel viewModel) {
     return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              home: Scaffold(
-                backgroundColor: myColorScheme.primary,
-                body: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    bannerContainer(
-                        height: screenSize.height,
-                        colorScheme: myColorScheme), //Banner que esta estatico en pantallas
-                    ...viewModel.screenWidgets, // Carga lista de Widgets del view model
-                  ],
-                ),
-              ),
-            );
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        backgroundColor: myColorScheme.primary,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            bannerContainer(
+                height: screenSize.height,
+                colorScheme:
+                    myColorScheme), //Banner que esta estatico en pantallas
+            viewModel.screenWidget, // Carga lista de Widgets del view model
+          ],
+        ),
+      ),
+    );
   }
 }
