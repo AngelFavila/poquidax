@@ -6,19 +6,13 @@ class LoginViewModel {
   final ValueNotifier<String> _usernameNotifier = ValueNotifier('');
   final ValueNotifier<String> _passwordNotifier = ValueNotifier('');
 
-  // Remove final so it can be set
-  late Function onLoginResult;  // This allows it to be mutable
-
-  // Constructor with the callback parameter
+  late Function
+  onLoginResult; // Callback para notificar si el login es exitoso o no
   LoginViewModel({required this.onLoginResult});
 
-  // Getter for the username notifier
   ValueNotifier<String> get usernameNotifier => _usernameNotifier;
-
-  // Getter for the password notifier
   ValueNotifier<String> get passwordNotifier => _passwordNotifier;
 
-  // Setters for username and password
   set username(String value) {
     _username = value.trim();
     _usernameNotifier.value = _username;
@@ -29,13 +23,14 @@ class LoginViewModel {
     _passwordNotifier.value = _password;
   }
 
-  // Handle login logic
   void handleLogin() {
-    onLoginResult(_isValidCredentials());
+    onLoginResult(
+      _isValidCredentials(),
+    ); // Callback para notificar si el login es exitoso o no
   }
 
-  // Example validation for username and password
   bool _isValidCredentials() {
-    return _username == 'admin' && _password == '12345';
+    return _username == 'admin' &&
+        _password == '12345'; // Credenciales de ejemplo
   }
 }

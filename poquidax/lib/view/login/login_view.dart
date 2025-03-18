@@ -3,11 +3,16 @@ import '../../viewmodel/login_viewModel.dart';
 
 // ignore: must_be_immutable
 class LoginView extends StatefulWidget {
-  LoginViewModel _viewModel;
+  final LoginViewModel _viewModel;
   final Size screenSize;
 
-  LoginView(this._viewModel, {super.key, required this.screenSize, required Function onLoginResult}) {
-    _viewModel.onLoginResult = onLoginResult; 
+  LoginView(
+    this._viewModel, {
+    super.key,
+    required this.screenSize,
+    required Function onLoginResult,
+  }) {
+    _viewModel.onLoginResult = onLoginResult;
   }
 
   @override
@@ -17,13 +22,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        UserField(),
-        PasswordField(),
-        LoginButton(),
-      ],
-    );
+    return Column(children: [UserField(), PasswordField(), LoginButton()]);
   }
 
   // User Field
@@ -62,8 +61,9 @@ class _LoginViewState extends State<LoginView> {
               floatingLabelBehavior: FloatingLabelBehavior.never,
               filled: true,
               fillColor: Colors.white,
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30.0),
+              ),
             ),
           );
         },

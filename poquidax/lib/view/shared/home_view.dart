@@ -7,8 +7,14 @@ class HomeView extends StatelessWidget {
   HomeViewModel _viewModel;
   final Size screenSize;
 
-  HomeView(this._viewModel, {super.key, required this.screenSize, required Function onBackButton, required this.screenContent}) {
-    _viewModel.onBackButton = onBackButton; 
+  HomeView(
+    this._viewModel, {
+    super.key,
+    required this.screenSize,
+    required Function onBackButton,
+    required this.screenContent,
+  }) {
+    _viewModel.onBackButton = onBackButton;
   }
 
   @override
@@ -19,7 +25,8 @@ class HomeView extends StatelessWidget {
       child: LayoutBuilder(
         builder: (context, constraints) {
           double sidePadding = constraints.maxWidth * 0.15;
-          double topPadding = constraints.maxHeight * 0.05; // Subtract top padding
+          double topPadding =
+              constraints.maxHeight * 0.05; // Subtract top padding
 
           return SizedBox(
             child: Padding(
@@ -30,7 +37,8 @@ class HomeView extends StatelessWidget {
               ),
               child: PokeScreenFrame.pokedexScreenFrame(
                 screenContent: screenContent,
-                screenSize: Size(screenSize.width, screenSize.height * 0.4), viewModel: _viewModel,
+                screenSize: Size(screenSize.width, screenSize.height * 0.4),
+                viewModel: _viewModel,
               ),
             ),
           );
@@ -48,7 +56,8 @@ class PokeScreenFrame extends StatelessWidget {
   PokeScreenFrame.pokedexScreenFrame({
     super.key,
     required this.screenContent,
-    required this.screenSize , required this.viewModel,
+    required this.screenSize,
+    required this.viewModel,
   });
 
   @override
@@ -57,18 +66,21 @@ class PokeScreenFrame extends StatelessWidget {
       width: screenSize.width,
       height: screenSize.height,
       child: Column(
-        children: [Stack(
-        alignment: Alignment.topLeft,
         children: [
-          CustomPaint(
-            size: screenSize,
-            painter: CutCornerPainter(),
+          Stack(
+            alignment: Alignment.topLeft,
+            children: [
+              CustomPaint(size: screenSize, painter: CutCornerPainter()),
+              pokedexScreen(screenContent, screenSize),
+            ],
           ),
-          pokedexScreen(screenContent,screenSize)
+          ElevatedButton(
+            onPressed: () {
+              viewModel.handleBackButton();
+            },
+            child: Text('Back'),
+          ),
         ],
-      ),
-        ElevatedButton(onPressed: () => viewModel.onBackButton(), child: Text('Back'))
-        ]
       ),
     );
   }
@@ -77,9 +89,10 @@ class PokeScreenFrame extends StatelessWidget {
 class CutCornerPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    var paint = Paint()
-      ..color = Color(0xFFDEDEDE) // Background color
-      ..style = PaintingStyle.fill;
+    var paint =
+        Paint()
+          ..color = Color(0xFFDEDEDE) // Background color
+          ..style = PaintingStyle.fill;
 
     var path = Path();
     double cutSize = size.width * 0.15;
@@ -93,15 +106,28 @@ class CutCornerPainter extends CustomPainter {
 
     canvas.drawPath(path, paint);
 
-    var circlePaint = Paint()
-      ..color = Color(0xFFDB082D) // Circle color
-      ..style = PaintingStyle.fill;
+    var circlePaint =
+        Paint()
+          ..color = Color(0xFFDB082D) // Circle color
+          ..style = PaintingStyle.fill;
 
     double radius = size.width * 0.02;
 
-    canvas.drawCircle(Offset(size.width / 2 - radius * 2, radius * 4), radius, circlePaint);
-    canvas.drawCircle(Offset(size.width / 2 + radius * 2, radius * 4), radius, circlePaint);
-    canvas.drawCircle(Offset(size.width * 0.16 - radius * 2, size.height * 0.85), radius, circlePaint);
+    canvas.drawCircle(
+      Offset(size.width / 2 - radius * 2, radius * 4),
+      radius,
+      circlePaint,
+    );
+    canvas.drawCircle(
+      Offset(size.width / 2 + radius * 2, radius * 4),
+      radius,
+      circlePaint,
+    );
+    canvas.drawCircle(
+      Offset(size.width * 0.16 - radius * 2, size.height * 0.85),
+      radius,
+      circlePaint,
+    );
   }
 
   @override
@@ -117,7 +143,7 @@ Widget pokedexScreen(Widget screenContent, Size size) {
         left: size.width * 0.10,
         top: size.height * 0.15,
         right: size.width * 0.10,
-        bottom: size.height * 0.21, 
+        bottom: size.height * 0.21,
       ),
       child: screenContent,
     ),

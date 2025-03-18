@@ -5,7 +5,10 @@ class HomeViewModel extends ChangeNotifier {
 
   HomeViewModel({required this.onBackButton});
 
-  // Handle login logic
+  void handleBackButton() {
+    onBackButton();
+  }
+
   void handleLogin() {
     onBackButton();
   }
