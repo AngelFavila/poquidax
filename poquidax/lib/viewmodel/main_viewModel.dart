@@ -8,7 +8,7 @@ class MainViewModel extends ChangeNotifier {
   Widget _screenWidget = Placeholder();
   bool _isLoggedIn = false;
 
-Widget get screenWidget => _screenWidget;
+  Widget get screenWidget => _screenWidget;
   final Size screenSize;
 
   MainViewModel({required this.screenSize}) {
@@ -33,26 +33,32 @@ Widget get screenWidget => _screenWidget;
   // Construye la pantalla de Home
   void _showHomeScreen() {
     var homeViewModel = HomeViewModel(onBackButton: backButton);
-    var homeView = HomeView(homeViewModel, screenSize: Size(screenSize.width, screenSize.height * 0.85), onBackButton: backButton, screenContent: Placeholder(),);
+    var homeView = HomeView(
+      homeViewModel,
+      screenSize: Size(screenSize.width, screenSize.height * 0.85),
+      onBackButton: backButton,
+      screenContent: Placeholder(),
+    );
     updateScreen(homeView);
   }
 
   void _showLoginScreen() {
-  var loginViewModel = LoginViewModel(onLoginResult: handleLoginResult);
-  var loginView = LoginView(loginViewModel, screenSize: Size(screenSize.width, screenSize.height * 0.85), onLoginResult: handleLoginResult);
-  updateScreen(loginView);
-}
+    var loginViewModel = LoginViewModel(onLoginResult: handleLoginResult);
+    var loginView = LoginView(loginViewModel,
+        screenSize: Size(screenSize.width, screenSize.height * 0.85),
+        onLoginResult: handleLoginResult);
+    updateScreen(loginView);
+  }
 
-void handleLoginResult(bool success) {
-  if (success) {
-    _showHomeScreen();
-  } else {
+  void handleLoginResult(bool success) {
+    if (success) {
+      _showHomeScreen();
+    } else {
+      _showLoginScreen();
+    }
+  }
+
+  void backButton() {
     _showLoginScreen();
   }
-}
-
-void backButton() {
-  _showLoginScreen();
-}
-
 }
