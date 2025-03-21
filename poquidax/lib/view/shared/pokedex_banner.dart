@@ -60,7 +60,7 @@ class BannerPainter extends CustomPainter {
 
     canvas.drawPath(path, paint);
 
-    paint.strokeWidth = 7.0;
+    paint.strokeWidth = 4.0;
     path = Path();
     path.moveTo(0, size.height*0.95 );
     path.lineTo(size.width * 0.39, size.height *0.95);

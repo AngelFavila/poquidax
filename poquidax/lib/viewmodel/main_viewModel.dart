@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokedax/view/login/login_view.dart';
 import 'package:pokedax/view/shared/home_view.dart';
-import 'login_viewModel.dart';
+import 'package:pokedax/viewmodel/login_viewModel.dart';
 import 'home_viewModel.dart';
 
 class MainViewModel extends ChangeNotifier {
