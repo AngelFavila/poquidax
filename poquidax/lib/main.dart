@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pokedax/firebase_options.dart';
 import 'package:provider/provider.dart';
 import 'view/shared/pokedex_banner.dart';
 import 'viewmodel/main_viewModel.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  
+
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -12,8 +16,12 @@ void main() {
   ]).then((_) {
     SystemChrome.setEnabledSystemUIMode(
         SystemUiMode.immersiveSticky); // Force fullscreen
+    
     runApp(const MainApp());
   });
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 }
 
 class MainApp extends StatelessWidget {

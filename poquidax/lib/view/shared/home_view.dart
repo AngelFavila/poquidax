@@ -38,13 +38,11 @@ class HomeView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   PokeScreenFrame.pokedexScreenFrame(
-                    screenContent: screenContent, // Comprobamos que no sea null
+                    screenContent: _buildCentralBox(screenSize), // Comprobamos que no sea null
                     screenSize: Size(screenSize.width, screenSize.height * 0.4),
                     viewModel: _viewModel,
                   ),
-                  _buildCentralBox(screenSize),
-                  _buildActionButtons(screenSize),
-                  _buildControlPanel(screenSize),
+                  
                 ],
               ),
             ),
@@ -57,25 +55,28 @@ class HomeView extends StatelessWidget {
   // El widget del cuadro central
   Widget _buildCentralBox(Size screenSize) {
     return Container(
-      width: screenSize.width * 0.8,
+      width: screenSize.width * 0.75,
       height: screenSize.height * 0.4,
       color: Colors.white,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _buildMenuItem(
-              "Mis Pokémon", "Lista de mis pokémones", Colors.yellow),
-          _buildMenuItem(
-              "Atrapar Pokémon", "Agrega tus Pokémones", Colors.white),
-          _buildMenuItem("Salir", "Volver al inicio de sesión", Colors.white),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _buildMenuItem(
+                "Mis Pokémon", "Lista de mis pokémones", Colors.yellow),
+            _buildMenuItem(
+                "Atrapar Pokémon", "Agrega tus Pokémones", Colors.white),
+            _buildMenuItem("Salir", "Volver al inicio de sesión", Colors.white),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildMenuItem(String title, String subtitle, Color bgColor) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5.0),
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 5.0),
+    child: Flexible(
       child: Container(
         color: bgColor,
         padding: EdgeInsets.all(8.0),
@@ -88,15 +89,53 @@ class HomeView extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
-  // Los botones de acción
+
+  
+}
+
+class PokeScreenFrame extends StatelessWidget {
+   final Size screenSize;
+   final Widget screenContent;
+   final HomeViewModel viewModel;
+ 
+   PokeScreenFrame.pokedexScreenFrame({
+     super.key,
+     required this.screenContent,
+     required this.screenSize,
+     required this.viewModel,
+   });
+ 
+   @override
+   Widget build(BuildContext context) {
+     return SizedBox(
+       width: screenSize.width,
+       height: screenSize.height,
+       child: Column(
+         children: [
+           Stack(
+             alignment: Alignment.topLeft,
+             children: [
+               CustomPaint(size: screenSize, painter: CutCornerPainter()),
+               pokedexScreen(screenContent, screenSize),
+             ],
+           ),
+           _buildActionButtons(screenSize),
+           _buildControlPanel(screenSize),
+         ],
+       ),
+     );
+   }
+
+   // Los botones de acción
   Widget _buildActionButtons(Size screenSize) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        ElevatedButton(onPressed: () {}, child: Text("Atrás")),
+        ElevatedButton(onPressed: () {viewModel.handleBackButton();}, child: Text("Atrás")),
         ElevatedButton(onPressed: () {}, child: Text("Aceptar")),
       ],
     );
@@ -104,7 +143,7 @@ class HomeView extends StatelessWidget {
 
   // Panel de control adicional
   Widget _buildControlPanel(Size screenSize) {
-    return Column(
+    return Row(
       children: [
         Container(
           width: screenSize.width * 0.4,
@@ -128,12 +167,68 @@ class HomeView extends StatelessWidget {
       ],
     );
   }
-}
-
-class PokeScreenFrame {
-  static pokedexScreenFrame({
-    required Widget screenContent,
-    required Size screenSize,
-    required HomeViewModel viewModel,
-  }) {}
-}
+ }
+ 
+ class CutCornerPainter extends CustomPainter {
+   @override
+   void paint(Canvas canvas, Size size) {
+     var paint =
+         Paint()
+           ..color = Color(0xFFDEDEDE) // Background color
+           ..style = PaintingStyle.fill;
+ 
+     var path = Path();
+     double cutSize = size.width * 0.15;
+ 
+     path.moveTo(0, 0);
+     path.lineTo(size.width, 0);
+     path.lineTo(size.width, size.height);
+     path.lineTo(cutSize, size.height);
+     path.lineTo(0, size.height - cutSize);
+     path.close();
+ 
+     canvas.drawPath(path, paint);
+ 
+     var circlePaint =
+         Paint()
+           ..color = Color(0xFFDB082D) // Circle color
+           ..style = PaintingStyle.fill;
+ 
+     double radius = size.width * 0.02;
+ 
+     canvas.drawCircle(
+       Offset(size.width / 2 - radius * 2, radius * 4),
+       radius,
+       circlePaint,
+     );
+     canvas.drawCircle(
+       Offset(size.width / 2 + radius * 2, radius * 4),
+       radius,
+       circlePaint,
+     );
+     canvas.drawCircle(
+       Offset(size.width * 0.16 - radius * 2, size.height * 0.85),
+       radius,
+       circlePaint,
+     );
+   }
+ 
+   @override
+   bool shouldRepaint(CustomPainter oldDelegate) => false;
+ }
+ 
+ Widget pokedexScreen(Widget screenContent, Size size) {
+   return SizedBox(
+     width: size.width,
+     height: size.height,
+     child: Padding(
+       padding: EdgeInsets.only(
+         left: size.width * 0.10,
+         top: size.height * 0.15,
+         right: size.width * 0.10,
+         bottom: size.height * 0.21,
+       ),
+       child: screenContent,
+     ),
+   );
+ }

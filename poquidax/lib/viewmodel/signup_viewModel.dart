@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokedax/services/auth_service.dart';
 
-class LoginViewModel {
+class SignUpViewModel {
   String _email = '';
   String _password = '';
   final ValueNotifier<String> _usernameNotifier = ValueNotifier('');
@@ -9,7 +9,7 @@ class LoginViewModel {
 
   late Function
   onLoginResult; // Callback para notificar si el login es exitoso o no
-  LoginViewModel({required this.onLoginResult});
+  SignUpViewModel({required this.onLoginResult});
 
   ValueNotifier<String> get usernameNotifier => _usernameNotifier;
   ValueNotifier<String> get passwordNotifier => _passwordNotifier;
@@ -24,7 +24,7 @@ class LoginViewModel {
     _passwordNotifier.value = _password;
   }
 
-  Future<void> handleLogin() async {
-      onLoginResult(await AuthService().signIn(email: _email,password: _password));
+  void handleSignUp() {
+    AuthService().signUp(email: _email,password: _password);
   }
 }
