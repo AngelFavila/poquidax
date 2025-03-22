@@ -42,7 +42,8 @@ class HomeView extends StatelessWidget {
                     screenSize: Size(screenSize.width, screenSize.height * 0.4),
                     viewModel: _viewModel,
                   ),
-                  
+                   _buildActionButtons(screenSize),
+                  _buildControlPanel(screenSize),
                 ],
               ),
             ),
@@ -51,7 +52,43 @@ class HomeView extends StatelessWidget {
       ),
     );
   }
+   // Los botones de acción
+  Widget _buildActionButtons(Size screenSize) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        ElevatedButton(onPressed: () {_viewModel.handleBackButton();}, child: Text("Atrás")),
+        ElevatedButton(onPressed: () {}, child: Text("Aceptar")),
+      ],
+    );
+  }
 
+  // Panel de control adicional
+  Widget _buildControlPanel(Size screenSize) {
+    return Row(
+      children: [
+        Container(
+          width: screenSize.width * 0.4,
+          height: screenSize.width * 0.4,
+          color: Colors.green,
+          child: Center(
+            child: Text(
+              "Selecciona una opción del menú para continuar",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+        ),
+        SizedBox(height: 10),
+        Container(
+          width: screenSize.width * 0.2,
+          height: screenSize.width * 0.2,
+          color: Colors.black,
+          child: Icon(Icons.add, color: Colors.white),
+        ),
+      ],
+    );
+  }
   // El widget del cuadro central
   Widget _buildCentralBox(Size screenSize) {
     return Container(
@@ -123,50 +160,13 @@ class PokeScreenFrame extends StatelessWidget {
                pokedexScreen(screenContent, screenSize),
              ],
            ),
-           _buildActionButtons(screenSize),
-           _buildControlPanel(screenSize),
+          
          ],
        ),
      );
    }
 
-   // Los botones de acción
-  Widget _buildActionButtons(Size screenSize) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        ElevatedButton(onPressed: () {viewModel.handleBackButton();}, child: Text("Atrás")),
-        ElevatedButton(onPressed: () {}, child: Text("Aceptar")),
-      ],
-    );
-  }
-
-  // Panel de control adicional
-  Widget _buildControlPanel(Size screenSize) {
-    return Row(
-      children: [
-        Container(
-          width: screenSize.width * 0.4,
-          height: screenSize.width * 0.4,
-          color: Colors.green,
-          child: Center(
-            child: Text(
-              "Selecciona una opción del menú para continuar",
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-        ),
-        SizedBox(height: 10),
-        Container(
-          width: screenSize.width * 0.2,
-          height: screenSize.width * 0.2,
-          color: Colors.black,
-          child: Icon(Icons.add, color: Colors.white),
-        ),
-      ],
-    );
-  }
+  
  }
  
  class CutCornerPainter extends CustomPainter {

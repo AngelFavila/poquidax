@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pokedax/services/auth_service.dart';
 
 class SignUpViewModel {
@@ -7,9 +8,9 @@ class SignUpViewModel {
   final ValueNotifier<String> _usernameNotifier = ValueNotifier('');
   final ValueNotifier<String> _passwordNotifier = ValueNotifier('');
 
-  late Function
-  onLoginResult; // Callback para notificar si el login es exitoso o no
-  SignUpViewModel({required this.onLoginResult});
+  late Function onSignUpResult; // Callback para notificar si el login es exitoso o no
+  late Function onBackButton;
+  SignUpViewModel({required this.onSignUpResult, required this.onBackButton});
 
   ValueNotifier<String> get usernameNotifier => _usernameNotifier;
   ValueNotifier<String> get passwordNotifier => _passwordNotifier;
@@ -24,7 +25,14 @@ class SignUpViewModel {
     _passwordNotifier.value = _password;
   }
 
-  void handleSignUp() {
-    AuthService().signUp(email: _email,password: _password);
+  Future<void> handleSignUp() async {
+    if(await AuthService().signUp(email: _email,password: _password))
+    {
+      Fluttertoast.showToast(msg:"Cuenta creada exitosamente.");
+    }
+  }
+
+  void backToLogin(){
+    onBackButton();
   }
 }

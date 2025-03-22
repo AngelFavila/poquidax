@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pokedax/view/login/login_view.dart';
+import 'package:pokedax/view/session/login_view.dart';
+import 'package:pokedax/view/session/signup_view.dart';
 import 'package:pokedax/view/shared/home_view.dart';
 import 'package:pokedax/viewmodel/login_viewModel.dart';
+import 'package:pokedax/viewmodel/signup_viewModel.dart';
 import 'home_viewModel.dart';
 
 class MainViewModel extends ChangeNotifier {
@@ -32,23 +34,26 @@ class MainViewModel extends ChangeNotifier {
 
   // Construye la pantalla de Home
   void _showHomeScreen() {
-    var homeViewModel = HomeViewModel(onBackButton: backButton);
-    var homeView = HomeView(
-      homeViewModel,
-      screenSize: Size(screenSize.width, screenSize.height * 0.85),
-      onBackButton: backButton,
-      screenContent: Placeholder(),
-    );
-    updateScreen(homeView);
-  }
+  var homeViewModel = HomeViewModel(onBackButton: backButton);
+  var homeView = HomeView(
+    homeViewModel,
+    screenSize: screenSize, 
+    onBackButton: backButton,
+    screenContent: Placeholder(),
+  );
+  updateScreen(homeView);
+}
 
-  void _showLoginScreen() {
-    var loginViewModel = LoginViewModel(onLoginResult: handleLoginResult);
-    var loginView = LoginView(loginViewModel,
-        screenSize: Size(screenSize.width, screenSize.height * 0.85),
-        onLoginResult: handleLoginResult);
-    updateScreen(loginView);
-  }
+void _showLoginScreen() {
+  var loginViewModel = LoginViewModel(onLoginResult: handleLoginResult, onSignUpClick: goToSignUp);
+  var loginView = LoginView(
+    loginViewModel,
+    screenSize: screenSize, 
+    onLoginResult: handleLoginResult,
+  );
+  updateScreen(loginView);
+}
+
 
   void handleLoginResult(bool success) {
     if (success) {
@@ -60,5 +65,15 @@ class MainViewModel extends ChangeNotifier {
 
   void backButton() {
     _showLoginScreen();
+  }
+
+  void goToSignUp() {
+    var signUpViewModel = SignUpViewModel(onSignUpResult: handleLoginResult,onBackButton: backButton);
+  var signUpView = SignUpView(
+    signUpViewModel,
+    screenSize: screenSize, 
+    onSignUpResult: handleLoginResult,
+  );
+  updateScreen(signUpView);
   }
 }

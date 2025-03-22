@@ -9,7 +9,10 @@ class LoginViewModel {
 
   late Function
   onLoginResult; // Callback para notificar si el login es exitoso o no
-  LoginViewModel({required this.onLoginResult});
+  LoginViewModel({required this.onLoginResult, required this.onSignUpClick});
+
+  late Function
+  onSignUpClick; // Callback para boton de Sign up
 
   ValueNotifier<String> get usernameNotifier => _usernameNotifier;
   ValueNotifier<String> get passwordNotifier => _passwordNotifier;
@@ -26,5 +29,9 @@ class LoginViewModel {
 
   Future<void> handleLogin() async {
       onLoginResult(await AuthService().signIn(email: _email,password: _password));
+  }
+
+  Future<void> goToSignUp() async{
+    onSignUpClick();
   }
 }

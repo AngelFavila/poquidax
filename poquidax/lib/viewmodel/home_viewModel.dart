@@ -8,8 +8,4 @@ class HomeViewModel extends ChangeNotifier {
   void handleBackButton() {
     onBackButton();
   }
-
-  void handleLogin() {
-    onBackButton();
-  }
 }
