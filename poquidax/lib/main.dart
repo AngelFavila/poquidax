@@ -57,21 +57,26 @@ class MainApp extends StatelessWidget {
   }
 
   MaterialApp PokedexBody(Size screenSize, MainViewModel viewModel) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: myColorScheme.primary,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            bannerContainer(
-                height: screenSize.height,
-                colorScheme:
-                    myColorScheme), //Banner que esta estatico en pantallas
-            viewModel.screenWidget, // Carga lista de Widgets del view model
-          ],
-        ),
+  return MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: Scaffold(
+      backgroundColor: myColorScheme.primary,
+      body: Column(
+        children: [
+          bannerContainer(
+              height: screenSize.height,
+              colorScheme: myColorScheme), 
+          Expanded(
+            child: Container(
+              alignment: Alignment.center, 
+              child: viewModel.screenWidget,
+            ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
+
+
 }

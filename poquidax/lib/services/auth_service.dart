@@ -2,11 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class AuthService {
-  Future<void> signUp({
+  Future<bool> signUp({
     required String email,required String password
   }) async {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+      return true;
     }
     on FirebaseAuthException catch(e){
       String message = "";
@@ -17,10 +18,12 @@ class AuthService {
         message = "Ya existe una cuenta con ese correo";
       }
       Fluttertoast.showToast(msg: message);
+      return false;
     }
     catch(e){
-
+      return false;
     }
+    
   }
 
   Future<bool> signIn({
@@ -36,6 +39,9 @@ class AuthService {
       }
       else if(e.code=='wrong-password'){
         message = "Contraseña incorrecta.";
+      }
+      else if(e.code=='invalid-email'){
+        message = "Correo inválido.";
       }
       Fluttertoast.showToast(msg:"Error ${e.code}: $message");
       return false;
