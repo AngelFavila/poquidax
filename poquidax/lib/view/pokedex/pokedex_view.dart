@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedax/view/pokedex/widgets/dpad.dart';
 import '../../viewmodel/home_viewmodel.dart';
 import 'widgets/pokedex_screen.dart';
 
@@ -47,12 +48,65 @@ class PokedexView extends StatelessWidget {
                     // Se asigna el viewModel dinámico al PokedexScreen
                     viewModel: _viewModel,
                   ),
+                  Expanded(
+                      child: Container(
+                    child: Column(children: [
+                      _buildActionButtons(screenSize),
+                      _buildControlPanel(screenSize)
+                    ]),
+                  ))
                 ],
               ),
             ),
           );
         },
       ),
+    );
+  }
+
+  // Botones principales del Pokedex
+  Widget _buildActionButtons(Size screenSize) {
+    print("Building Action Buttons");
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        ElevatedButton(
+            onPressed: () {
+              _viewModel.onBackButton();
+            },
+            child: Text("Atrás")),
+        ElevatedButton(onPressed: () {}, child: Text("Aceptar")),
+      ],
+    );
+  }
+
+  // Panel de control adicional
+  Widget _buildControlPanel(Size screenSize) {
+    return Row(
+      children: [
+        Padding(
+          padding: EdgeInsets.only(right: screenSize.width * 0.05),
+          child: Container(
+            width: screenSize.width * 0.4,
+            height: screenSize.width * 0.4,
+            color: Colors.green,
+            child: Center(
+              child: Text(
+                "Selecciona una opción del menú para continuar",
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: 10),
+        DPad(
+          onPressed: (direction) {
+            print("Pressed: $direction");
+          },
+        ),
+      ],
     );
   }
 }

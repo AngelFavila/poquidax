@@ -71,15 +71,19 @@ class Main extends StatelessWidget {
     debugShowCheckedModeBanner: false,
     home: Scaffold(
       backgroundColor: myColorScheme.primary,
+      resizeToAvoidBottomInset: false,  // Previene mover el triangulo amarillo y overflow
       body: Column(
         children: [
           bannerContainer(
-              height: screenSize.height,
-              colorScheme: myColorScheme), 
-          Expanded(
+            height: screenSize.height * 0.15,
+            colorScheme: myColorScheme,
+          ),
+          Expanded(  // This will take up remaining space in the column
             child: Container(
-              alignment: Alignment.center, 
-              child: viewModel.screenWidget,
+              width: double.infinity,  // Ensure it covers the full width
+              height: double.infinity, // Ensure it takes up all available height
+              alignment: Alignment.center,
+              child: viewModel.screenWidget,  // Your dynamic content widget
             ),
           ),
         ],
@@ -87,6 +91,7 @@ class Main extends StatelessWidget {
     ),
   );
 }
+
 
 
 }

@@ -44,20 +44,23 @@ class CustomTextField extends StatelessWidget {
       controller.selection = TextSelection.fromPosition(TextPosition(offset: controller.text.length));
     });
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: size.width * 0.1),
+    return SizedBox(
+      width: size.width,  // Set desired width
+      height: size.height,
       child: TextFormField(
-        controller: controller,  // Bind the controller
-        onChanged: onChanged,    // Pass the callback for onChanged
-        obscureText: obscureText, // Conditionally obscure text
-        autofillHints: hints,
-        decoration: InputDecoration(
-          labelText: label,
-          floatingLabelBehavior: FloatingLabelBehavior.never,
-          filled: true,
-          fillColor: Colors.white,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(15.0)),
-        ),
+          controller: controller,  // Bind the controller
+          onChanged: onChanged,    // Pass the callback for onChanged
+          obscureText: obscureText, // Conditionally obscure text
+          autofillHints: hints,
+          decoration: InputDecoration(
+            
+            labelText: label,
+            floatingLabelBehavior: FloatingLabelBehavior.never,
+            filled: true,
+            fillColor: Colors.white,
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(size.width*0.02)),
+            contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+          ),
       ),
     );
   }

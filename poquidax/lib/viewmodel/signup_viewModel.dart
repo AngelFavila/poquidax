@@ -5,19 +5,21 @@ import 'package:pokedax/services/firebase/auth_service.dart';
 class SignUpViewModel {
   String _email = '';
   String _password = '';
-  final ValueNotifier<String> _usernameNotifier = ValueNotifier('');
+  final ValueNotifier<String> _emailNotifier = ValueNotifier('');
   final ValueNotifier<String> _passwordNotifier = ValueNotifier('');
+
+  
+  ValueNotifier<String> get emailNotifier => _emailNotifier;
+  ValueNotifier<String> get passwordNotifier => _passwordNotifier;
 
   late Function onSignUpResult; // Callback para notificar si el login es exitoso o no
   late Function onBackButton;
   SignUpViewModel({required this.onSignUpResult, required this.onBackButton});
 
-  ValueNotifier<String> get usernameNotifier => _usernameNotifier;
-  ValueNotifier<String> get passwordNotifier => _passwordNotifier;
 
-  set username(String value) {
+  set email(String value) {
     _email = value.trim();
-    _usernameNotifier.value = _email;
+    _emailNotifier.value = _email;
   }
 
   set password(String value) {

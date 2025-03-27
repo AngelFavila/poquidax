@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedax/view/session/painter/arrow_painter.dart';
 import 'package:pokedax/view/session/widgets/custom_text_field.dart';
 import '../../viewmodel/login_viewmodel.dart';
 
@@ -7,7 +8,12 @@ class LoginView extends StatefulWidget {
   final LoginViewModel _viewModel;
   final Size screenSize;
 
-  LoginView(this._viewModel, {super.key, required this.screenSize, required Function onLoginResult,}) {
+  LoginView(
+    this._viewModel, {
+    super.key,
+    required this.screenSize,
+    required Function onLoginResult,
+  }) {
     _viewModel.onLoginResult = onLoginResult;
   }
 
@@ -18,102 +24,136 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.topCenter, // Centers the content inside
-      child: Column(
-        mainAxisSize:
-            MainAxisSize.min, // Prevents Column from taking full height
-        children: [
-          SizedBox(
-            height: 40,
+    return Stack(
+      
+      children: [
+        // Custom painter with the yellow arrow
+        Positioned.fill(
+          child: CustomPaint(
+            painter: ArrowPainter(),
           ),
-          _emailField(),
-          SizedBox(height: 10),
-          _passwordField(),
-          SizedBox(height: 10),
-          LoginButton(),
-          SizedBox(height: 10),
-          SignUpButton(),
-        ],
-      ),
+        ),
+        // The rest of the content
+        Container(
+          
+          alignment: Alignment.topCenter, // Centers the content inside
+          child: Column(
+            mainAxisSize:
+                MainAxisSize.min, // Prevents Column from taking full height
+            children: [
+              SizedBox(height: 40),
+              _emailField(),
+              SizedBox(height: 10),
+              _passwordField(),
+              SizedBox(height: 10),
+              _loginButton(),
+              SizedBox(height: 10),
+              _signUpButton(),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
   // Email Field creado desde factory
   Widget _emailField() {
-    return CustomTextField(
-      label: "Email",
-      size: MediaQuery.of(context).size,
-      notifier: widget._viewModel.emailNotifier,
-      hints: [AutofillHints.email],
-      onChanged: (value) {
-        widget._viewModel.email = value; // Update email in ViewModel
-      },
+    Size customSize = Size(MediaQuery.of(context).size.width,
+        MediaQuery.of(context).size.height * 0.06);
+
+    return Padding(
+      padding: EdgeInsets.only(
+          left: MediaQuery.of(context).size.width * 0.2,
+          right: MediaQuery.of(context).size.width * 0.2),
+      child: CustomTextField(
+        label: "Email",
+        size: customSize,
+        notifier: widget._viewModel.emailNotifier,
+        hints: [AutofillHints.email],
+        onChanged: (value) {
+          widget._viewModel.email = value; // Update email in ViewModel
+        },
+      ),
     );
   }
 
   // Password field creado desde factory
   Widget _passwordField() {
-    return CustomTextField(
-      obscureText: true,
-      label: "Contraseña",
-      size: MediaQuery.of(context).size,
-      notifier: widget._viewModel.passwordNotifier,
-      hints: [AutofillHints.password],
-      onChanged: (value) {
-        widget._viewModel.password = value; // Update password in ViewModel
-      },
+    Size customSize = Size(MediaQuery.of(context).size.width,
+        MediaQuery.of(context).size.height * 0.06);
+
+    return Padding(
+      padding: EdgeInsets.only(
+          left: MediaQuery.of(context).size.width * 0.2,
+          right: MediaQuery.of(context).size.width * 0.2),
+      child: CustomTextField(
+        obscureText: true,
+        label: "Contraseña",
+        size: customSize,
+        notifier: widget._viewModel.passwordNotifier,
+        hints: [AutofillHints.password],
+        onChanged: (value) {
+          widget._viewModel.password = value; // Update password in ViewModel
+        },
+      ),
     );
   }
 
-
   // Login Button
-  Widget LoginButton() {
+  Widget _loginButton() {
     return SizedBox(
-      width: double.infinity, 
+      width: double.infinity,
+      height:
+          widget.screenSize.height * 0.06, // Set height to 6% of screen height
       child: Padding(
         padding:
-            EdgeInsets.symmetric(horizontal: widget.screenSize.width * 0.1),
+            EdgeInsets.symmetric(horizontal: widget.screenSize.width * 0.2),
         child: ElevatedButton(
           onPressed: () {
             widget._viewModel.handleLogin();
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.yellow, 
-            foregroundColor: Colors.black, 
-            padding: EdgeInsets.symmetric(vertical: 16),
+            backgroundColor: Colors.yellow,
+            foregroundColor: Colors.black,
+            padding:
+                EdgeInsets.zero, // Remove extra padding to fit within height
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15), 
-            ), 
+              borderRadius:
+                  BorderRadius.circular(widget.screenSize.width * 0.02),
+            ),
           ),
-          child: Text("Login"),
+          child: const Text("Ingresar"),
         ),
       ),
     );
   }
 
-  // SignUp Button
-  Widget SignUpButton() {
+  Widget _signUpButton() {
     return SizedBox(
-      width: double.infinity, 
+      width: double.infinity,
+      height:
+          widget.screenSize.height * 0.06, // Set height to 6% of screen height
       child: Padding(
         padding:
-            EdgeInsets.symmetric(horizontal: widget.screenSize.width * 0.1),
+            EdgeInsets.symmetric(horizontal: widget.screenSize.width * 0.2),
         child: ElevatedButton(
           onPressed: () {
             widget._viewModel.onSignUpClick();
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.yellow, 
-            foregroundColor: Colors.black, 
-            padding: EdgeInsets.symmetric(vertical: 16),
+            backgroundColor: Colors.yellow,
+            foregroundColor: Colors.black,
+            padding:
+                EdgeInsets.zero, // Remove extra padding to fit within height
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15), 
-            ), 
+              borderRadius:
+                  BorderRadius.circular(widget.screenSize.width * 0.02),
+            ),
           ),
-          child: Text("Sign Up"),
+          child: const Text("Crear Cuenta"),
         ),
       ),
     );
   }
 }
+

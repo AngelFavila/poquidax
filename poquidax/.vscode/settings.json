@@ -1,16 +1,31 @@
 {
-    "workbench.colorCustomizations": {
-      "titleBar.activeBackground": "#a80404",  // Red title bar
-      "titleBar.inactiveBackground": "#880303",  // Darker red for inactive
-      "activityBar.background": "#7e0202",  // Red activity bar on the side
-      "editor.background": "#1a1919",  // Dark theme background (adjust as needed)
-      "statusBar.background": "#03a00b",  // Red status bar
-      "statusBar.foreground": "#ffffff",  // White text for readability
-      "sideBar.background":"#141414"
-    },
-    "files.autoSave": "afterDelay",  // Optional: auto-save for better experience
-    "window.zoomLevel": 0,  // Optional: adjust zoom for your workspace
-    "java.configuration.updateBuildConfiguration": "automatic",
-    "cmake.sourceDirectory": "X:/ITM/Movil/Proyecto/poquidax/poquidax/linux"
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#a80404",  // Red title bar
+    "titleBar.inactiveBackground": "#880303",  // Darker red for inactive
+    "activityBar.background": "#720707",  // Red activity bar on the side
+    "editor.background": "#1a1919",  // Dark theme background (adjust as needed)
+    "statusBar.background": "#03a00b",  // Green status bar
+    "statusBar.foreground": "#ffffff",  // White text for readability
+    "sideBar.background": "#141414"
+  },
+  "files.autoSave": "afterDelay",  // Optional: auto-save for better experience
+  "window.zoomLevel": 0,  // Optional: adjust zoom for your workspace
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "cmake.sourceDirectory": "X:/ITM/Movil/Proyecto/poquidax/poquidax/linux",
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": "entity.name.class",
+        "settings": {
+          "foreground": "#FF6347"  // Custom color for classes
+        }
+      },
+      {
+        "scope": "entity.name.function",
+        "settings": {
+          "foreground": "#f7f322"  // Custom color for methods/functions
+        }
+      }
+    ]
   }
-  
+}

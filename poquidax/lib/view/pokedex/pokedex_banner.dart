@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 Widget bannerContainer({required double height,required ColorScheme colorScheme}) {
   return SizedBox(
-                  height: height * 0.15,
+                  height: height,
                   child: 
                 LayoutBuilder(
     builder: (context, constraints) {
