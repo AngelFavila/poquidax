@@ -1,31 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pokedax/firebase_options.dart';
+import 'package:pokedax/services/firebase/firebase_options.dart';
 import 'package:provider/provider.dart';
-import 'view/shared/pokedex_banner.dart';
-import 'viewmodel/main_viewModel.dart';
+import 'view/pokedex/pokedex_banner.dart';
+import 'viewmodel/main_viewmodel.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
-  
-
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Forzado a modo Retrato
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]).then((_) {
+    // Forza la aplicación a pantalla completa
     SystemChrome.setEnabledSystemUIMode(
-        SystemUiMode.immersiveSticky); // Force fullscreen
+        SystemUiMode.immersiveSticky); 
     
-    runApp(const MainApp());
+    runApp(const Main());
   });
+  // Inicialización de Firebase
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+// Widget inicial de la aplicación
+class Main extends StatelessWidget {
+  const Main({super.key});
+  // ColorScheme de la aplicación
   final ColorScheme myColorScheme = const ColorScheme(
     brightness: Brightness.light,
     primary: Color(0xFFDB082D),
@@ -45,6 +49,7 @@ class MainApp extends StatelessWidget {
         Size screenSize = MediaQuery.of(context).size;
 
         return ChangeNotifierProvider(
+          // Se asigna el vieweModel que controla el estado de la aplicación
           create: (_) => MainViewModel(screenSize: screenSize),
           child: Consumer<MainViewModel>(
             builder: (context, viewModel, child) {
@@ -56,6 +61,11 @@ class MainApp extends StatelessWidget {
     );
   }
 
+  /*
+  Body del Pokedex el cual incluye el banner con luces y una sección dinámica
+  donde se cargan los elementos para login/signup o estructura del pokedex
+  y es controlado por su viewModel
+  */
   MaterialApp PokedexBody(Size screenSize, MainViewModel viewModel) {
   return MaterialApp(
     debugShowCheckedModeBanner: false,

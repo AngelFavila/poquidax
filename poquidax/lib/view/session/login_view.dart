@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
-import '../../viewmodel/login_viewModel.dart';
+import 'package:pokedax/view/session/widgets/custom_text_field.dart';
+import '../../viewmodel/login_viewmodel.dart';
 
 // ignore: must_be_immutable
 class LoginView extends StatefulWidget {
   final LoginViewModel _viewModel;
   final Size screenSize;
 
-  LoginView(
-    this._viewModel, {
-    super.key,
-    required this.screenSize,
-    required Function onLoginResult,
-  }) {
+  LoginView(this._viewModel, {super.key, required this.screenSize, required Function onLoginResult,}) {
     _viewModel.onLoginResult = onLoginResult;
   }
 
@@ -31,9 +27,9 @@ class _LoginViewState extends State<LoginView> {
           SizedBox(
             height: 40,
           ),
-          UserField(),
+          _emailField(),
           SizedBox(height: 10),
-          PasswordField(),
+          _passwordField(),
           SizedBox(height: 10),
           LoginButton(),
           SizedBox(height: 10),
@@ -43,51 +39,33 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  // User Field
-  Widget UserField() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: widget.screenSize.width * 0.1),
-      child: TextFormField(
-        onChanged: (value) {
-          widget._viewModel.username = value; // Update ViewModel username
-        },
-        decoration: InputDecoration(
-          labelText: 'Usuario',
-          floatingLabelBehavior: FloatingLabelBehavior.never,
-          filled: true,
-          fillColor: Colors.white,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(15.0)),
-        ),
-      ),
+  // Email Field creado desde factory
+  Widget _emailField() {
+    return CustomTextField(
+      label: "Email",
+      size: MediaQuery.of(context).size,
+      notifier: widget._viewModel.emailNotifier,
+      hints: [AutofillHints.email],
+      onChanged: (value) {
+        widget._viewModel.email = value; // Update email in ViewModel
+      },
     );
   }
 
-  // Password Field with ValueListenableBuilder
-  Widget PasswordField() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: widget.screenSize.width * 0.1),
-      child: ValueListenableBuilder<String>(
-        valueListenable: widget._viewModel.passwordNotifier,
-        builder: (context, password, child) {
-          return TextFormField(
-            onChanged: (value) {
-              widget._viewModel.password = value; // Update ViewModel password
-            },
-            obscureText: true,
-            decoration: InputDecoration(
-              labelText: 'Contraseña',
-              floatingLabelBehavior: FloatingLabelBehavior.never,
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-            ),
-          );
-        },
-      ),
+  // Password field creado desde factory
+  Widget _passwordField() {
+    return CustomTextField(
+      obscureText: true,
+      label: "Contraseña",
+      size: MediaQuery.of(context).size,
+      notifier: widget._viewModel.passwordNotifier,
+      hints: [AutofillHints.password],
+      onChanged: (value) {
+        widget._viewModel.password = value; // Update password in ViewModel
+      },
     );
   }
+
 
   // Login Button
   Widget LoginButton() {

@@ -33,7 +33,7 @@ class DPadDecorativo extends StatelessWidget {
   }
 }
 
-class CutCornerPainter extends CustomPainter {
+class DPadPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint()

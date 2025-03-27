@@ -27,35 +27,6 @@ def get_cache():
     return p_consumer.get_all_cache_items()
 
 
-## USER OPERATIONS
-@app.route('/users')
-def get_users():
-    return users_service.get_users()
-
-@app.route('/users/exists')
-def verify_user():
-    user_id = request.args.get('id')
-    if not user_id:
-        return {"error": "Missing 'id' parameter"}, 400
-    
-    return jsonify({"exists": users_service.user_exist(user_id)})
-
-@app.route('/users/add', methods=['POST'])
-def add_user():
-    data = request.get_json()  # Get JSON data from request body
-    
-    user_id = data.get('id')
-    user_password = data.get('password')
-
-    if not user_id:
-        return jsonify({"error": "Missing 'id' parameter"}), 400
-    if not user_password:
-        return jsonify({"error": "Missing 'password' parameter"}), 400
-
-    success = users_service.add_user(user_id, user_password)
-    return jsonify({"response": success})
-
-
 ## POKEMON OPERATION
 @app.route('/pokemons', methods=['GET'])
 def get_pokemons():
@@ -71,18 +42,45 @@ def pokemon_exists():
     
     return jsonify({"exists": pokemon_service.pokemon_exist(user_id,pokemon_id)})
 
-@app.route('/pokemon/add_custom', methods=['POST'])
+@app.route('/pokemon/add_custom', methods=['POST']) 
 def add_custom_pokemon():
-    data = request.get_json()  # Get JSON data from request body
-    
-    user = data.get('user')
-    name = data.get('name')
-    level = data.get('level')
-    hp = data.get('hp')
-    number = data.get('number')
+    try:
+        data = request.get_json()  # Get JSON data from request body
+        
+        user = data.get('user')
+        name = data.get('name')
+        level = data.get('level')
+        hp = data.get('hp')
+        number = data.get('number')
 
-    success = pokemon_service.add_custom_pokemon(pokemon.Pokemon(user,number,name,level,hp))
-    return jsonify({"response": success})
+        print(f"Received data: {data}")  # Add logging
+
+        success = pokemon_service.add_custom_pokemon(pokemon.Pokemon(user, number, name, level, hp))
+        return jsonify({"response": success})
+    
+    except Exception as e:
+        print(f"Error: {e}")  # Log any exceptions
+        return jsonify({"error": "Internal server error"}), 500
+
+@app.route('/pokemon/modify_custom', methods=['POST']) 
+def modify_custom_pokemon():
+    try:
+        data = request.get_json()  # Get JSON data from request body
+        id = data.get('id')
+        user = data.get('user')
+        name = data.get('name')
+        level = data.get('level')
+        hp = data.get('hp')
+        number = data.get('number')
+
+        print(f"Received data: {data}")  # Add logging
+
+        success = pokemon_service.modify_custom_pokemon(pokemon.Pokemon(user, number, name, level, hp, id= id))
+        return jsonify({"response": success})
+    
+    except Exception as e:
+        print(f"Error: {e}")  # Log any exceptions
+        return jsonify({"error": "Internal server error"}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True,ssl_context='adhoc')
+    app.run(debug=True,host='0.0.0.0', port=5000,ssl_context='adhoc')

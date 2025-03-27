@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pokedax/services/auth_service.dart';
+import 'package:pokedax/services/firebase/auth_service.dart';
 
 class SignUpViewModel {
   String _email = '';
@@ -26,7 +26,7 @@ class SignUpViewModel {
   }
 
   Future<void> handleSignUp() async {
-    if(await AuthService().signUp(email: _email,password: _password))
+    if(await AuthService().create_account(email: _email,password: _password))
     {
       Fluttertoast.showToast(msg:"Cuenta creada exitosamente.");
     }
