@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-Widget bannerContainer({required double height,required ColorScheme colorScheme}) {
+Widget BannerContainer({required double height,required ColorScheme colorScheme}) {
   return SizedBox(
                   height: height,
                   child: 
                 LayoutBuilder(
     builder: (context, constraints) {
-      return BannerFrame(
+      return PokedexBanner(
         colorScheme: colorScheme,
         width: constraints.maxWidth,
         height: constraints.maxHeight,
@@ -15,12 +15,12 @@ Widget bannerContainer({required double height,required ColorScheme colorScheme}
   ));
 }
 
-class BannerFrame extends StatelessWidget {
+class PokedexBanner extends StatelessWidget {
   final double width;
   final double height;
   final ColorScheme colorScheme;
 
-  const BannerFrame({super.key, this.width = 100, this.height = 100, required this.colorScheme});
+  const PokedexBanner({super.key, this.width = 100, this.height = 100, required this.colorScheme});
 
   @override
   Widget build(BuildContext context) {

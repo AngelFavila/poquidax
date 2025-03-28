@@ -71,7 +71,7 @@ class _LoginViewState extends State<LoginView> {
         notifier: widget._viewModel.emailNotifier,
         hints: [AutofillHints.email],
         onChanged: (value) {
-          widget._viewModel.email = value; // Update email in ViewModel
+          widget._viewModel.email = value; // Actualiza el email en el viewmodel
         },
       ),
     );
@@ -93,7 +93,7 @@ class _LoginViewState extends State<LoginView> {
         notifier: widget._viewModel.passwordNotifier,
         hints: [AutofillHints.password],
         onChanged: (value) {
-          widget._viewModel.password = value; // Update password in ViewModel
+          widget._viewModel.password = value; // Actualiza el password en el viewmodel
         },
       ),
     );
@@ -104,7 +104,7 @@ class _LoginViewState extends State<LoginView> {
     return SizedBox(
       width: double.infinity,
       height:
-          widget.screenSize.height * 0.06, // Set height to 6% of screen height
+          widget.screenSize.height * 0.06,
       child: Padding(
         padding:
             EdgeInsets.symmetric(horizontal: widget.screenSize.width * 0.2),
@@ -115,8 +115,7 @@ class _LoginViewState extends State<LoginView> {
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.yellow,
             foregroundColor: Colors.black,
-            padding:
-                EdgeInsets.zero, // Remove extra padding to fit within height
+            padding:EdgeInsets.zero,
             shape: RoundedRectangleBorder(
               borderRadius:
                   BorderRadius.circular(widget.screenSize.width * 0.02),
@@ -132,7 +131,7 @@ class _LoginViewState extends State<LoginView> {
     return SizedBox(
       width: double.infinity,
       height:
-          widget.screenSize.height * 0.06, // Set height to 6% of screen height
+          widget.screenSize.height * 0.06, 
       child: Padding(
         padding:
             EdgeInsets.symmetric(horizontal: widget.screenSize.width * 0.2),
@@ -143,8 +142,7 @@ class _LoginViewState extends State<LoginView> {
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.yellow,
             foregroundColor: Colors.black,
-            padding:
-                EdgeInsets.zero, // Remove extra padding to fit within height
+            padding: EdgeInsets.zero, 
             shape: RoundedRectangleBorder(
               borderRadius:
                   BorderRadius.circular(widget.screenSize.width * 0.02),

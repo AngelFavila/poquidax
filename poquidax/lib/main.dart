@@ -74,7 +74,7 @@ class Main extends StatelessWidget {
       resizeToAvoidBottomInset: false,  // Previene mover el triangulo amarillo y overflow
       body: Column(
         children: [
-          bannerContainer(
+          BannerContainer(
             height: screenSize.height * 0.15,
             colorScheme: myColorScheme,
           ),

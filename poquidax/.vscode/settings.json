@@ -15,9 +15,39 @@
   "editor.tokenColorCustomizations": {
     "textMateRules": [
       {
+        "scope": "string",
+        "settings": {
+          "foreground": "#f53948" // Custom color for strings (orange in this case)
+        }
+      },
+      {
+        "scope": "comment",
+        "settings": {
+          "foreground": "#238623" // Custom color for comments (green in this case)
+        }
+      },
+      {
         "scope": "entity.name.class",
         "settings": {
           "foreground": "#FF6347"  // Custom color for classes
+        }
+      },
+      {
+        "scope": "entity.name.class.dart",
+        "settings": {
+          "foreground": "#FF5733" // Custom color for classes like Widget
+        }
+      },
+      {
+        "scope": "entity.name.type.class.dart",
+        "settings": {
+          "foreground": "#33C1FF" // Custom color for state classes like _LoginViewState
+        }
+      },
+      {
+        "scope": "support.class.dart",
+        "settings": {
+          "foreground": "#ff8800"
         }
       },
       {
