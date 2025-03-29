@@ -55,7 +55,7 @@ class _SignUpViewState extends State<SignUpView> {
   
   // Email Field creado desde factory
   Widget _emailField() {
-    Size customSize = Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height * 0.06);
+    Size customSize = Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height * 0.04);
 
     return Padding(
       padding: EdgeInsets.only(
@@ -75,7 +75,7 @@ class _SignUpViewState extends State<SignUpView> {
 
   // Password field creado desde factory
   Widget _passwordField() {
-    Size customSize = Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height * 0.06);
+    Size customSize = Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height * 0.04);
 
     return Padding(
       padding: EdgeInsets.only(
@@ -98,7 +98,7 @@ class _SignUpViewState extends State<SignUpView> {
   Widget _signUpButton() {
     return SizedBox(
       width: double.infinity, 
-      height: widget.screenSize.height * 0.06, 
+      height: widget.screenSize.height * 0.04, 
       child: Padding(
         padding:
             EdgeInsets.symmetric(horizontal: widget.screenSize.width * 0.2),
@@ -123,7 +123,7 @@ class _SignUpViewState extends State<SignUpView> {
   Widget _backButton() {
     return SizedBox(
       width: double.infinity,
-      height: widget.screenSize.height * 0.06, 
+      height: widget.screenSize.height * 0.04, 
       child: Padding(
         padding:
             EdgeInsets.symmetric(horizontal: widget.screenSize.width * 0.2),

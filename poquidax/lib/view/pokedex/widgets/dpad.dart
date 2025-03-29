@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class DPad extends StatelessWidget {
   final void Function(String direction) onPressed;
-
-  const DPad({required this.onPressed, Key? key}) : super(key: key);
+  final double size;
+  
+  const DPad({required this.onPressed, Key? key, required this.size}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    double size = 100; // Base size for the D-pad
 
     return SizedBox(
       width: size,

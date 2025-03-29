@@ -102,6 +102,7 @@ class PokedexView extends StatelessWidget {
         ),
         SizedBox(height: 10),
         DPad(
+          size : screenSize.width*.25,
           onPressed: (direction) {
             print("Pressed: $direction");
           },

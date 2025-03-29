@@ -59,7 +59,7 @@ class _LoginViewState extends State<LoginView> {
   // Email Field creado desde factory
   Widget _emailField() {
     Size customSize = Size(MediaQuery.of(context).size.width,
-        MediaQuery.of(context).size.height * 0.06);
+        MediaQuery.of(context).size.height * 0.04);
 
     return Padding(
       padding: EdgeInsets.only(
@@ -80,7 +80,7 @@ class _LoginViewState extends State<LoginView> {
   // Password field creado desde factory
   Widget _passwordField() {
     Size customSize = Size(MediaQuery.of(context).size.width,
-        MediaQuery.of(context).size.height * 0.06);
+        MediaQuery.of(context).size.height * 0.04);
 
     return Padding(
       padding: EdgeInsets.only(
@@ -104,7 +104,7 @@ class _LoginViewState extends State<LoginView> {
     return SizedBox(
       width: double.infinity,
       height:
-          widget.screenSize.height * 0.06,
+          widget.screenSize.height * 0.04,
       child: Padding(
         padding:
             EdgeInsets.symmetric(horizontal: widget.screenSize.width * 0.2),
@@ -131,7 +131,7 @@ class _LoginViewState extends State<LoginView> {
     return SizedBox(
       width: double.infinity,
       height:
-          widget.screenSize.height * 0.06, 
+          widget.screenSize.height * 0.04, 
       child: Padding(
         padding:
             EdgeInsets.symmetric(horizontal: widget.screenSize.width * 0.2),
