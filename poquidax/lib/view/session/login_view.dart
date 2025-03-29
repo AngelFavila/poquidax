@@ -27,13 +27,11 @@ class _LoginViewState extends State<LoginView> {
     return Stack(
       
       children: [
-        // Custom painter with the yellow arrow
         Positioned.fill(
           child: CustomPaint(
             painter: ArrowPainter(),
           ),
         ),
-        // The rest of the content
         Container(
           
           alignment: Alignment.topCenter, // Centers the content inside
@@ -41,6 +39,8 @@ class _LoginViewState extends State<LoginView> {
             mainAxisSize:
                 MainAxisSize.min, // Prevents Column from taking full height
             children: [
+              SizedBox(height: 40),
+              Title(),
               SizedBox(height: 40),
               _emailField(),
               SizedBox(height: 10),
@@ -55,6 +55,23 @@ class _LoginViewState extends State<LoginView> {
       ],
     );
   }
+
+  Text Title() => Text(
+        'Inicio de Sesión',
+        style: TextStyle(
+          fontSize:
+              MediaQuery.of(context).size.width * 0.04, 
+          color: Colors.yellow, 
+          shadows: [
+            Shadow(
+              blurRadius: 3.0,
+              color: Colors.black,
+              offset: Offset(0.5, 0.5),
+            ),
+          ],
+        ),
+      );
+
 
   // Email Field creado desde factory
   Widget _emailField() {

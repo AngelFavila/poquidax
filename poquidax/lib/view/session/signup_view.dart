@@ -40,6 +40,9 @@ class _SignUpViewState extends State<SignUpView> {
             SizedBox(
               height: 40,
             ),
+            SizedBox(height: 10),
+            Title(),
+            SizedBox(height: 40),
             _emailField(),
             SizedBox(height: 10),
             _passwordField(),
@@ -52,7 +55,21 @@ class _SignUpViewState extends State<SignUpView> {
       )
     ]);
   }
-  
+  Text Title() => Text(
+        'Creación de Cuenta',
+        style: TextStyle(
+          fontSize:
+              MediaQuery.of(context).size.width * 0.04, 
+          color: Colors.yellow, 
+          shadows: [
+            Shadow(
+              blurRadius: 3.0,
+              color: Colors.black,
+              offset: Offset(0.5, 0.5),
+            ),
+          ],
+        ),
+      );
   // Email Field creado desde factory
   Widget _emailField() {
     Size customSize = Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height * 0.04);
