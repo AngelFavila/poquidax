@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pokedax/services/firebase/auth_service.dart';
+import 'package:pokedax/services/navigation_service.dart';
 
 class SignUpViewModel {
   String _email = '';
@@ -12,9 +13,7 @@ class SignUpViewModel {
   ValueNotifier<String> get emailNotifier => _emailNotifier;
   ValueNotifier<String> get passwordNotifier => _passwordNotifier;
 
-  late Function onSignUpResult; // Callback para notificar si el login es exitoso o no
-  late Function onBackButton;
-  SignUpViewModel({required this.onSignUpResult, required this.onBackButton});
+  SignUpViewModel();
 
 
   set email(String value) {
@@ -31,10 +30,11 @@ class SignUpViewModel {
     if(await AuthService().create_account(email: _email,password: _password))
     {
       Fluttertoast.showToast(msg:"Cuenta creada exitosamente.");
+      NavigationService.pop();
     }
   }
 
   void backToLogin(){
-    onBackButton();
+    NavigationService.pop();
   }
 }

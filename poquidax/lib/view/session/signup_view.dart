@@ -1,59 +1,85 @@
 import 'package:flutter/material.dart';
+import 'package:pokedax/config/scheme_provider.dart';
+import 'package:pokedax/view/pokedex/pokedex_banner.dart';
 import 'package:pokedax/view/session/painter/arrow_painter.dart';
 import 'package:pokedax/view/session/widgets/custom_text_field.dart';
 import 'package:pokedax/viewmodel/signup_viewModel.dart';
 
 // ignore: must_be_immutable
 class SignUpView extends StatefulWidget {
-  final SignUpViewModel _viewModel;
-  final Size screenSize;
+  final SignUpViewModel _viewModel = new SignUpViewModel();
 
-  SignUpView(
-    this._viewModel, {
-    super.key,
-    required this.screenSize,
-    required Function onSignUpResult,
-  }) {
-    _viewModel.onSignUpResult = onSignUpResult;
-  }
+  SignUpView({super.key});
 
   @override
   State<SignUpView> createState() => _SignUpViewState();
 }
 
 class _SignUpViewState extends State<SignUpView> {
+  late Size screenSize;
+
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      // Custom painter with the yellow arrow
-      Positioned.fill(
-        child: CustomPaint(
-          painter: ArrowPainter(),
-        ),
-      ),
-      Container(
-        alignment: Alignment.topCenter, // Centers the content inside
+    screenSize = MediaQuery.sizeOf(context);
+    
+    return Scaffold(
+      backgroundColor: myColorScheme.primary,
+      resizeToAvoidBottomInset: false,
+      body: SizedBox(
+        height: screenSize.height,
+        width: screenSize.width,
         child: Column(
-          mainAxisSize:
-              MainAxisSize.min, // Prevents Column from taking full height
           children: [
-            SizedBox(
-              height: 40,
+            BannerContainer(
+              height: screenSize.height * 0.15,
+              colorScheme: myColorScheme,
             ),
-            SizedBox(height: 10),
-            Title(),
-            SizedBox(height: 40),
-            _emailField(),
-            SizedBox(height: 10),
-            _passwordField(),
-            SizedBox(height: 10),
-            _signUpButton(),
-            SizedBox(height: 10),
-            _backButton()
+            Expanded(
+              child: Container(
+                width: double.infinity, 
+                height:
+                    double.infinity, 
+                alignment: Alignment.center,
+                child: _signUpForm(), 
+              ),
+            ),
           ],
         ),
-      )
-    ]);
+      ),
+    );
+  }
+
+  Stack _signUpForm() {
+    return Stack(children: [
+    // Custom painter with the yellow arrow
+    Positioned.fill(
+      child: CustomPaint(
+        painter: ArrowPainter(),
+      ),
+    ),
+    Container(
+      alignment: Alignment.topCenter, // Centers the content inside
+      child: Column(
+        mainAxisSize:
+            MainAxisSize.min, // Prevents Column from taking full height
+        children: [
+          SizedBox(
+            height: 40,
+          ),
+          SizedBox(height: 10),
+          Title(),
+          SizedBox(height: 40),
+          _emailField(),
+          SizedBox(height: 10),
+          _passwordField(),
+          SizedBox(height: 10),
+          _signUpButton(),
+          SizedBox(height: 10),
+          _backButton()
+        ],
+      ),
+    )
+  ]);
   }
   Text Title() => Text(
         'Creación de Cuenta',
@@ -115,10 +141,10 @@ class _SignUpViewState extends State<SignUpView> {
   Widget _signUpButton() {
     return SizedBox(
       width: double.infinity, 
-      height: widget.screenSize.height * 0.04, 
+      height: screenSize.height * 0.04, 
       child: Padding(
         padding:
-            EdgeInsets.symmetric(horizontal: widget.screenSize.width * 0.2),
+            EdgeInsets.symmetric(horizontal: screenSize.width * 0.2),
         child: ElevatedButton(
           onPressed: () {
             widget._viewModel.handleSignUp();
@@ -127,7 +153,7 @@ class _SignUpViewState extends State<SignUpView> {
             backgroundColor: Colors.yellow, 
             foregroundColor: Colors.black, 
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(widget.screenSize.width * 0.02), 
+              borderRadius: BorderRadius.circular(screenSize.width * 0.02), 
             ), 
           ),
           child: Text("Crear Cuenta"),
@@ -140,19 +166,19 @@ class _SignUpViewState extends State<SignUpView> {
   Widget _backButton() {
     return SizedBox(
       width: double.infinity,
-      height: widget.screenSize.height * 0.04, 
+      height: screenSize.height * 0.04, 
       child: Padding(
         padding:
-            EdgeInsets.symmetric(horizontal: widget.screenSize.width * 0.2),
+            EdgeInsets.symmetric(horizontal: screenSize.width * 0.2),
         child: ElevatedButton(
           onPressed: () {
-            widget._viewModel.onBackButton();
+            widget._viewModel.backToLogin();
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.yellow, 
             foregroundColor: Colors.black, 
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(widget.screenSize.width * 0.02), 
+              borderRadius: BorderRadius.circular(screenSize.width * 0.02), 
             ), 
           ),
           child: const Text("Volver al Inicio"),
