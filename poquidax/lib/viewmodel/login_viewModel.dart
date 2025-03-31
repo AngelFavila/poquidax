@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokedax/services/firebase/auth_service.dart';
+import 'package:pokedax/services/navigation_service.dart';
 
 class LoginViewModel {
   // Variables privadas de email y contraseña
@@ -14,13 +15,8 @@ class LoginViewModel {
   ValueNotifier<String> get emailNotifier => _emailNotifier;
   ValueNotifier<String> get passwordNotifier => _passwordNotifier;
 
-  // Método callback que va a llamar al método en el mainViewModel al dar un resultado de login
-  late Function onLoginResult; 
-  // Método callback que va a llamar al método en el mainViewModel al dar click en Ir a Sign Up
-  late Function onSignUpClick; 
-
   // Constructor que recibe métodos
-  LoginViewModel({required this.onLoginResult, required this.onSignUpClick});
+  LoginViewModel();
 
   // Set público del email para poder cambiar el valor desde el view
   set email(String value) {
@@ -36,11 +32,15 @@ class LoginViewModel {
 
   // Dispara al método callback en el MainViewModel y le regresa un booleano con la prueba de las credenciales
   Future<void> handleLogin() async {
-      onLoginResult(await AuthService().verify_credentials(email: _email, password: _password));
+
+    if(await AuthService().verify_credentials(email: _email, password: _password))
+    {
+      NavigationService.push("/");
+    }
   }
 
   // Dispara el método para navegar a la ventana de Sign Up que se encuentra en el MainViewModel
   Future<void> goToSignUp() async{
-    onSignUpClick();
+    NavigationService.push("/signup");
   }
 }

@@ -1,59 +1,85 @@
 import 'package:flutter/material.dart';
+import 'package:pokedax/config/scheme_provider.dart';
+import 'package:pokedax/view/pokedex/pokedex_banner.dart';
 import 'package:pokedax/view/session/painter/arrow_painter.dart';
 import 'package:pokedax/view/session/widgets/custom_text_field.dart';
 import '../../viewmodel/login_viewmodel.dart';
 
 // ignore: must_be_immutable
 class LoginView extends StatefulWidget {
-  final LoginViewModel _viewModel;
-  final Size screenSize;
+  final LoginViewModel _viewModel = new LoginViewModel();
 
-  LoginView(
-    this._viewModel, {
-    super.key,
-    required this.screenSize,
-    required Function onLoginResult,
-  }) {
-    _viewModel.onLoginResult = onLoginResult;
-  }
+  LoginView({super.key,});
 
   @override
   State<LoginView> createState() => _LoginViewState();
 }
 
 class _LoginViewState extends State<LoginView> {
+  late Size screenSize;
+
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      
-      children: [
-        Positioned.fill(
-          child: CustomPaint(
-            painter: ArrowPainter(),
-          ),
+    screenSize = MediaQuery.sizeOf(context);
+
+    return Scaffold(
+      backgroundColor: myColorScheme.primary,
+      resizeToAvoidBottomInset: false,
+      body: SizedBox(
+        height: screenSize.height,
+        width: screenSize.width,
+        child: Column(
+          children: [
+            BannerContainer(
+              height: screenSize.height * 0.15,
+              colorScheme: myColorScheme,
+            ),
+            Expanded(
+              child: Container(
+                width: double.infinity, 
+                height:
+                    double.infinity, 
+                alignment: Alignment.center,
+                child: _loginForm(), 
+              ),
+            ),
+          ],
         ),
-        Container(
-          
-          alignment: Alignment.topCenter, // Centers the content inside
-          child: Column(
-            mainAxisSize:
-                MainAxisSize.min, // Prevents Column from taking full height
-            children: [
-              SizedBox(height: 40),
-              Title(),
-              SizedBox(height: 40),
-              _emailField(),
-              SizedBox(height: 10),
-              _passwordField(),
-              SizedBox(height: 10),
-              _loginButton(),
-              SizedBox(height: 10),
-              _signUpButton(),
-            ],
-          ),
-        ),
-      ],
+      ),
     );
+  }
+
+  Stack _loginForm() {
+    return Stack(
+    
+    children: [
+      Positioned.fill(
+        child: CustomPaint(
+          painter: ArrowPainter(),
+        ),
+      ),
+      Container(
+        
+        alignment: Alignment.topCenter, // Centers the content inside
+        child: Column(
+          mainAxisSize:
+              MainAxisSize.min, // Prevents Column from taking full height
+          children: [
+            SizedBox(height: 40),
+            Title(),
+            SizedBox(height: 40),
+            _emailField(),
+            SizedBox(height: 10),
+            _passwordField(),
+            SizedBox(height: 10),
+            _loginButton(),
+            SizedBox(height: 10),
+            _signUpButton(),
+          ],
+        ),
+      ),
+    ],
+  );
   }
 
   Text Title() => Text(
@@ -120,11 +146,10 @@ class _LoginViewState extends State<LoginView> {
   Widget _loginButton() {
     return SizedBox(
       width: double.infinity,
-      height:
-          widget.screenSize.height * 0.04,
+      height: screenSize.height * 0.04,
       child: Padding(
         padding:
-            EdgeInsets.symmetric(horizontal: widget.screenSize.width * 0.2),
+            EdgeInsets.symmetric(horizontal: screenSize.width * 0.2),
         child: ElevatedButton(
           onPressed: () {
             widget._viewModel.handleLogin();
@@ -135,7 +160,7 @@ class _LoginViewState extends State<LoginView> {
             padding:EdgeInsets.zero,
             shape: RoundedRectangleBorder(
               borderRadius:
-                  BorderRadius.circular(widget.screenSize.width * 0.02),
+                  BorderRadius.circular(screenSize.width * 0.02),
             ),
           ),
           child: const Text("Ingresar"),
@@ -147,14 +172,13 @@ class _LoginViewState extends State<LoginView> {
   Widget _signUpButton() {
     return SizedBox(
       width: double.infinity,
-      height:
-          widget.screenSize.height * 0.04, 
+      height: screenSize.height * 0.04, 
       child: Padding(
         padding:
-            EdgeInsets.symmetric(horizontal: widget.screenSize.width * 0.2),
+            EdgeInsets.symmetric(horizontal: screenSize.width * 0.2),
         child: ElevatedButton(
           onPressed: () {
-            widget._viewModel.onSignUpClick();
+            widget._viewModel.goToSignUp();
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.yellow,
@@ -162,7 +186,7 @@ class _LoginViewState extends State<LoginView> {
             padding: EdgeInsets.zero, 
             shape: RoundedRectangleBorder(
               borderRadius:
-                  BorderRadius.circular(widget.screenSize.width * 0.02),
+                  BorderRadius.circular(screenSize.width * 0.02),
             ),
           ),
           child: const Text("Crear Cuenta"),

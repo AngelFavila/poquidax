@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedax/config/scheme_provider.dart';
 import 'package:pokedax/view/pokedex/widgets/dpad.dart';
 import '../../viewmodel/home_viewmodel.dart';
 import 'widgets/pokedex_screen.dart';
@@ -22,44 +23,47 @@ class PokedexView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: screenSize.height,
-      width: screenSize.width,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          double sidePadding = constraints.maxWidth * 0.15;
-          double topPadding = constraints.maxHeight * 0.05;
-
-          return SizedBox(
-            child: Padding(
-              padding: EdgeInsets.only(
-                left: sidePadding,
-                top: topPadding,
-                right: sidePadding,
+    return Scaffold(
+      backgroundColor: myColorScheme.primary,
+      body: SizedBox(
+        height: screenSize.height,
+        width: screenSize.width,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            double sidePadding = constraints.maxWidth * 0.15;
+            double topPadding = constraints.maxHeight * 0.05;
+      
+            return SizedBox(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: sidePadding,
+                  top: topPadding,
+                  right: sidePadding,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Contenido de la pantalla
+                    PokedexScreen.pokedexScreen(
+                      // Contenido dinámico
+                      screenContent: screenContent,
+                      screenSize: Size(screenSize.width, screenSize.height * 0.4),
+                      // Se asigna el viewModel dinámico al PokedexScreen
+                      viewModel: _viewModel,
+                    ),
+                    Expanded(
+                        child: Container(
+                      child: Column(children: [
+                        _buildActionButtons(screenSize),
+                        _buildControlPanel(screenSize)
+                      ]),
+                    ))
+                  ],
+                ),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Contenido de la pantalla
-                  PokedexScreen.pokedexScreen(
-                    // Contenido dinámico
-                    screenContent: screenContent,
-                    screenSize: Size(screenSize.width, screenSize.height * 0.4),
-                    // Se asigna el viewModel dinámico al PokedexScreen
-                    viewModel: _viewModel,
-                  ),
-                  Expanded(
-                      child: Container(
-                    child: Column(children: [
-                      _buildActionButtons(screenSize),
-                      _buildControlPanel(screenSize)
-                    ]),
-                  ))
-                ],
-              ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:pokedax/services/navigation_service.dart';
 
 class HomeViewModel extends ChangeNotifier {
-  late Function onBackButton;
 
-  HomeViewModel({required this.onBackButton});
+  HomeViewModel();
 
-  void handleBackButton() {
-    onBackButton();
+  void onBackButton() {
+    NavigationService.go('/login');
   }
 }
