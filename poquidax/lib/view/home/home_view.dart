@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pokedax/config/scheme_provider.dart';
 import 'package:pokedax/view/pokedex/pokedex_banner.dart';
 import 'package:pokedax/view/pokedex/pokedex_view.dart';
-import '../../viewmodel/home_viewmodel.dart';
+import 'package:pokedax/viewmodel/home_viewmodel.dart';
 
 // ignore: must_be_immutable
 class HomeView extends StatelessWidget {
