@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pokedax/config/scheme_provider.dart';
+import 'package:pokedax/view/pokedex/pokedex_banner.dart';
 import 'package:pokedax/view/pokedex/widgets/dpad.dart';
-import '../../viewmodel/home_viewmodel.dart';
+import 'package:pokedax/viewmodel/pokedex_vm_interface.dart';
 import 'widgets/pokedex_screen.dart';
 
 // ignore: must_be_immutable
@@ -10,7 +11,7 @@ class PokedexView extends StatelessWidget {
   // Widget que contiene el contenido mostrado en la pantalla del Pokedeex
   final Widget screenContent;
   // ViewModel que modifica el comportamiento de la pantalla
-  final HomeViewModel _viewModel;
+  final PokedexVmInterface _viewModel;
   // Tamaño de la pantalla para cálculos de porcentajes de elementos
   final Size screenSize;
 
@@ -32,34 +33,14 @@ class PokedexView extends StatelessWidget {
           builder: (context, constraints) {
             double sidePadding = constraints.maxWidth * 0.15;
             double topPadding = constraints.maxHeight * 0.05;
-      
-            return SizedBox(
-              child: Padding(
-                padding: EdgeInsets.only(
-                  left: sidePadding,
-                  top: topPadding,
-                  right: sidePadding,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Contenido de la pantalla
-                    PokedexScreen.pokedexScreen(
-                      // Contenido dinámico
-                      screenContent: screenContent,
-                      screenSize: Size(screenSize.width, screenSize.height * 0.4),
-                      // Se asigna el viewModel dinámico al PokedexScreen
-                      viewModel: _viewModel,
-                    ),
-                    Expanded(
-                        child: Container(
-                      child: Column(children: [
-                        _buildActionButtons(screenSize),
-                        _buildControlPanel(screenSize)
-                      ]),
-                    ))
-                  ],
-                ),
+
+            return SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _pokedexBanner(),
+                  _pokedexBody(topPadding, sidePadding),
+                ],
               ),
             );
           },
@@ -67,6 +48,35 @@ class PokedexView extends StatelessWidget {
       ),
     );
   }
+
+  // Banner del Pokedex
+  Widget _pokedexBanner() {
+    return BannerContainer(
+      height: screenSize.height * 0.15,
+      colorScheme: myColorScheme,
+    );
+  }
+
+  // Cuerpo del Pokedex
+  Padding _pokedexBody(double topPadding, double sidePadding) {
+    return Padding(
+      padding: EdgeInsets.only(
+          top: topPadding, left: sidePadding, right: sidePadding),
+      child: Column(
+        children: [
+          PokedexScreen.pokedexScreen(
+            screenContent: screenContent,
+            screenSize: Size(screenSize.width, screenSize.height * 0.4),
+            viewModel: _viewModel,
+          ),
+          _buildActionButtons(screenSize),
+          _buildControlPanel(screenSize)
+        ],
+      ),
+    );
+  }
+
+  
 
   // Botones principales del Pokedex
   Widget _buildActionButtons(Size screenSize) {
@@ -80,7 +90,9 @@ class PokedexView extends StatelessWidget {
               _viewModel.onBackButton();
             },
             child: Text("Atrás")),
-        ElevatedButton(onPressed: () {}, child: Text("Aceptar")),
+        ElevatedButton(onPressed: () {
+          _viewModel.onAcceptButton();
+        }, child: Text("Aceptar")),
       ],
     );
   }
@@ -106,9 +118,18 @@ class PokedexView extends StatelessWidget {
         ),
         SizedBox(height: 10),
         DPad(
-          size : screenSize.width*.25,
-          onPressed: (direction) {
-            print("Pressed: $direction");
+          size: screenSize.width * .25,
+          onUpPressed: () {
+            _viewModel.onDPadUp();
+          },
+          onDownPressed: () {
+            _viewModel.onDPadDown();
+          },
+          onLeftPressed: () {
+            _viewModel.onDPadLeft();
+          },
+          onRightPressed: () {
+            _viewModel.onDPadRight();
           },
         ),
       ],

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pokedax/view/pokedex/painters/cut_corner_painter.dart';
-import 'package:pokedax/viewmodel/home_viewmodel.dart';
+import 'package:pokedax/viewmodel/pokedex_vm_interface.dart';
 
 class PokedexScreen extends StatelessWidget {
   final Size screenSize;
   final Widget screenContent;
-  final HomeViewModel viewModel;
+  final PokedexVmInterface viewModel;
 
   PokedexScreen.pokedexScreen({
     super.key,

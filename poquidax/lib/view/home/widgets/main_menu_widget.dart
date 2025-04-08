@@ -1,42 +1,59 @@
-// El widget del cuadro central
-  import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:pokedax/viewmodel/home_viewmodel.dart';
 
-Widget mainMenu(Size screenSize) {
-    return Container(
-      width: screenSize.width * 0.75,
-      height: screenSize.height * 0.4,
-      color: Colors.white,
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _mainMenuItem(
-                "Mis Pokémon", "Lista de mis pokémones", Colors.yellow),
-            _mainMenuItem(
-                "Atrapar Pokémon", "Agrega tus Pokémones", Colors.white),
-            _mainMenuItem("Salir", "Volver al inicio de sesión", Colors.white),
-          ],
-        ),
-      ),
-    );
-  }
+class MainMenu extends StatelessWidget {
+  final Size screenSize;
+  final HomeViewModel viewModel;
 
-  Widget _mainMenuItem(String title, String subtitle, Color bgColor) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5.0),
-      child: Flexible(
+  MainMenu({required this.screenSize, required this.viewModel});
+
+  // Widget to build each menu item
+  Widget _mainMenuItem(int index, String title, String subtitle) {
+    return GestureDetector(
+      onTap: () {
+        // When a menu item is tapped, update the selected index in the ViewModel
+        viewModel.setSelectedIndex(index);
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 5.0),
         child: Container(
-          color: bgColor,
-          padding: EdgeInsets.all(8.0),
+          width: double.infinity,
+          color: viewModel.selectedIndex == index ? Colors.yellow : Colors.white,
+          padding: EdgeInsets.all(10.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              Text(subtitle, style: TextStyle(fontSize: 14)),
+              Text(
+                title,
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                subtitle,
+                style: TextStyle(fontSize: 14),
+              ),
             ],
           ),
         ),
       ),
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: screenSize.width,
+      height: screenSize.height,
+      color: Colors.white,
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            _mainMenuItem(0, "Mis Pokémon", "Lista de mis pokémones"),
+            _mainMenuItem(1, "Atrapar Pokémon", "Agrega tus Pokémones"),
+            _mainMenuItem(2, "Salir", "Volver al inicio de sesión"),
+          ],
+        ),
+      ),
+    );
+  }
+}

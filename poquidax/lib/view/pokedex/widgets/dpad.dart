@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
 class DPad extends StatelessWidget {
-  final void Function(String direction) onPressed;
+  final Function onUpPressed;
+  final Function onDownPressed;
+  final Function onLeftPressed;
+  final Function onRightPressed;
   final double size;
   
-  const DPad({required this.onPressed, Key? key, required this.size}) : super(key: key);
+  const DPad({ Key? key, required this.size, required this.onUpPressed, required this.onDownPressed, required this.onLeftPressed, required this.onRightPressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +45,18 @@ class DPad extends StatelessWidget {
 
   Widget _buildDPadButton(String direction, IconData icon) {
     return GestureDetector(
-      onTap: () => onPressed(direction),
+      onTap: () => {
+        if(direction == "Up") { onUpPressed()}
+        else if(direction == "Down") { onDownPressed()}
+        else if(direction == "Left") { onLeftPressed() }
+        else if(direction == "Right") { onRightPressed() },
+      },
       child: Container(
-        width: 40,
-        height: 40,
+        width: size * 0.4,
+        height: size * 0.4,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Colors.transparent,
+          color: Colors.transparent
         ),
         child: Icon(icon, color: Colors.grey.shade900),
       ),
