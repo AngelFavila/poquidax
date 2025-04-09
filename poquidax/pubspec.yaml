@@ -24,3 +24,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+
+  fonts:
+    - family: Doto
+      fonts:
+        - asset: fonts/Doto-VariableFont_ROND,wght.ttf

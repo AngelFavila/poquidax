@@ -36,6 +36,7 @@ class Main extends StatelessWidget {
           title: 'Poquidax',
           debugShowCheckedModeBanner: false,
           routerConfig: appRouter,
+          theme: ThemeData(fontFamily: 'Doto'),
         );
       },
     );
