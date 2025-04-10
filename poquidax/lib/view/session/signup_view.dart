@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pokedax/config/scheme_provider.dart';
+import 'package:pokedax/providers/scheme_provider.dart';
 import 'package:pokedax/view/pokedex/pokedex_banner.dart';
 import 'package:pokedax/view/session/painter/arrow_painter.dart';
 import 'package:pokedax/view/session/widgets/custom_text_field.dart';
@@ -81,11 +81,13 @@ class _SignUpViewState extends State<SignUpView> {
     )
   ]);
   }
-  Text Title() => Text(
+  Text Title() {
+    final double fontSize = Theme.of(context).textTheme.bodyLarge!.fontSize!*1.5;
+
+    return Text(
         'Creación de Cuenta',
         style: TextStyle(
-          fontSize:
-              MediaQuery.of(context).size.width * 0.04, 
+          fontSize: fontSize, 
           color: Colors.yellow, 
           shadows: [
             Shadow(
@@ -96,6 +98,7 @@ class _SignUpViewState extends State<SignUpView> {
           ],
         ),
       );
+  } 
   // Email Field creado desde factory
   Widget _emailField() {
     Size customSize = Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height * 0.04);
@@ -139,6 +142,8 @@ class _SignUpViewState extends State<SignUpView> {
 
   // Boton para crear la cuenta
   Widget _signUpButton() {
+    final double fontSize = Theme.of(context).textTheme.bodyLarge?.fontSize ?? 16.0;
+
     return SizedBox(
       width: double.infinity, 
       height: screenSize.height * 0.04, 
@@ -156,7 +161,8 @@ class _SignUpViewState extends State<SignUpView> {
               borderRadius: BorderRadius.circular(screenSize.width * 0.02), 
             ), 
           ),
-          child: Text("Crear Cuenta"),
+          child: Text("Crear Cuenta",
+          style: TextStyle(fontSize: fontSize),),
         ),
       ),
     );
@@ -164,6 +170,8 @@ class _SignUpViewState extends State<SignUpView> {
 
   // Back to login Button
   Widget _backButton() {
+    final double fontSize = Theme.of(context).textTheme.bodyLarge?.fontSize ?? 16.0;
+
     return SizedBox(
       width: double.infinity,
       height: screenSize.height * 0.04, 
@@ -181,7 +189,8 @@ class _SignUpViewState extends State<SignUpView> {
               borderRadius: BorderRadius.circular(screenSize.width * 0.02), 
             ), 
           ),
-          child: const Text("Volver al Inicio"),
+          child: Text("Volver al Inicio",
+          style: TextStyle(fontSize: fontSize),),
         ),
       ),
     );

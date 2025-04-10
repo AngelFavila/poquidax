@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedax/services/api_service.dart';
 import 'package:pokedax/services/navigation_service.dart';
 import 'package:pokedax/viewmodel/pokedex_vm_interface.dart';
 
@@ -38,8 +39,10 @@ class HomeViewModel extends ChangeNotifier implements PokedexVmInterface{
   }
   
   @override
-  void onDPadLeft() {
+  Future<void> onDPadLeft() async {
     print("DPad Left pressed");
+    var futureAlbum = await fetchAlbum();
+    print(futureAlbum.title);
   }
   
   @override

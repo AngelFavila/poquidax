@@ -52,6 +52,7 @@ class CustomTextField extends StatelessWidget {
           onChanged: onChanged,    // Pass the callback for onChanged
           obscureText: obscureText, // Conditionally obscure text
           autofillHints: hints,
+
           decoration: InputDecoration(
             
             labelText: label,

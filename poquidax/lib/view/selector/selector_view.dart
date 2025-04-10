@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokedax/viewmodel/selector_viewmodel.dart';
 import 'package:provider/provider.dart';
-import 'package:pokedax/config/scheme_provider.dart';
+import 'package:pokedax/providers/scheme_provider.dart';
 import 'package:pokedax/view/pokedex/pokedex_view.dart';
 
 class SelectorView extends StatelessWidget {

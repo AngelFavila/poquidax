@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pokedax/config/scheme_provider.dart';
+import 'package:pokedax/providers/scheme_provider.dart';
 import 'package:pokedax/view/pokedex/pokedex_banner.dart';
 import 'package:pokedax/view/pokedex/widgets/dpad.dart';
 import 'package:pokedax/viewmodel/pokedex_vm_interface.dart';
