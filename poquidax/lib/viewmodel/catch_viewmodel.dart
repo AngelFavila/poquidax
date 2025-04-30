@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokedax/services/navigation_service.dart';
 import 'package:pokedax/viewmodel/pokedex_vm_interface.dart';
 
 class CatchViewModel extends ChangeNotifier implements PokedexVmInterface {
-  CatchViewModel();
+  final Ref ref;
+  CatchViewModel(this.ref);
 
   @override
   void onBackButton() {
