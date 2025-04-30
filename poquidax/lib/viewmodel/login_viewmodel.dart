@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pokedax/providers/user_provider.dart';
 import 'package:pokedax/services/firebase/auth_service.dart';
 import 'package:pokedax/services/navigation_service.dart';
 
 class LoginViewModel {
+  final WidgetRef ref;
   // Variables privadas de email y contraseña
   String _email = '';
   String _password = '';
@@ -11,12 +14,12 @@ class LoginViewModel {
   final ValueNotifier<String> _emailNotifier = ValueNotifier('');
   final ValueNotifier<String> _passwordNotifier = ValueNotifier('');
 
-  // Variables que notifican 
+  // Variables que notifican
   ValueNotifier<String> get emailNotifier => _emailNotifier;
   ValueNotifier<String> get passwordNotifier => _passwordNotifier;
 
   // Constructor que recibe métodos
-  LoginViewModel();
+  LoginViewModel(this.ref);
 
   // Set público del email para poder cambiar el valor desde el view
   set email(String value) {
@@ -32,15 +35,16 @@ class LoginViewModel {
 
   // Dispara al método callback en el MainViewModel y le regresa un booleano con la prueba de las credenciales
   Future<void> handleLogin() async {
-
-    if(await AuthService().verify_credentials(email: _email, password: _password))
-    {
+    String? uid = await AuthService()
+        .verify_credentials(email: _email, password: _password);
+    if (uid != null) {
+      ref.read(userProvider.notifier).setUUID(uid);
       NavigationService.push("/");
     }
   }
 
   // Dispara el método para navegar a la ventana de Sign Up que se encuentra en el MainViewModel
-  Future<void> goToSignUp() async{
+  Future<void> goToSignUp() async {
     NavigationService.push("/signup");
   }
 }

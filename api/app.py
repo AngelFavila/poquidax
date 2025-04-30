@@ -8,6 +8,7 @@ import pokemon_service
 import users_service
 import pokemon
 import pokemon_api_consumer as p_consumer
+import cache_manager as p_cache
 
 app = Flask(__name__)
 users_service = users_service.UserService()
@@ -24,7 +25,7 @@ def refresh_cache():
 
 @app.route('/get_cache')
 def get_cache():
-    return p_consumer.get_all_cache_items()
+    return p_cache.get_all_cache_items()
 
 
 ## POKEMON OPERATION

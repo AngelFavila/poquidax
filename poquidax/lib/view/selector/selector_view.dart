@@ -8,7 +8,7 @@ class SelectorView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => SelectorViewModel(), 
+      create: (_) => SelectorViewModel(),
       child: Consumer<SelectorViewModel>(
         builder: (context, viewModel, child) {
           final screenSize = MediaQuery.of(context).size;
@@ -23,7 +23,7 @@ class SelectorView extends StatelessWidget {
               child: PokedexView(
                 viewModel, // Se asigna el ViewModel al PokedexView
                 screenSize: screenSize,
-                screenContent: Placeholder(),
+                screenContent: Text("Selector"),
               ),
             ),
           );

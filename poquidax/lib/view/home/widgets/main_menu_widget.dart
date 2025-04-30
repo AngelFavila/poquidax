@@ -1,24 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:pokedax/viewmodel/home_viewmodel.dart';
 
-class MainMenu extends StatelessWidget {
+class MainMenu extends StatefulWidget {
   final Size screenSize;
-  final HomeViewModel viewModel;
+  final HomeViewModel viewModel; // Add the ViewModel as a parameter
 
   MainMenu({required this.screenSize, required this.viewModel});
+
+  @override
+  _MainMenuState createState() => _MainMenuState();
+}
+
+class _MainMenuState extends State<MainMenu> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   // Widget to build each menu item
   Widget _mainMenuItem(int index, String title, String subtitle) {
     return GestureDetector(
       onTap: () {
-        // When a menu item is tapped, update the selected index in the ViewModel
-        viewModel.setSelectedIndex(index);
+        setState(() {
+          widget.viewModel.setSelectedIndex(index); // Update the ViewModel
+        });
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5.0),
         child: Container(
           width: double.infinity,
-          color: viewModel.selectedIndex == index ? Colors.yellow : Colors.white,
+          color: widget.viewModel.selectedIndex == index ? Colors.yellow : Colors.white,
           padding: EdgeInsets.all(10.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,12 +48,12 @@ class MainMenu extends StatelessWidget {
       ),
     );
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: screenSize.width,
-      height: screenSize.height,
+      width: widget.screenSize.width,
+      height: widget.screenSize.height,
       color: Colors.white,
       child: SingleChildScrollView(
         child: Column(

@@ -71,6 +71,15 @@ class PokemonService:
             database=settings['database']
         )
 
+    def get_pokemons(self, username):
+        con = self.get_connection()
+        cur = con.cursor()
+        cur.execute("SELECT * FROM pokemon")
+        rows = cur.fetchall()
+        columns = [column[0] for column in cur.description]  # Get column names
+        con.close()
+        return [dict(zip(columns, row)) for row in rows] 
+    
     def get_personal_pokemons(self, username):
         con = self.get_connection()
         cur = con.cursor()
@@ -131,3 +140,4 @@ class PokemonService:
         con.close()
         return rowcount > 0
 
+    

@@ -22,7 +22,7 @@ class CustomPokemon {
         'number': int number,
         'name': String name,
         'level': int level,
-        'Hp': int hp
+        'hp': int hp
       } =>
         CustomPokemon(
           user: user,

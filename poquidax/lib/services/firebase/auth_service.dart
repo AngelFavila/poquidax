@@ -6,9 +6,11 @@ Servicio de verificación de credenciales que utiliza Firebase y produce mensaje
 */
 class AuthService {
   // Método para crear un usuario basado en email y password
-  Future<bool> create_account({required String email, required String password}) async {
+  Future<bool> create_account(
+      {required String email, required String password}) async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
 
       return true;
     } on FirebaseAuthException catch (e) {
@@ -27,9 +29,13 @@ class AuthService {
   }
 
   // Método para verificar credenciales
-  Future<bool> verify_credentials({required String email, required String password}) async {
+  Future<String?> verify_credentials(
+      {required String email, required String password}) async {
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+      final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+
+      // Regresa el UID
+      return userCredential.user?.uid;
     } on FirebaseAuthException catch (e) {
       String message = "";
       if (e.code == 'user-not-found') {
@@ -41,14 +47,12 @@ class AuthService {
       }
       Fluttertoast.showToast(msg: "Error ${e.code}: $message");
 
-      return false;
+      return null; // Return null if login fails
     } catch (e) {
       Fluttertoast.showToast(
           msg: "No se pudo iniciar sesión. Verifique su conexión");
 
-      return false;
+      return null; // Return null if there's any other error
     }
-
-    return true;
   }
 }

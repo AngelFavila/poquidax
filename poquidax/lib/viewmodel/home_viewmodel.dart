@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pokedax/model/custom_pokemon.dart';
+import 'package:pokedax/model/pokemon.dart';
+import 'package:pokedax/providers/user_provider.dart';
 import 'package:pokedax/services/api_service.dart';
 import 'package:pokedax/services/navigation_service.dart';
 import 'package:pokedax/viewmodel/pokedex_vm_interface.dart';
 
 class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
-  HomeViewModel();
+  final Ref ref;
+  void Function(int)? onSelectedIndexChanged;
+  
+  HomeViewModel(this.ref);
 
   @override
   void onBackButton() {
-    NavigationService.go('/login');
+    logOut();
   }
 
   @override
@@ -19,7 +26,7 @@ class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
     } else if (selectedIndex == 1) {
       NavigationService.go('/catch');
     } else if (selectedIndex == 2) {
-      NavigationService.go('/login');
+      logOut();
     }
   }
 
@@ -28,6 +35,7 @@ class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
     if (selectedIndex - 1 >= 0) {
       setSelectedIndex(selectedIndex - 1);
     }
+    
   }
 
   @override
@@ -40,8 +48,8 @@ class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
   @override
   Future<void> onDPadLeft() async {
     print("DPad Left pressed");
-    var futureAlbum = await fetchAlbum();
-    print(futureAlbum.title);
+    List<Pokemon> listOfPokemons = await ApiService().getAllPokemons();
+    print(listOfPokemons.first.name);
   }
 
   @override
@@ -54,7 +62,15 @@ class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
   void setSelectedIndex(int index) {
     _selectedIndex = index;
     notifyListeners();
+    if (onSelectedIndexChanged != null) {
+      onSelectedIndexChanged!(index);
+    }
   }
 
   int get selectedIndex => _selectedIndex;
+
+  void logOut(){
+    NavigationService.go('/login');
+    ref.read(userProvider.notifier).clearUserData();
+  }
 }

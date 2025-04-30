@@ -22,12 +22,13 @@ def refresh_cache():
 
 def get_all_cache_items():
     """
-    Returns the key/value pairs of Id and Names of all the Pokemons on the server's cache.
+    Returns a list of dicts {number: <id>, name: <Name>} from the server's cache.
     """
     cache = Cache(cache_path)
-    cache.close()
-    if not cache: # If the cache was never initialized it refreshes it and assigns the value again
+    if not cache:  # If the cache was never initialized
         refresh_cache()
         cache = Cache(cache_path)
-        cache.close()
-    return [(key, str(cache[key]).capitalize()) for key in cache]
+
+    items = [{"number": key, "name": str(cache[key]).capitalize()} for key in cache]
+    cache.close()
+    return items

@@ -21,15 +21,14 @@ def get_pokemon_json_by_id(id):
         return
     return response.json()
 
-def get_pokemon_by_id(id):
-    json = get_pokemon_by_id(id)
-    name = json["name"]
-    sprite = json[""]
-    types = json[""]
-    weight = json[""]
-    hp = json[""]
-    attack = json[""]
-    speed = json[""]
-    pokemon = Pokemon(id,name,sprite,types,weight,hp,attack,speed)
+def get_pokemon_by_id(id): 
+    json = get_pokemon_json_by_id(id)
+    if json is None:
+        return None
 
+    name = json["name"]
+    main_type = json["types"][0]["type"]["name"]  # First type
+    hp = next(stat["base_stat"] for stat in json["stats"] if stat["stat"]["name"] == "hp")
+
+    pokemon = Pokemon(id, name, None, main_type, None, hp, None, None)
     return pokemon

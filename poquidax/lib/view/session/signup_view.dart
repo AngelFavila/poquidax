@@ -3,9 +3,9 @@ import 'package:pokedax/providers/scheme_provider.dart';
 import 'package:pokedax/view/pokedex/pokedex_banner.dart';
 import 'package:pokedax/view/session/painter/arrow_painter.dart';
 import 'package:pokedax/view/session/widgets/custom_text_field.dart';
+import 'package:pokedax/view/session/widgets/yellow_button.dart';
 import 'package:pokedax/viewmodel/signup_viewModel.dart';
 
-// ignore: must_be_immutable
 class SignUpView extends StatefulWidget {
   final SignUpViewModel _viewModel = new SignUpViewModel();
 
@@ -142,57 +142,17 @@ class _SignUpViewState extends State<SignUpView> {
 
   // Boton para crear la cuenta
   Widget _signUpButton() {
-    final double fontSize = Theme.of(context).textTheme.bodyLarge?.fontSize ?? 16.0;
-
-    return SizedBox(
-      width: double.infinity, 
-      height: screenSize.height * 0.04, 
-      child: Padding(
-        padding:
-            EdgeInsets.symmetric(horizontal: screenSize.width * 0.2),
-        child: ElevatedButton(
-          onPressed: () {
-            widget._viewModel.handleSignUp();
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.yellow, 
-            foregroundColor: Colors.black, 
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(screenSize.width * 0.02), 
-            ), 
-          ),
-          child: Text("Crear Cuenta",
-          style: TextStyle(fontSize: fontSize),),
-        ),
-      ),
-    );
+    return YellowButton(
+        text: "Ingresar",
+        onPressed: widget._viewModel.handleSignUp,
+        screenSize: screenSize);
   }
 
   // Back to login Button
   Widget _backButton() {
-    final double fontSize = Theme.of(context).textTheme.bodyLarge?.fontSize ?? 16.0;
-
-    return SizedBox(
-      width: double.infinity,
-      height: screenSize.height * 0.04, 
-      child: Padding(
-        padding:
-            EdgeInsets.symmetric(horizontal: screenSize.width * 0.2),
-        child: ElevatedButton(
-          onPressed: () {
-            widget._viewModel.backToLogin();
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.yellow, 
-            foregroundColor: Colors.black, 
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(screenSize.width * 0.02), 
-            ), 
-          ),
-          child: Text("Volver al Inicio",
-          style: TextStyle(fontSize: fontSize),),
-        ),
-      ),
-    );
+    return YellowButton(
+        text: "Volver a Ingreso",
+        onPressed: widget._viewModel.backToLogin,
+        screenSize: screenSize);
   }
 }

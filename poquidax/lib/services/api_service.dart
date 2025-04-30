@@ -1,20 +1,44 @@
 import 'dart:convert';
-
+import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:pokedax/model/album.dart';
+import 'package:http/io_client.dart';
+import 'package:pokedax/model/custom_pokemon.dart';
+import 'package:pokedax/model/pokemon.dart';
 
-Future<Album> fetchAlbum() async {
-  final response = await http.get(
-    Uri.parse('https://jsonplaceholder.typicode.com/albums/1'),
-  );
+class ApiService {
+  static final ApiService _instance = ApiService._internal();
+  factory ApiService() => _instance;
+  ApiService._internal();
 
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    return Album.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load album');
+  final String _baseUrl = 'https://100.117.21.123:5000';
+
+  http.Client _createUnsafeClient() {
+    final ioClient = HttpClient()
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+    return IOClient(ioClient);
+  }
+
+  Future<List<CustomPokemon>> getPokemonsByUID(String uid) async {
+    final client = _createUnsafeClient();
+    final response = await client.get(Uri.parse('$_baseUrl/pokemons?id=$uid'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonList = jsonDecode(response.body);
+      return jsonList.map((e) => CustomPokemon.fromJson(e as Map<String, dynamic>)).toList();
+    } else {
+      throw Exception('Failed to load pokemons');
+    }
+  }
+
+  Future<List<Pokemon>> getAllPokemons() async {
+    final client = _createUnsafeClient();
+    final response = await client.get(Uri.parse('$_baseUrl/get_cache'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonList = jsonDecode(response.body);
+      return jsonList.map((e) =>Pokemon.fromJson(e as Map<String, dynamic>)).toList();
+    } else {
+      throw Exception('Failed to load pokemons');
+    }
   }
 }
