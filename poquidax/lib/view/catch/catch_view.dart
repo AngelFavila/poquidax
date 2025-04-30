@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pokedax/providers/scheme_provider.dart';
+import 'package:pokedax/view/catch/widget/catch_widget.dart';
 import 'package:pokedax/viewmodel/catch_viewmodel.dart';
 import 'package:provider/provider.dart';
-import 'package:pokedax/providers/scheme_provider.dart';
 import 'package:pokedax/view/pokedex/pokedex_view.dart';
 
 class CatchView extends StatelessWidget {
@@ -24,7 +24,10 @@ class CatchView extends StatelessWidget {
               child: PokedexView(
                 viewModel, // Se asigna el ViewModel al PokedexView
                 screenSize: screenSize,
-                screenContent: Text("Catch"),
+                screenContent: CatchWidget(
+                  screenSize: screenSize,
+                  viewModel: viewModel,
+                ),
               ),
             ),
           );

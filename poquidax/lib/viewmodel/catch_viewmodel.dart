@@ -3,6 +3,8 @@ import 'package:pokedax/services/navigation_service.dart';
 import 'package:pokedax/viewmodel/pokedex_vm_interface.dart';
 
 class CatchViewModel extends ChangeNotifier implements PokedexVmInterface {
+  var selectedIndex;
+
   CatchViewModel();
 
   @override
@@ -30,4 +32,6 @@ class CatchViewModel extends ChangeNotifier implements PokedexVmInterface {
   void onDPadRight() {
     print("DPad Right pressed");
   }
+
+  void setSelectedIndex(int index) {}
 }
