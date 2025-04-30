@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokedax/providers/scheme_provider.dart';
-import 'package:pokedax/view/catch/widget/catch_form_view.dart';
-import 'package:pokedax/viewmodel/catch_viewmodel.dart';
+import 'package:pokedax/view/catch_selector/widgets/catch_widget.dart';
+import 'package:pokedax/viewmodel/catch_selector_viewmodel.dart';
+
 import 'package:pokedax/view/pokedex/pokedex_view.dart';
 
-class CatchView extends ConsumerStatefulWidget {
-  const CatchView({super.key});
+class CatchSelectorView extends ConsumerStatefulWidget {
+  const CatchSelectorView({super.key});
 
   @override
-  ConsumerState<CatchView> createState() => _CatchViewState();
+  ConsumerState<CatchSelectorView> createState() => _CatchSelectorViewState();
 }
 
-final catchViewModelProvider = ChangeNotifierProvider<CatchViewModel>((ref) {
-  return CatchViewModel(ref);
+final catchViewModelProvider = ChangeNotifierProvider<CatchSelectorViewModel>((ref) {
+  return CatchSelectorViewModel(ref);
 });
 
-class _CatchViewState extends ConsumerState<CatchView> {
-  late CatchViewModel viewModel;
+class _CatchSelectorViewState extends ConsumerState<CatchSelectorView> {
+  late CatchSelectorViewModel viewModel;
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -33,8 +34,7 @@ class _CatchViewState extends ConsumerState<CatchView> {
         child: PokedexView(
           viewModel, // Se asigna el ViewModel al PokedexView
           screenSize: screenSize,
-          screenContent:
-              CatchFormView(screenSize: screenSize, viewModel: viewModel),
+          screenContent: CatchWidget(screenSize: screenSize, viewModel: viewModel),
         ),
       ),
     );

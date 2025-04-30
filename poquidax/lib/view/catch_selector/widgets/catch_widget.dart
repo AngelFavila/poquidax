@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pokedax/viewmodel/catch_viewmodel.dart';
+import 'package:pokedax/viewmodel/catch_selector_viewmodel.dart';
 
 class CatchWidget extends StatefulWidget {
   final Size screenSize;
-  final CatchViewModel viewModel; // Add the ViewModel as a parameter
+  final CatchSelectorViewModel viewModel; // Add the ViewModel as a parameter
 
   CatchWidget({required this.screenSize, required this.viewModel});
 

@@ -24,7 +24,7 @@ class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
     if (selectedIndex == 0) {
       NavigationService.push('/selector');
     } else if (selectedIndex == 1) {
-      NavigationService.push('/catch');
+      NavigationService.push('/catch_selector');
     } else if (selectedIndex == 2) {
       logOut();
     }

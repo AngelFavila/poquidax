@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pokedax/view/catch_selector/catch_selector_view.dart';
 import 'package:pokedax/view/home/home_view.dart';
 import 'package:pokedax/view/selector/selector_view.dart';
 import 'package:pokedax/view/session/login_view.dart';
@@ -26,5 +27,9 @@ final List<RouteBase> routesList = [
   GoRoute(
       path: '/catch',
       name: 'catch',
-      builder: (BuildContext context, GoRouterState state) => CatchView())
+      builder: (BuildContext context, GoRouterState state) => CatchView()),
+  GoRoute(
+      path: '/catch_selector',
+      name: 'catch_selector',
+      builder: (BuildContext context, GoRouterState state) => CatchSelectorView())
 ];
