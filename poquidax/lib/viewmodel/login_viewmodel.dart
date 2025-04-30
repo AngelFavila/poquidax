@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pokedax/providers/user_provider.dart';
 import 'package:pokedax/services/firebase/auth_service.dart';
 import 'package:pokedax/services/navigation_service.dart';
+import 'package:pokedax/services/preferences_service.dart';
 
 class LoginViewModel {
   final WidgetRef ref;
@@ -38,8 +38,9 @@ class LoginViewModel {
     String? uid = await AuthService()
         .verify_credentials(email: _email, password: _password);
     if (uid != null) {
-      ref.read(userProvider.notifier).setUUID(uid);
+      await PreferencesService().setUUID(uid);
       NavigationService.push("/");
+      print("Login successful, uid: $uid");
     }
   }
 

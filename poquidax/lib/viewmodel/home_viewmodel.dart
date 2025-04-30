@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:pokedax/model/custom_pokemon.dart';
 import 'package:pokedax/model/pokemon.dart';
 import 'package:pokedax/providers/user_provider.dart';
 import 'package:pokedax/services/api_service.dart';
 import 'package:pokedax/services/navigation_service.dart';
+import 'package:pokedax/services/preferences_service.dart';
 import 'package:pokedax/viewmodel/pokedex_vm_interface.dart';
 
 class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
@@ -22,9 +22,9 @@ class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
   void onAcceptButton() {
     print("Accept Button pressed");
     if (selectedIndex == 0) {
-      NavigationService.go('/selector');
+      NavigationService.push('/selector');
     } else if (selectedIndex == 1) {
-      NavigationService.go('/catch');
+      NavigationService.push('/catch');
     } else if (selectedIndex == 2) {
       logOut();
     }
@@ -69,8 +69,8 @@ class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
 
   int get selectedIndex => _selectedIndex;
 
-  void logOut(){
+  Future<void> logOut() async {
     NavigationService.go('/login');
-    ref.read(userProvider.notifier).clearUserData();
+    await PreferencesService().clearUserData();
   }
 }

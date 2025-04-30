@@ -5,6 +5,7 @@ import 'package:pokedax/config/router/app_router.dart';
 import 'package:pokedax/providers/user_provider.dart';
 import 'package:pokedax/services/firebase/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:pokedax/services/preferences_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,10 +17,10 @@ void main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
-  ]).then((_) {
+  ]).then((_) async {
     // Forza la aplicación a pantalla completa
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-
+    await PreferencesService().initialize();
     runApp(
       const ProviderScope(
         child: Main(),
