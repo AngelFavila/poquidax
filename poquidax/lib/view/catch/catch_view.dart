@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokedax/providers/scheme_provider.dart';
-import 'package:pokedax/view/catch/widget/catch_form_view.dart';
 import 'package:pokedax/viewmodel/catch_viewmodel.dart';
 import 'package:pokedax/view/pokedex/pokedex_view.dart';
 
 class CatchView extends ConsumerStatefulWidget {
-  const CatchView({super.key});
+  final int number;
+  const CatchView({required this.number,super.key});
 
   @override
   ConsumerState<CatchView> createState() => _CatchViewState();
@@ -33,8 +33,12 @@ class _CatchViewState extends ConsumerState<CatchView> {
         child: PokedexView(
           viewModel, // Se asigna el ViewModel al PokedexView
           screenSize: screenSize,
-          screenContent:
-              CatchFormView(screenSize: screenSize, viewModel: viewModel),
+          screenContent:Text('Pokemon seleccionado: ${widget.number}',
+            style: TextStyle(
+              fontSize: 24,
+              color: myColorScheme.onPrimary,
+            ),
+          ),
         ),
       ),
     );

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokedax/model/pokemon.dart';
-import 'package:pokedax/providers/user_provider.dart';
 import 'package:pokedax/services/api_service.dart';
 import 'package:pokedax/services/navigation_service.dart';
 import 'package:pokedax/services/preferences_service.dart';
@@ -35,7 +34,6 @@ class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
     if (selectedIndex - 1 >= 0) {
       setSelectedIndex(selectedIndex - 1);
     }
-    
   }
 
   @override

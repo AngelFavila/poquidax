@@ -25,11 +25,19 @@ final List<RouteBase> routesList = [
       name: 'selector',
       builder: (BuildContext context, GoRouterState state) => SelectorView()),
   GoRoute(
-      path: '/catch',
-      name: 'catch',
-      builder: (BuildContext context, GoRouterState state) => CatchView()),
+    path: '/catch',
+    name: 'catch',
+    builder: (BuildContext context, GoRouterState state) {
+      final String? numberString = state.uri.queryParameters['number'];
+
+      final int? number = numberString != null ? int.tryParse(numberString) : null;
+
+      return CatchView(number: number ?? 0); 
+    },
+  ),
   GoRoute(
       path: '/catch_selector',
       name: 'catch_selector',
-      builder: (BuildContext context, GoRouterState state) => CatchSelectorView())
+      builder: (BuildContext context, GoRouterState state) =>
+          CatchSelectorView())
 ];

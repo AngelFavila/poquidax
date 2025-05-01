@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedax/model/pokemon.dart';
 import 'package:pokedax/viewmodel/catch_selector_viewmodel.dart';
 
 class CatchWidget extends StatefulWidget {
@@ -18,61 +19,54 @@ class _CatchState extends State<CatchWidget> {
     super.initState();
   }
 
-  // Widget to build each menu item
-  Widget _catchItem(int index, String title, String subtitle) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          widget.viewModel.setSelectedIndex(index); // Update the ViewModel
-        });
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 5.0),
-        child: Container(
-          width: double.infinity,
-          color: widget.viewModel.selectedIndex == index
-              ? Colors.yellow
-              : Colors.white,
-          padding: EdgeInsets.all(10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              Text(
-                subtitle,
-                style: TextStyle(fontSize: 14),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+
     return Container(
       width: widget.screenSize.width,
       height: widget.screenSize.height,
       color: Colors.white,
-      child: SingleChildScrollView(
-          child: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-          hintText: 'Pokemon Name',
-          hintStyle: TextStyle(color: Colors.grey),
-          border: OutlineInputBorder(),
-          suffixIcon: IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {
-              // Implement search functionality here
+      child: Column(
+        children: [
+          Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SearchBarWidget()),
+          Expanded(
+              child: ListView.builder(
+            itemCount: widget.viewModel.filteredPokemons.length,
+            itemBuilder: (context, index) {
+              final pokemon = widget.viewModel.filteredPokemons[index];
+
+              return ListTile(
+                title: Text(pokemon.name),
+                onTap: () {
+                  widget.viewModel.setSelectedIndex(index);
+                },
+              );
             },
-          ),
-        ),
-      )),
+          )),
+        ],
+      ),
     );
+  }
+
+  TextField SearchBarWidget() {
+    return TextField(
+              controller: controller,
+              onChanged: (text) {
+                widget.viewModel.filterPokemons(controller.text);
+              },
+              decoration: InputDecoration(
+                hintText: 'Nombre de Pokemon',
+                hintStyle: TextStyle(color: Colors.grey),
+                border: OutlineInputBorder(),
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    
+                  },
+                ),
+              ),
+            );
   }
 }
