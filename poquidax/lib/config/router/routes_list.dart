@@ -30,9 +30,10 @@ final List<RouteBase> routesList = [
     builder: (BuildContext context, GoRouterState state) {
       final String? numberString = state.uri.queryParameters['number'];
 
-      final int? number = numberString != null ? int.tryParse(numberString) : null;
+      final int? number =
+          numberString != null ? int.tryParse(numberString) : null;
 
-      return CatchView(number: number ?? 0); 
+      return CatchView(number: number ?? 0);
     },
   ),
   GoRoute(

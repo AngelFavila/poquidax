@@ -13,7 +13,8 @@ class CatchSelectorView extends ConsumerStatefulWidget {
   ConsumerState<CatchSelectorView> createState() => _CatchSelectorViewState();
 }
 
-final catchViewModelProvider = ChangeNotifierProvider<CatchSelectorViewModel>((ref) {
+final catchViewModelProvider =
+    ChangeNotifierProvider<CatchSelectorViewModel>((ref) {
   return CatchSelectorViewModel(ref);
 });
 
@@ -34,7 +35,8 @@ class _CatchSelectorViewState extends ConsumerState<CatchSelectorView> {
         child: PokedexView(
           viewModel, // Se asigna el ViewModel al PokedexView
           screenSize: screenSize,
-          screenContent: CatchWidget(screenSize: screenSize, viewModel: viewModel),
+          screenContent:
+              CatchWidget(screenSize: screenSize, viewModel: viewModel),
         ),
       ),
     );

@@ -48,7 +48,6 @@ class CatchSelectorViewModel extends ChangeNotifier
   get pokemons => _pokemons;
   List<Pokemon> _filteredPokemons = [];
   get filteredPokemons => _filteredPokemons;
-  int _selectedPokemonIndex = 0;
 
   Future<List<Pokemon>> getPokemons() async {
     if (_pokemons.isEmpty) {
@@ -60,26 +59,22 @@ class CatchSelectorViewModel extends ChangeNotifier
   }
 
   void setSelectedIndex(int index) {
-    _selectedPokemonIndex = index;
-    final number = _filteredPokemons[index].number-1;
+    final number = _filteredPokemons[index].number - 1;
     NavigationService.push('/catch?number=$number');
-    notifyListeners();
   }
 
   List<Pokemon> filterPokemons(String query) {
-    if (query.isEmpty) {
-      _filteredPokemons = _pokemons;
-    } else {
-      _filteredPokemons = _pokemons.where((pokemon) {
-        return pokemon.name.toLowerCase().contains(query.toLowerCase());
-      }).toList();
-    }
     notifyListeners();
 
-    return _filteredPokemons;
+    return query.isEmpty ? _pokemons : isNotEmptyFilterPokemons(query);
+  }
+
+  List<Pokemon> isNotEmptyFilterPokemons(String query) {
+    return _pokemons.where((pokemon) {
+      return pokemon.name.toLowerCase().contains(query.toLowerCase());
+    }).toList();
   }
 
   @override
   String secondaryScreenText = 'Selecciona un pokemon para atrapar';
-
 }
