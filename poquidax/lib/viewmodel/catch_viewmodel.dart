@@ -35,4 +35,7 @@ class CatchViewModel extends ChangeNotifier implements PokedexVmInterface {
   }
 
   void setSelectedIndex(int index) {}
+
+  @override
+  String secondaryScreenText = 'Personaliza tu Pokemon';
 }

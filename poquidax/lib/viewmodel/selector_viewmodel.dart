@@ -35,6 +35,9 @@ class SelectorViewModel extends ChangeNotifier implements PokedexVmInterface{
   void onDPadRight() {
     print("DPad Right pressed");
   }
+
+  @override
+  String secondaryScreenText = 'Selecciona uno de tus pokemones';
   
   
 }

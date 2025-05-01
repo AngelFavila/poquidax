@@ -78,4 +78,8 @@ class CatchSelectorViewModel extends ChangeNotifier
 
     return _filteredPokemons;
   }
+
+  @override
+  String secondaryScreenText = 'Selecciona un pokemon para atrapar';
+
 }

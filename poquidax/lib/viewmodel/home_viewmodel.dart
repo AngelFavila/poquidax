@@ -71,4 +71,7 @@ class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
     NavigationService.go('/login');
     await PreferencesService().clearUserData();
   }
+
+  @override
+  String secondaryScreenText = 'Selecciona una opción del menú';
 }

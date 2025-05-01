@@ -108,8 +108,7 @@ class PokedexView extends StatelessWidget {
             height: screenSize.width * 0.4,
             color: Colors.green,
             child: Center(
-              child: Text(
-                "Selecciona una opción del menú para continuar",
+              child: Text(_viewModel.secondaryScreenText,
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.black),
               ),
