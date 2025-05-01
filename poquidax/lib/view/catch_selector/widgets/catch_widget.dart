@@ -21,16 +21,13 @@ class _CatchState extends State<CatchWidget> {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       width: widget.screenSize.width,
       height: widget.screenSize.height,
       color: Colors.white,
       child: Column(
         children: [
-          Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SearchBarWidget()),
+          Padding(padding: const EdgeInsets.all(8.0), child: SearchBarWidget()),
           Expanded(
               child: ListView.builder(
             itemCount: widget.viewModel.filteredPokemons.length,
@@ -52,21 +49,15 @@ class _CatchState extends State<CatchWidget> {
 
   TextField SearchBarWidget() {
     return TextField(
-              controller: controller,
-              onChanged: (text) {
-                widget.viewModel.filterPokemons(controller.text);
-              },
-              decoration: InputDecoration(
-                hintText: 'Nombre de Pokemon',
-                hintStyle: TextStyle(color: Colors.grey),
-                border: OutlineInputBorder(),
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {
-                    
-                  },
-                ),
-              ),
-            );
+      controller: controller,
+      onChanged: (text) {
+        widget.viewModel.filterPokemons(controller.text);
+      },
+      decoration: InputDecoration(
+          hintText: 'Nombre de Pokemon',
+          hintStyle: TextStyle(color: Colors.grey),
+          border: OutlineInputBorder(),
+          suffixIcon: Icon(Icons.search)),
+    );
   }
 }
