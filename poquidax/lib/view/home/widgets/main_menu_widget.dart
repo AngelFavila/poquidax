@@ -1,70 +1,62 @@
 import 'package:flutter/material.dart';
+import 'package:pokedax/providers/pokedex_provider.dart';
 import 'package:pokedax/viewmodel/home_viewmodel.dart';
+import 'package:provider/provider.dart';
 
-class MainMenu extends StatefulWidget {
-  final Size screenSize;
-  final HomeViewModel viewModel; // Add the ViewModel as a parameter
+class MainMenuWidget extends StatelessWidget {
+  const MainMenuWidget({super.key});
 
-  MainMenu({required this.screenSize, required this.viewModel});
+  // Method to create each menu item
+  Widget _mainMenuItem(BuildContext context, int index, String title, String subtitle) {
+    final viewModel = context.watch<PokedexProvider>().viewModel as HomeViewModel;  // Watch the PokedexProvider
 
-  @override
-  _MainMenuState createState() => _MainMenuState();
-}
-
-class _MainMenuState extends State<MainMenu> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  // Widget to build each menu item
-  Widget _mainMenuItem(int index, String title, String subtitle) {
     return GestureDetector(
       onTap: () {
-        setState(() {
-          widget.viewModel.setSelectedIndex(index); // Update the ViewModel
-        });
+        viewModel.setSelectedIndex(index);  // This triggers the update
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5.0),
         child: Container(
           width: double.infinity,
-          color: widget.viewModel.selectedIndex == index ? Colors.yellow : Colors.white,
-          padding: EdgeInsets.all(10.0),
+          color: viewModel.selectedIndex == index ? Colors.yellow : Colors.white, // Highlight selection
+          padding: const EdgeInsets.all(10.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                title,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              Text(
-                subtitle,
-                style: TextStyle(fontSize: 14),
-              ),
+              Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Text(subtitle, style: const TextStyle(fontSize: 14)),
             ],
           ),
         ),
       ),
     );
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: widget.screenSize.width,
-      height: widget.screenSize.height,
-      color: Colors.white,
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            _mainMenuItem(0, "Mis Pokémon", "Lista de mis pokémones"),
-            _mainMenuItem(1, "Atrapar Pokémon", "Agrega tus Pokémones"),
-            _mainMenuItem(2, "Salir", "Volver al inicio de sesión"),
-          ],
-        ),
-      ),
+    return Consumer<PokedexProvider>(
+      builder: (context, pokedexProvider, child) {
+        final viewModel = pokedexProvider.viewModel as HomeViewModel;
+        final screenSize = pokedexProvider.screenSize;
+
+        print('MainMenuWidget: building — selected index ${viewModel.selectedIndex}');
+
+        return Container(
+          width: screenSize.width,
+          height: screenSize.height,
+          color: Colors.white,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                _mainMenuItem(context, 0, "Mis Pokémon", "Lista de mis pokémones"),
+                _mainMenuItem(context, 1, "Atrapar Pokémon", "Agrega tus Pokémones"),
+                _mainMenuItem(context, 2, "Salir", "Volver al inicio de sesión"),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

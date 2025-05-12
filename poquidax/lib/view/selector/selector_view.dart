@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pokedax/viewmodel/selector_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:pokedax/providers/scheme_provider.dart';
-import 'package:pokedax/view/pokedex/pokedex_view.dart';
+import 'package:pokedax/view/pokedex/pokedex_template.dart';
 
 class SelectorView extends StatelessWidget {
   @override
@@ -20,10 +20,8 @@ class SelectorView extends StatelessWidget {
               width: screenSize.width,
               height: screenSize.height,
               alignment: Alignment.center,
-              child: PokedexView(
-                viewModel, // Se asigna el ViewModel al PokedexView
+              child: PokedexTemplate(// Se asigna el ViewModel al PokedexView
                 screenSize: screenSize,
-                screenContent: Text("Selector"),
               ),
             ),
           );

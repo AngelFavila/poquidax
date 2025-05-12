@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokedax/services/firebase/auth_service.dart';
 import 'package:pokedax/services/navigation_service.dart';
 import 'package:pokedax/services/preferences_service.dart';
 
-class LoginViewModel {
-  final WidgetRef ref;
+class LoginViewModel extends ChangeNotifier {
   // Variables privadas de email y contraseña
   String _email = '';
   String _password = '';
@@ -19,7 +17,7 @@ class LoginViewModel {
   ValueNotifier<String> get passwordNotifier => _passwordNotifier;
 
   // Constructor que recibe métodos
-  LoginViewModel(this.ref);
+  LoginViewModel();
 
   // Set público del email para poder cambiar el valor desde el view
   set email(String value) {

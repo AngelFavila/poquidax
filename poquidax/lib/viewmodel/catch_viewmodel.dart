@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokedax/services/navigation_service.dart';
 import 'package:pokedax/viewmodel/pokedex_vm_interface.dart';
 
 class CatchViewModel extends ChangeNotifier implements PokedexVmInterface {
   var selectedIndex;
-  final Ref ref;
-  CatchViewModel(this.ref);
+  CatchViewModel();
 
   @override
   void onBackButton() {
@@ -38,4 +36,8 @@ class CatchViewModel extends ChangeNotifier implements PokedexVmInterface {
 
   @override
   String secondaryScreenText = 'Personaliza tu Pokemon';
+  
+  @override
+  // TODO: implement screenContent
+  Widget get screenContent => throw UnimplementedError();
 }

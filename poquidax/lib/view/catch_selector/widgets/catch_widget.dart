@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:pokedax/model/pokemon.dart';
+import 'package:pokedax/providers/pokedex_provider.dart';
 import 'package:pokedax/viewmodel/catch_selector_viewmodel.dart';
+import 'package:pokedax/viewmodel/catch_viewmodel.dart';
+import 'package:provider/provider.dart';
 
-class CatchWidget extends StatefulWidget {
-  final Size screenSize;
-  final CatchSelectorViewModel viewModel; // Add the ViewModel as a parameter
+class CatchWidget extends StatefulWidget {// Add the ViewModel as a parameter
 
-  CatchWidget({required this.screenSize, required this.viewModel});
+  CatchWidget();
 
   @override
   _CatchState createState() => _CatchState();
@@ -21,23 +21,26 @@ class _CatchState extends State<CatchWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<PokedexProvider>().viewModel as CatchSelectorViewModel;
+    final screenSize = context.watch<PokedexProvider>().screenSize;
+
     return Container(
-      width: widget.screenSize.width,
-      height: widget.screenSize.height,
+      width: screenSize.width,
+      height: screenSize.height,
       color: Colors.white,
       child: Column(
         children: [
           Padding(padding: const EdgeInsets.all(8.0), child: SearchBarWidget()),
           Expanded(
               child: ListView.builder(
-            itemCount: widget.viewModel.filteredPokemons.length,
+            itemCount: viewModel.filteredPokemons.length,
             itemBuilder: (context, index) {
-              final pokemon = widget.viewModel.filteredPokemons[index];
+              final pokemon = viewModel.filteredPokemons[index];
 
               return ListTile(
                 title: Text(pokemon.name),
                 onTap: () {
-                  widget.viewModel.setSelectedIndex(index);
+                  viewModel.setSelectedIndex(index);
                 },
               );
             },
@@ -48,10 +51,12 @@ class _CatchState extends State<CatchWidget> {
   }
 
   TextField SearchBarWidget() {
+    final viewModel = context.read<PokedexProvider>().viewModel as CatchSelectorViewModel;
+    
     return TextField(
       controller: controller,
       onChanged: (text) {
-        widget.viewModel.filterPokemons(controller.text);
+        viewModel.filterPokemons(controller.text);
       },
       decoration: InputDecoration(
           hintText: 'Nombre de Pokemon',

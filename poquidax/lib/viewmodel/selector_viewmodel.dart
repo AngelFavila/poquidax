@@ -39,5 +39,9 @@ class SelectorViewModel extends ChangeNotifier implements PokedexVmInterface{
   @override
   String secondaryScreenText = 'Selecciona uno de tus pokemones';
   
+  @override
+  // TODO: implement screenContent
+  Widget get screenContent => throw UnimplementedError();
+  
   
 }

@@ -3,7 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pokedax/services/firebase/auth_service.dart';
 import 'package:pokedax/services/navigation_service.dart';
 
-class SignUpViewModel {
+class SignUpViewModel extends ChangeNotifier {
   String _email = '';
   String _password = '';
   final ValueNotifier<String> _emailNotifier = ValueNotifier('');

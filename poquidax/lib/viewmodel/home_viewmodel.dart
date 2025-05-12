@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokedax/model/pokemon.dart';
 import 'package:pokedax/services/api_service.dart';
 import 'package:pokedax/services/navigation_service.dart';
@@ -7,10 +6,11 @@ import 'package:pokedax/services/preferences_service.dart';
 import 'package:pokedax/viewmodel/pokedex_vm_interface.dart';
 
 class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
-  final Ref ref;
   void Function(int)? onSelectedIndexChanged;
   
-  HomeViewModel(this.ref);
+  HomeViewModel() {
+    notifyListeners();
+  }
 
   @override
   void onBackButton() {
@@ -33,6 +33,7 @@ class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
   void onDPadUp() {
     if (selectedIndex - 1 >= 0) {
       setSelectedIndex(selectedIndex - 1);
+      notifyListeners();
     }
   }
 
@@ -40,6 +41,7 @@ class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
   void onDPadDown() {
     if (selectedIndex + 1 <= 2) {
       setSelectedIndex(selectedIndex + 1);
+      notifyListeners();
     }
   }
 
@@ -59,10 +61,11 @@ class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
 
   void setSelectedIndex(int index) {
     _selectedIndex = index;
-    notifyListeners();
+    print('HomeViewModel: setSelectedIndex to $_selectedIndex → notifying listeners');
     if (onSelectedIndexChanged != null) {
       onSelectedIndexChanged!(index);
     }
+    notifyListeners();
   }
 
   int get selectedIndex => _selectedIndex;
@@ -74,4 +77,5 @@ class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
 
   @override
   String secondaryScreenText = 'Selecciona una opción del menú';
+  
 }
