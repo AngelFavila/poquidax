@@ -23,8 +23,8 @@ class MainMenuWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              Text(subtitle, style: const TextStyle(fontSize: 14)),
+              Text(title, style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
+              Text(subtitle, style: const TextStyle(fontSize: 20)),
             ],
           ),
         ),

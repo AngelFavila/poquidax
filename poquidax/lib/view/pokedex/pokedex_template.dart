@@ -4,6 +4,7 @@ import 'package:pokedax/providers/pokedex_provider.dart';
 import 'package:pokedax/providers/scheme_provider.dart';
 import 'package:pokedax/view/pokedex/pokedex_banner.dart';
 import 'package:pokedax/view/pokedex/widgets/dpad.dart';
+import 'package:pokedax/viewmodel/base/pokedex_vm_interface.dart';
 import 'package:pokedax/viewmodel/catch_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'widgets/pokedex_screen.dart';
@@ -36,7 +37,6 @@ class _PokedexTemplateState extends State<PokedexTemplate> {
       }
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -95,22 +95,57 @@ class _PokedexTemplateState extends State<PokedexTemplate> {
   Widget _buildActionButtons() {
     final viewModel = context.watch<PokedexProvider>().viewModel;
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        ElevatedButton(
-          onPressed: () {
-            viewModel.onBackButton();
-          },
-          child: Text("Atrás"),
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        vertical: MediaQuery.of(context).size.height * 0.02,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _backButton(viewModel),
+          _acceptButton(viewModel),
+        ],
+      ),
+    );
+  }
+
+  Widget _acceptButton(PokedexVmInterface viewModel) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.25,
+      child: ElevatedButton(
+        onPressed: () {
+          viewModel.onBackButton();
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xff2c6f95),
+          foregroundColor: Colors.white,
+          textStyle: const TextStyle(
+            fontSize: 20,
+            fontFamily: 'Jersey',
+          ),
         ),
-        ElevatedButton(
-          onPressed: () {
-            viewModel.onAcceptButton();
-          },
-          child: Text("Aceptar"),
+        child: const Text("Aceptar"),
+      ),
+    );
+  }
+
+  Widget _backButton(PokedexVmInterface viewModel) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.25,
+      child: ElevatedButton(
+        onPressed: () {
+          viewModel.onBackButton();
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFF901825),
+          foregroundColor: Colors.white,
+          textStyle: const TextStyle(
+            fontSize: 20, // adjust size as needed
+            fontFamily: 'Jersey',
+          ),
         ),
-      ],
+        child: const Text("Atrás"),
+      ),
     );
   }
 

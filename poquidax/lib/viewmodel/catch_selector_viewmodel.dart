@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokedax/model/pokemon.dart';
 import 'package:pokedax/services/api_service.dart';
-import 'package:pokedax/view/catch_selector/widgets/catch_widget.dart';
+import 'package:pokedax/view/widgets/catch_selector/catch_widget.dart';
 import 'package:pokedax/viewmodel/base/viewmodel_navigator.dart';
 import 'package:pokedax/viewmodel/home_viewmodel.dart';
 import 'package:pokedax/viewmodel/base/pokedex_vm_interface.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pokedax/view/catch/widget/catch_form_view.dart';
+import 'package:pokedax/view/widgets/catch/catch_form_view.dart';
 import 'package:pokedax/viewmodel/base/pokedex_vm_interface.dart';
 import 'package:pokedax/viewmodel/base/viewmodel_navigator.dart';
 import 'package:pokedax/viewmodel/catch_selector_viewmodel.dart';
