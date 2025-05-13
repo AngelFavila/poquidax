@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:pokedax/viewmodel/dummy_viewmodel.dart';
-import 'package:pokedax/viewmodel/pokedex_vm_interface.dart';
+import 'package:pokedax/viewmodel/base/dummy_viewmodel.dart';
+import 'package:pokedax/viewmodel/base/pokedex_vm_interface.dart';
 
 class PokedexProvider extends ChangeNotifier {
   late PokedexVmInterface _viewModel;
@@ -15,7 +15,7 @@ class PokedexProvider extends ChangeNotifier {
   }
 
   void changeModel(PokedexVmInterface newModel) {
-  if (_viewModel.runtimeType == newModel.runtimeType) return; // ✅ Prevent unnecessary change
+  if (_viewModel.runtimeType == newModel.runtimeType) return;
 
   print("changeModel called with newModel: ${newModel.runtimeType}");
 

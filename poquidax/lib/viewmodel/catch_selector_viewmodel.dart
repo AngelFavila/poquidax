@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:pokedax/model/pokemon.dart';
-import 'package:pokedax/providers/pokedex_provider.dart';
 import 'package:pokedax/services/api_service.dart';
-import 'package:pokedax/services/navigation_service.dart';
 import 'package:pokedax/view/catch_selector/widgets/catch_widget.dart';
+import 'package:pokedax/viewmodel/base/viewmodel_navigator.dart';
 import 'package:pokedax/viewmodel/home_viewmodel.dart';
-import 'package:pokedax/viewmodel/pokedex_vm_interface.dart';
-import 'package:provider/provider.dart';
+import 'package:pokedax/viewmodel/base/pokedex_vm_interface.dart';
 
-class CatchSelectorViewModel extends ChangeNotifier
-  implements PokedexVmInterface {
+class CatchSelectorViewModel extends ChangeNotifier with ViewModelNavigator implements PokedexVmInterface {
+  @override
+  String secondaryScreenText = 'Selecciona un pokemon para atrapar';
+  
+  @override
+  Widget get screenContent => CatchWidget();
+  
+  List<Pokemon> _pokemons = [];
+  get pokemons => _pokemons;
+  List<Pokemon> _filteredPokemons = [];
+  get filteredPokemons => _filteredPokemons;
   var selectedIndex;
 
   CatchSelectorViewModel() {
@@ -21,21 +28,21 @@ class CatchSelectorViewModel extends ChangeNotifier
     _filteredPokemons = _pokemons;
   }
 
+  // Metodos de la interfaz
   @override
   void onBackButton() {
-    final provider = Provider.of<PokedexProvider>(NavigationService.navigatorKey.currentContext!, listen: false);
-      provider.changeModel(HomeViewModel());
-    NavigationService.pop();
+    // Regresa al menú principal con un pop
+    changeModelAndPop(HomeViewModel());
     notifyListeners();
   }
 
   @override
   void onAcceptButton() {
-    NavigationService.push('/catch');
+    navigateTo('/catch');
   }
 
   @override
-  void onDPadUp() {}
+  void onDPadUp(){}
 
   @override
   void onDPadDown() {}
@@ -50,11 +57,7 @@ class CatchSelectorViewModel extends ChangeNotifier
     print("DPad Right pressed");
   }
 
-  List<Pokemon> _pokemons = [];
-  get pokemons => _pokemons;
-  List<Pokemon> _filteredPokemons = [];
-  get filteredPokemons => _filteredPokemons;
-
+  // Metodos adicionales
   Future<List<Pokemon>> getPokemons() async {
     if (_pokemons.isEmpty) {
       _pokemons = await ApiService().getAllPokemons();
@@ -64,27 +67,27 @@ class CatchSelectorViewModel extends ChangeNotifier
     return _pokemons;
   }
 
-  void setSelectedIndex(int index) {
+  // Manda a la pantalla de atrapar pokemon
+  // y le pasa el numero del pokemon seleccionado
+  void selectPokemon(int index) {
     final number = _filteredPokemons[index].number - 1;
-    NavigationService.push('/catch?number=$number');
+    navigateTo('/catch?number=$number');
   }
 
+  // Filtra los pokemones por nombre si el query no está vacío
+  // y devuelve una lista de pokemones filtrados o la lista completa
   List<Pokemon> filterPokemons(String query) {
     notifyListeners();
 
-    return query.isEmpty ? _pokemons : isNotEmptyFilterPokemons(query);
+    return query.isEmpty ? _pokemons : _isNotEmptyFilterPokemons(query);
   }
 
-  List<Pokemon> isNotEmptyFilterPokemons(String query) {
+  // Filtra los pokemones por nombre
+  // y devuelve una lista de pokemones filtrados
+  List<Pokemon> _isNotEmptyFilterPokemons(String query) {
     return _pokemons.where((pokemon) {
       return pokemon.name.toLowerCase().contains(query.toLowerCase());
     }).toList();
   }
-
-  @override
-  String secondaryScreenText = 'Selecciona un pokemon para atrapar';
-  
-  @override
-  Widget get screenContent => CatchWidget();
 
 }

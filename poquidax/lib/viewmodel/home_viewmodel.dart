@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:pokedax/model/pokemon.dart';
-import 'package:pokedax/providers/pokedex_provider.dart';
 import 'package:pokedax/services/api_service.dart';
-import 'package:pokedax/services/navigation_service.dart';
 import 'package:pokedax/services/preferences_service.dart';
 import 'package:pokedax/view/home/widgets/main_menu_widget.dart';
-import 'package:pokedax/viewmodel/catch_selector_viewmodel.dart';
-import 'package:pokedax/viewmodel/pokedex_vm_interface.dart';
-import 'package:provider/provider.dart';
+import 'package:pokedax/viewmodel/base/viewmodel_navigator.dart';
+import 'package:pokedax/viewmodel/base/pokedex_vm_interface.dart';
 
-class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
+class HomeViewModel extends ChangeNotifier with ViewModelNavigator implements PokedexVmInterface {
   void Function(int)? onSelectedIndexChanged;
   Widget _screenContent = MainMenuWidget();
   Widget get screenContent => _screenContent;
+  @override
+  String secondaryScreenText = 'Selecciona una opción del menú';
 
+  int _selectedIndex = 0;
+  int get selectedIndex => _selectedIndex;
+  
   @override
   void onBackButton() {
     logOut();
@@ -23,11 +25,9 @@ class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
   void onAcceptButton() {
     print("Accept Button pressed");
     if (selectedIndex == 0) {
-      NavigationService.push('/selector');
+      navigateTo('/selector');
     } else if (selectedIndex == 1) {
-      final provider = Provider.of<PokedexProvider>(NavigationService.navigatorKey.currentContext!, listen: false);
-      provider.changeModel(CatchSelectorViewModel());
-      NavigationService.push('/catch_selector');
+      navigateTo('/catch_selector');
     } else if (selectedIndex == 2) {
       logOut();
     }
@@ -61,8 +61,7 @@ class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
     print("DPad Right pressed");
   }
 
-  int _selectedIndex = 0;
-
+  // Metodos adicionales
   void setSelectedIndex(int index) {
     _selectedIndex = index;
     print('HomeViewModel: setSelectedIndex to $_selectedIndex → notifying listeners');
@@ -72,13 +71,10 @@ class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
     notifyListeners();
   }
 
-  int get selectedIndex => _selectedIndex;
-
   Future<void> logOut() async {
-    NavigationService.go('/login');
     await PreferencesService().clearUserData();
+    navigateTo('/login');
   }
 
-  @override
-  String secondaryScreenText = 'Selecciona una opción del menú';
+
 }

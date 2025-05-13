@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pokedax/providers/pokedex_provider.dart';
 import 'package:pokedax/providers/scheme_provider.dart';
 import 'package:pokedax/view/pokedex/pokedex_banner.dart';
 import 'package:pokedax/view/pokedex/widgets/dpad.dart';
+import 'package:pokedax/viewmodel/catch_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'widgets/pokedex_screen.dart';
 
@@ -20,8 +22,24 @@ class _PokedexTemplateState extends State<PokedexTemplate> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final uri = GoRouterState.of(context).uri;
+    final numberStr = uri.queryParameters['number'];
+    final viewModel = context.read<PokedexProvider>().viewModel;
+
+    if (viewModel is CatchViewModel && numberStr != null) {
+      final number = int.tryParse(numberStr);
+      if (number != null) {
+        viewModel.setSelectePokemonNumber(number);
+      }
+    }
+  }
+
+
+  @override
   Widget build(BuildContext context) {
-    final pokedexProvider = context.watch<PokedexProvider>();
     final screenSize = MediaQuery.of(context).size;
 
     return Scaffold(

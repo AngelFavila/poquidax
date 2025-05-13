@@ -5,7 +5,7 @@ import 'package:pokedax/view/session/painter/arrow_painter.dart';
 import 'package:pokedax/view/session/widgets/custom_text_field.dart';
 import 'package:pokedax/view/session/widgets/yellow_button.dart';
 import 'package:provider/provider.dart';
-import '../../viewmodel/login_viewmodel.dart';
+import '../../viewmodel/session/login_viewmodel.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});

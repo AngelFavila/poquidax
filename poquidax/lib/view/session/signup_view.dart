@@ -4,7 +4,7 @@ import 'package:pokedax/view/pokedex/pokedex_banner.dart';
 import 'package:pokedax/view/session/painter/arrow_painter.dart';
 import 'package:pokedax/view/session/widgets/custom_text_field.dart';
 import 'package:pokedax/view/session/widgets/yellow_button.dart';
-import 'package:pokedax/viewmodel/signup_viewModel.dart';
+import 'package:pokedax/viewmodel/session/signup_viewModel.dart';
 
 class SignUpView extends StatefulWidget {
   final SignUpViewModel _viewModel = new SignUpViewModel();

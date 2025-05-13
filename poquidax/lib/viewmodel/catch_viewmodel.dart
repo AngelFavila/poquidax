@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:pokedax/services/navigation_service.dart';
-import 'package:pokedax/viewmodel/pokedex_vm_interface.dart';
+import 'package:pokedax/view/catch/widget/catch_form_view.dart';
+import 'package:pokedax/viewmodel/base/pokedex_vm_interface.dart';
+import 'package:pokedax/viewmodel/base/viewmodel_navigator.dart';
+import 'package:pokedax/viewmodel/catch_selector_viewmodel.dart';
 
-class CatchViewModel extends ChangeNotifier implements PokedexVmInterface {
-  var selectedIndex;
-  CatchViewModel();
+class CatchViewModel extends ChangeNotifier with ViewModelNavigator implements PokedexVmInterface {
+  @override
+  String secondaryScreenText = 'Personaliza tu Pokemon';
+  
+  @override
+  Widget get screenContent => CatchFormView();
+  
+  late int _selectedPokemonNumber;
+  int get selectedPokemonNumber => _selectedPokemonNumber;
 
   @override
   void onBackButton() {
-    NavigationService.pop();
+    changeModelAndPop(CatchSelectorViewModel());
   }
 
   @override
-  void onAcceptButton() {
-  }
+  void onAcceptButton() {}
 
   @override
   void onDPadUp() {}
@@ -31,13 +38,9 @@ class CatchViewModel extends ChangeNotifier implements PokedexVmInterface {
     print("DPad Right pressed");
   }
 
-  void setSelectedIndex(int index) {}
+  void setSelectePokemonNumber(int index) {
+    _selectedPokemonNumber = index;
+  }
 
-  @override
-  String secondaryScreenText = 'Personaliza tu Pokemon';
-  
-  @override
-  // TODO: implement screenContent
-  Widget get screenContent => throw UnimplementedError();
   
 }

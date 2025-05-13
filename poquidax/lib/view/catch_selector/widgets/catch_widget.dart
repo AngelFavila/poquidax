@@ -40,7 +40,7 @@ class _CatchState extends State<CatchWidget> {
               return ListTile(
                 title: Text(pokemon.name),
                 onTap: () {
-                  viewModel.setSelectedIndex(index);
+                  viewModel.selectPokemon(index);
                 },
               );
             },
