@@ -34,7 +34,7 @@ class PokemonService:
             CREATE TABLE pokemon(
                 number INT,
                 name NVARCHAR(50),
-                species NVARCHAR(50),
+                sprite NVARCHAR(250),
                 hp INT,
                 type NVARCHAR(50)
             )
@@ -94,18 +94,26 @@ class PokemonService:
             id += 1
 
     def add_pokemon(self, pokemon: pokemon.Pokemon):
-        if self.pokemon_exist(pokemon.user, pokemon.number):
+        if self.pokemon_exist(pokemon.number):
             return False
         con = self.get_connection()
         cur = con.cursor()
         cur.execute("""
-            INSERT INTO pokemon(number, name, hp)
-            VALUES (%s, %s, %s)
-        """, (pokemon.number, pokemon.name, pokemon.hp))
+            INSERT INTO pokemon(number, name, hp,type,sprite)
+            VALUES (%s, %s, %s, %s, %s)
+        """, (pokemon.number, pokemon.name, pokemon.hp, pokemon.type, pokemon.sprite))
         con.commit()
         rowcount = cur.rowcount
         con.close()
         return rowcount > 0
+    
+    def pokemon_exist(self, id):
+        con = self.get_connection()
+        cur = con.cursor()
+        cur.execute("SELECT * FROM pokemon WHERE number=%s", (id))
+        exists = cur.fetchone() is not None
+        con.close()
+        return exists
     
     def get_pokemons(self):
         con = self.get_connection()
@@ -116,6 +124,16 @@ class PokemonService:
         con.close()
         return [dict(zip(columns, row)) for row in rows] 
     
+    def get_pokemon(self, number):
+        con = self.get_connection()
+        cur = con.cursor()
+        cur.execute("SELECT * FROM pokemon WHERE number=%s", (number,))
+        row = cur.fetchone()
+        columns = [column[0] for column in cur.description]
+        con.close()
+        return dict(zip(columns, row)) if row else None
+
+    
     def get_personal_pokemons(self, username):
         con = self.get_connection()
         cur = con.cursor()
@@ -125,7 +143,7 @@ class PokemonService:
         con.close()
         return [dict(zip(columns, row)) for row in rows]  # Convert rows to JSON-like dictionaries
 
-    def pokemon_exist(self, user, id):
+    def custom_pokemon_exist(self, user, id):
         con = self.get_connection()
         cur = con.cursor()
         cur.execute("SELECT * FROM custom_pokemon WHERE [user]=%s AND id=%s", (user, id))
@@ -134,7 +152,7 @@ class PokemonService:
         return exists
 
     def add_custom_pokemon(self, pokemon: pokemon.Pokemon):
-        if self.pokemon_exist(pokemon.user, pokemon.id):
+        if self.custom_pokemon_exist(pokemon.user, pokemon.id):
             return False
         con = self.get_connection()
         cur = con.cursor()
@@ -148,7 +166,7 @@ class PokemonService:
         return rowcount > 0
 
     def modify_custom_pokemon(self, pokemon: pokemon.Pokemon):
-        if not self.pokemon_exist(pokemon.user, pokemon.id):
+        if not self.custom_pokemon_exist(pokemon.user, pokemon.id):
             return False
         con = self.get_connection()
         cur = con.cursor()
@@ -163,7 +181,7 @@ class PokemonService:
         return rowcount > 0
 
     def delete_custom_pokemon(self, id, user):
-        if not self.pokemon_exist(user, id):
+        if not self.custom_pokemon_exist(user, id):
             return False
         con = self.get_connection()
         cur = con.cursor()

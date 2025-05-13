@@ -32,6 +32,19 @@ class ApiService {
     }
   }
 
+  Future<List<Pokemon>> getPokemonByNumber(int number) async {
+    final client = _createUnsafeClient();
+    final response = await client.get(Uri.parse('$_baseUrl/pokemons?id=$uid'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonList = jsonDecode(response.body);
+      
+      return jsonList.map((e) => Pokemon.fromJson(e as Map<String, dynamic>)).toList();
+    } else {
+      throw Exception('Failed to load pokemons');
+    }
+  }
+
   Future<List<Pokemon>> getAllPokemons() async {
     final client = _createUnsafeClient();
     final response = await client.get(Uri.parse('$_baseUrl/get_cache'));

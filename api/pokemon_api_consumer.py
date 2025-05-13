@@ -3,17 +3,12 @@ import requests
 api_url = "https://pokeapi.co/api/v2/pokemon/"
 
 class Pokemon:
-    def __init__(self, number, name, sprite, types, weight, hp, attack, speed):
+    def __init__(self, number, name, sprite, type, hp):
         self.number = number
         self.name = name
         self.sprite = sprite
-        self.types = types
-        self.weight = weight
+        self.type = type
         self.hp = hp
-        self.attack = attack
-        self.speed = speed
-        self.level = 1  # Default level
-        self.user = "default"  # Default user unless overridden
 
 def get_pokemon_by_id(id):
     """
@@ -31,5 +26,5 @@ def get_pokemon_by_id(id):
     name = json["name"]
     main_type = json["types"][0]["type"]["name"]
     hp = next(stat["base_stat"] for stat in json["stats"] if stat["stat"]["name"] == "hp")
-
-    return Pokemon(number=id, name=name, sprite=None, types=main_type, weight=None, hp=hp, attack=None, speed=None)
+    sprite = json["sprites"]["front_default"]
+    return Pokemon(number=id, name=name, sprite=sprite, type=main_type, hp=hp)
