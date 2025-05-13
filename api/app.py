@@ -2,13 +2,17 @@ import os
 from flask import Flask, request, jsonify
 import sys
 
-sys.path.append(f"{os.path.dirname(os.path.abspath(__file__))}\\model\\services")
-sys.path.append(f"{os.path.dirname(os.path.abspath(__file__))}\\model\\entities")
+base_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.join(base_dir, "model", "services"))
+sys.path.append(os.path.join(base_dir, "model", "entities"))
 import pokemon_service
 import users_service
 import pokemon
 import pokemon_api_consumer as p_consumer
 import cache_manager as p_cache
+
+
+
 
 app = Flask(__name__)
 users_service = users_service.UserService()
@@ -20,12 +24,12 @@ def hello():
 
 @app.route('/refresh_cache')
 def refresh_cache():
-    found = p_consumer.refresh_cache()
+    found = pokemon_service.fetch_and_add_all_pokemons()
     return f'Found {found}'
 
 @app.route('/get_cache')
 def get_cache():
-    return p_cache.get_all_cache_items()
+    return pokemon_service.get_pokemons()
 
 
 ## POKEMON OPERATION

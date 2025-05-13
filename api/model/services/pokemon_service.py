@@ -3,6 +3,7 @@ import os
 import sys
 import pokemon
 import pymssql
+import pokemon_api_consumer as pokeapi
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 entities_dir = os.path.join(current_dir, '..', 'entities')
@@ -52,6 +53,7 @@ class PokemonService:
         con.commit()
         con.close()
 
+
     def get_server_connection(self):
         with open(settings_path, 'r') as file:
             settings = json.load(file)
@@ -61,6 +63,8 @@ class PokemonService:
             password=settings['password']
         )
 
+    
+    
     def get_connection(self):
         with open(settings_path, 'r') as file:
             settings = json.load(file)
@@ -70,8 +74,40 @@ class PokemonService:
             password=settings['password'],
             database=settings['database']
         )
+    
+    def fetch_and_add_all_pokemons(self):
+        """
+        Fetches Pokémon from the API and adds them to the DB if not already present.
+        """
+        id = 1
+        while True:
+            pokemon = pokeapi.get_pokemon_by_id(id)
+            if not pokemon:
+                print(f"Finished fetching at ID {id - 1}")
+                break
 
-    def get_pokemons(self, username):
+            success = self.add_pokemon(pokemon)
+            if success:
+                print(f"Added Pokémon ID {id}: {pokemon.name}")
+            else:
+                print(f"Skipped Pokémon ID {id}: already exists")
+            id += 1
+
+    def add_pokemon(self, pokemon: pokemon.Pokemon):
+        if self.pokemon_exist(pokemon.user, pokemon.number):
+            return False
+        con = self.get_connection()
+        cur = con.cursor()
+        cur.execute("""
+            INSERT INTO pokemon(number, name, hp)
+            VALUES (%s, %s, %s)
+        """, (pokemon.number, pokemon.name, pokemon.hp))
+        con.commit()
+        rowcount = cur.rowcount
+        con.close()
+        return rowcount > 0
+    
+    def get_pokemons(self):
         con = self.get_connection()
         cur = con.cursor()
         cur.execute("SELECT * FROM pokemon")

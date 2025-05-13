@@ -1,5 +1,5 @@
 {
-    "server": "DOGZEN",
+    "server": "host.docker.internal",
     "database": "poquidex_pokemons",
     "username": "sa",
     "password": "aitva"

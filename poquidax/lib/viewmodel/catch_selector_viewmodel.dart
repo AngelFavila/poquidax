@@ -70,7 +70,7 @@ class CatchSelectorViewModel extends ChangeNotifier with ViewModelNavigator impl
   // Manda a la pantalla de atrapar pokemon
   // y le pasa el numero del pokemon seleccionado
   void selectPokemon(int index) {
-    final number = _filteredPokemons[index].number - 1;
+    final number = _filteredPokemons[index].number;
     navigateTo('/catch?number=$number');
   }
 

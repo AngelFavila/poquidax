@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokedax/providers/pokedex_provider.dart';
 import 'package:pokedax/viewmodel/catch_selector_viewmodel.dart';
-import 'package:pokedax/viewmodel/catch_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class CatchWidget extends StatefulWidget {// Add the ViewModel as a parameter
