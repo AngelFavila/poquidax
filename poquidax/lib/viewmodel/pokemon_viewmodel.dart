@@ -1,27 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:pokedax/model/pokemon.dart';
-import 'package:pokedax/view/widgets/catch/catch_form_view.dart';
+import 'package:pokedax/services/api_service.dart';
+import 'package:pokedax/view/widgets/pokemon/pokemon_widget.dart';
 import 'package:pokedax/viewmodel/base/pokedex_vm_interface.dart';
 import 'package:pokedax/viewmodel/base/viewmodel_navigator.dart';
-import 'package:pokedax/viewmodel/catch_selector_viewmodel.dart';
+import 'package:pokedax/viewmodel/home_viewmodel.dart';
 
 class PokemonViewModel extends ChangeNotifier
     with ViewModelNavigator
     implements PokedexVmInterface {
   @override
-  String secondaryScreenText = 'Stats de tu pokemon';
+  String secondaryScreenText = 'Cargando pokemon...';
 
   @override
-  Widget get screenContent => CatchFormView();
+  Widget get screenContent => PokemonWidget();
 
-  late Pokemon _pokemon;
-  Pokemon get pokemon => _pokemon;
+  Pokemon? _pokemon;
+  bool _isLoading = false;
+
+  Pokemon? get pokemon => _pokemon;
+  bool get isLoading => _isLoading;
+
   late int _selectedPokemonNumber;
   int get selectedPokemonNumber => _selectedPokemonNumber;
 
   @override
   void onBackButton() {
-    changeModelAndPop(CatchSelectorViewModel());
+    changeModelAndPop(HomeViewModel());
   }
 
   @override
@@ -43,8 +48,21 @@ class PokemonViewModel extends ChangeNotifier
     print("DPad Right pressed");
   }
 
-  void setSelectePokemonNumber(int index) {
+  Future<void> setSelectePokemonNumber(int index) async {
+    _isLoading = true;
+    notifyListeners();
+
     _selectedPokemonNumber = index;
+
+    try {
+      _pokemon = await ApiService().getPokemonByNumber(index);
+      secondaryScreenText = 'Especie:'+_pokemon!.name+'\nTipo:'+_pokemon!.type;
+    } catch (e) {
+      print("Failed to fetch pokemon: $e");
+    }
+
+    _isLoading = false;
+    notifyListeners();
   }
 
 }

@@ -28,16 +28,16 @@ final List<RouteBase> routesList = [
   GoRoute(
     path: '/catch',
     name: 'catch',
-    builder: (BuildContext context, GoRouterState state) {
-      final String? numberString = state.uri.queryParameters['number'];
-      final int? number = numberString != null ? int.tryParse(numberString) : null;
-
-      return PokedexTemplate();
-    },
+    builder: (BuildContext context, GoRouterState state) => PokedexTemplate(),
   ),
   GoRoute(
     path: '/catch_selector',
     name: 'catch_selector',
+    builder: (BuildContext context, GoRouterState state) => PokedexTemplate(),
+  ),
+  GoRoute(
+    path: '/pokemon',
+    name: 'pokemon',
     builder: (BuildContext context, GoRouterState state) => PokedexTemplate(),
   ),
 ];

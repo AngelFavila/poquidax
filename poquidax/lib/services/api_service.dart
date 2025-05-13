@@ -32,18 +32,23 @@ class ApiService {
     }
   }
 
-  Future<List<Pokemon>> getPokemonByNumber(int number) async {
+  Future<Pokemon> getPokemonByNumber(int number) async {
+  try {
     final client = _createUnsafeClient();
-    final response = await client.get(Uri.parse('$_baseUrl/pokemons?id=$uid'));
+    final response = await client.get(Uri.parse('$_baseUrl/get_pokemon?number=$number'));
 
     if (response.statusCode == 200) {
-      final List<dynamic> jsonList = jsonDecode(response.body);
-      
-      return jsonList.map((e) => Pokemon.fromJson(e as Map<String, dynamic>)).toList();
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      return Pokemon.fromJson(data);
     } else {
-      throw Exception('Failed to load pokemons');
+      throw Exception('Failed to load Pokémon: ${response.statusCode}');
     }
+  } catch (e) {
+    print('Error in getPokemonByNumber: $e'+e.toString());
+    rethrow; // or return a fallback Pokémon if desired
   }
+}
+
 
   Future<List<Pokemon>> getAllPokemons() async {
     final client = _createUnsafeClient();

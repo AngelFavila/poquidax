@@ -6,6 +6,7 @@ import 'package:pokedax/view/pokedex/pokedex_banner.dart';
 import 'package:pokedax/view/pokedex/widgets/dpad.dart';
 import 'package:pokedax/viewmodel/base/pokedex_vm_interface.dart';
 import 'package:pokedax/viewmodel/catch_viewmodel.dart';
+import 'package:pokedax/viewmodel/pokemon_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'widgets/pokedex_screen.dart';
 
@@ -30,12 +31,22 @@ class _PokedexTemplateState extends State<PokedexTemplate> {
     final numberStr = uri.queryParameters['number'];
     final viewModel = context.read<PokedexProvider>().viewModel;
 
+    // Si es la pantalla de atrapar, se obtiene el número del pokemon
     if (viewModel is CatchViewModel && numberStr != null) {
       final number = int.tryParse(numberStr);
       if (number != null) {
         viewModel.setSelectePokemonNumber(number);
       }
     }
+
+    // Si es la pantalla de Pokemon, se obtiene el número del pokemon
+    final number = int.tryParse(numberStr ?? '');
+  if (number != null && viewModel is PokemonViewModel) {
+    // Only call it if it's not already loaded
+    if (viewModel.pokemon?.number != number) {
+      Future.microtask(() => viewModel.setSelectePokemonNumber(number));
+    }
+  }
   }
 
   @override
@@ -114,7 +125,7 @@ class _PokedexTemplateState extends State<PokedexTemplate> {
       width: MediaQuery.of(context).size.width * 0.25,
       child: ElevatedButton(
         onPressed: () {
-          viewModel.onBackButton();
+          viewModel.onAcceptButton();
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xff2c6f95),
