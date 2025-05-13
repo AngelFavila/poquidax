@@ -44,6 +44,7 @@ class DPad extends StatelessWidget {
   }
 
   Widget _buildDPadButton(String direction, IconData icon) {
+
     return GestureDetector(
       onTap: () => {
         if(direction == "Up") { onUpPressed()}

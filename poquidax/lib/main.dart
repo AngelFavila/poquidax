@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokedax/config/router/app_router.dart';
-import 'package:pokedax/providers/user_provider.dart';
+import 'package:pokedax/providers/pokedex_provider.dart';
 import 'package:pokedax/services/firebase/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:pokedax/services/preferences_service.dart';
+import 'package:pokedax/viewmodel/session/login_viewmodel.dart';
+import 'package:pokedax/viewmodel/session/signup_viewModel.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
-  final container = ProviderContainer();
-  await container.read(userProvider.notifier).initializationFuture;
-  
+
+  // Initialize Firebase
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // Initialize Preferences Service
+  await PreferencesService().initialize();
+
   // Forzado a modo Retrato
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -20,46 +27,38 @@ void main() async {
   ]).then((_) async {
     // Forza la aplicación a pantalla completa
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-    await PreferencesService().initialize();
-    runApp(
-      const ProviderScope(
-        child: Main(),
-      ),
-    );
-  });
 
-  // Inicialización de Firebase
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+    runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => PokedexProvider()),
+        ChangeNotifierProvider(create: (_) => LoginViewModel()),
+        ChangeNotifierProvider(create: (_) => SignUpViewModel()),
+      ],
+      child: const Main(),
+    ));
+  });
 }
 
 // Widget inicial de la aplicación
 class Main extends StatelessWidget {
   const Main({super.key});
-  // ColorScheme de la aplicación
 
   @override
   Widget build(BuildContext context) {
+    final baseFontSize = MediaQuery.of(context).size.width / 30;
 
-    return Builder(
-      builder: (context) {
-        final baseFontSize = MediaQuery.of(context).size.width / 30;
-
-        return MaterialApp.router(
-          title: 'Poquidax',
-          debugShowCheckedModeBanner: false,
-          routerConfig: appRouter,
-          theme: ThemeData(
-            fontFamily: 'Jersey',
-            textTheme: TextTheme(
-              bodyLarge: TextStyle(fontSize: baseFontSize * 1.4),
-              bodyMedium: TextStyle(fontSize: baseFontSize * 1.2),
-              bodySmall: TextStyle(fontSize: baseFontSize),
-            ),
-          ),
-        );
-      },
+    return MaterialApp.router(
+      title: 'Pokedax',
+      debugShowCheckedModeBanner: false,
+      routerConfig: appRouter, // Make sure appRouter is defined elsewhere
+      theme: ThemeData(
+        fontFamily: 'Jersey',
+        textTheme: TextTheme(
+          bodyLarge: TextStyle(fontSize: baseFontSize * 1.4),
+          bodyMedium: TextStyle(fontSize: baseFontSize * 1.2),
+          bodySmall: TextStyle(fontSize: baseFontSize),
+        ),
+      ),
     );
   }
 }

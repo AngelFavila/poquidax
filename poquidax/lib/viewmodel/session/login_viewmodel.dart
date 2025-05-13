@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pokedax/providers/pokedex_provider.dart';
 import 'package:pokedax/services/firebase/auth_service.dart';
 import 'package:pokedax/services/navigation_service.dart';
 import 'package:pokedax/services/preferences_service.dart';
+import 'package:pokedax/viewmodel/home_viewmodel.dart';
+import 'package:provider/provider.dart';
 
-class LoginViewModel {
-  final WidgetRef ref;
+class LoginViewModel extends ChangeNotifier {
   // Variables privadas de email y contraseña
   String _email = '';
   String _password = '';
@@ -19,7 +20,7 @@ class LoginViewModel {
   ValueNotifier<String> get passwordNotifier => _passwordNotifier;
 
   // Constructor que recibe métodos
-  LoginViewModel(this.ref);
+  LoginViewModel();
 
   // Set público del email para poder cambiar el valor desde el view
   set email(String value) {
@@ -38,6 +39,8 @@ class LoginViewModel {
     String? uid = await AuthService()
         .verify_credentials(email: _email, password: _password);
     if (uid != null) {
+      final provider = Provider.of<PokedexProvider>(NavigationService.navigatorKey.currentContext!, listen: false);
+      provider.changeModel(HomeViewModel());
       await PreferencesService().setUUID(uid);
       NavigationService.push("/");
       print("Login successful, uid: $uid");

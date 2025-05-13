@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokedax/model/pokemon.dart';
 import 'package:pokedax/services/api_service.dart';
-import 'package:pokedax/services/navigation_service.dart';
 import 'package:pokedax/services/preferences_service.dart';
-import 'package:pokedax/viewmodel/pokedex_vm_interface.dart';
+import 'package:pokedax/view/widgets/home/main_menu_widget.dart';
+import 'package:pokedax/viewmodel/base/viewmodel_navigator.dart';
+import 'package:pokedax/viewmodel/base/pokedex_vm_interface.dart';
 
-class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
-  final Ref ref;
+class HomeViewModel extends ChangeNotifier with ViewModelNavigator implements PokedexVmInterface {
   void Function(int)? onSelectedIndexChanged;
-  
-  HomeViewModel(this.ref);
+  Widget _screenContent = MainMenuWidget();
+  Widget get screenContent => _screenContent;
+  @override
+  String secondaryScreenText = 'Selecciona una opción del menú';
 
+  int _selectedIndex = 0;
+  int get selectedIndex => _selectedIndex;
+  
   @override
   void onBackButton() {
     logOut();
@@ -21,9 +25,9 @@ class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
   void onAcceptButton() {
     print("Accept Button pressed");
     if (selectedIndex == 0) {
-      NavigationService.push('/selector');
+      navigateTo('/selector');
     } else if (selectedIndex == 1) {
-      NavigationService.push('/catch_selector');
+      navigateTo('/catch_selector');
     } else if (selectedIndex == 2) {
       logOut();
     }
@@ -33,6 +37,7 @@ class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
   void onDPadUp() {
     if (selectedIndex - 1 >= 0) {
       setSelectedIndex(selectedIndex - 1);
+      notifyListeners();
     }
   }
 
@@ -40,6 +45,7 @@ class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
   void onDPadDown() {
     if (selectedIndex + 1 <= 2) {
       setSelectedIndex(selectedIndex + 1);
+      notifyListeners();
     }
   }
 
@@ -55,23 +61,20 @@ class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
     print("DPad Right pressed");
   }
 
-  int _selectedIndex = 0;
-
+  // Metodos adicionales
   void setSelectedIndex(int index) {
     _selectedIndex = index;
-    notifyListeners();
+    print('HomeViewModel: setSelectedIndex to $_selectedIndex → notifying listeners');
     if (onSelectedIndexChanged != null) {
       onSelectedIndexChanged!(index);
     }
+    notifyListeners();
   }
-
-  int get selectedIndex => _selectedIndex;
 
   Future<void> logOut() async {
-    NavigationService.go('/login');
     await PreferencesService().clearUserData();
+    navigateTo('/login');
   }
 
-  @override
-  String secondaryScreenText = 'Selecciona una opción del menú';
+
 }

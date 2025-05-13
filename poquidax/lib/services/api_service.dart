@@ -15,6 +15,7 @@ class ApiService {
   http.Client _createUnsafeClient() {
     final ioClient = HttpClient()
       ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+    
     return IOClient(ioClient);
   }
 
@@ -24,6 +25,7 @@ class ApiService {
 
     if (response.statusCode == 200) {
       final List<dynamic> jsonList = jsonDecode(response.body);
+      
       return jsonList.map((e) => CustomPokemon.fromJson(e as Map<String, dynamic>)).toList();
     } else {
       throw Exception('Failed to load pokemons');

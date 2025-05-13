@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokedax/providers/scheme_provider.dart';
 import 'package:pokedax/view/pokedex/pokedex_banner.dart';
 import 'package:pokedax/view/session/painter/arrow_painter.dart';
 import 'package:pokedax/view/session/widgets/custom_text_field.dart';
 import 'package:pokedax/view/session/widgets/yellow_button.dart';
-import '../../viewmodel/login_viewmodel.dart';
+import 'package:provider/provider.dart';
+import '../../viewmodel/session/login_viewmodel.dart';
 
-class LoginView extends ConsumerStatefulWidget {
+class LoginView extends StatefulWidget {
   const LoginView({super.key});
 
   @override
-  ConsumerState<LoginView> createState() => _LoginViewState();
+  State<LoginView> createState() => _LoginViewState();
 }
 
-class _LoginViewState extends ConsumerState<LoginView> {
+class _LoginViewState extends State<LoginView> {
   late Size screenSize;
-  late LoginViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
     screenSize = MediaQuery.sizeOf(context);
-    viewModel = LoginViewModel(ref);
+    final viewModel = Provider.of<LoginViewModel>(context, listen: false);
 
     return Scaffold(
       backgroundColor: myColorScheme.primary,
@@ -40,7 +39,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                 width: double.infinity,
                 height: double.infinity,
                 alignment: Alignment.center,
-                child: _loginForm(),
+                child: _loginForm(viewModel),
               ),
             ),
           ],
@@ -49,7 +48,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
     );
   }
 
-  Stack _loginForm() {
+  Stack _loginForm(LoginViewModel viewModel) {
     return Stack(
       children: [
         Positioned.fill(
@@ -62,16 +61,16 @@ class _LoginViewState extends ConsumerState<LoginView> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               _title(),
-              SizedBox(height: 40),
-              _emailField(),
-              SizedBox(height: 10),
-              _passwordField(),
-              SizedBox(height: 10),
-              _loginButton(),
-              SizedBox(height: 10),
-              _signUpButton(),
+              const SizedBox(height: 40),
+              _emailField(viewModel),
+              const SizedBox(height: 10),
+              _passwordField(viewModel),
+              const SizedBox(height: 10),
+              _loginButton(viewModel),
+              const SizedBox(height: 10),
+              _signUpButton(viewModel),
             ],
           ),
         ),
@@ -88,7 +87,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
       style: TextStyle(
         fontSize: fontSize,
         color: Colors.yellow,
-        shadows: [
+        shadows: const [
           Shadow(
             blurRadius: 3.0,
             color: Colors.black,
@@ -99,7 +98,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
     );
   }
 
-  Widget _emailField() {
+  Widget _emailField(LoginViewModel viewModel) {
     Size customSize = Size(
       MediaQuery.of(context).size.width,
       MediaQuery.of(context).size.height * 0.04,
@@ -120,7 +119,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
     );
   }
 
-  Widget _passwordField() {
+  Widget _passwordField(LoginViewModel viewModel) {
     Size customSize = Size(
       MediaQuery.of(context).size.width,
       MediaQuery.of(context).size.height * 0.04,
@@ -141,7 +140,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
     );
   }
 
-  Widget _loginButton() {
+  Widget _loginButton(LoginViewModel viewModel) {
     return YellowButton(
       text: "Ingresar",
       onPressed: viewModel.handleLogin,
@@ -149,7 +148,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
     );
   }
 
-  Widget _signUpButton() {
+  Widget _signUpButton(LoginViewModel viewModel) {
     return YellowButton(
       text: "Crear Cuenta",
       onPressed: viewModel.goToSignUp,

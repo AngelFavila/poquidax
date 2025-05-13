@@ -1,58 +1,57 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/foundation.dart';
 import 'package:pokedax/model/app_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final userProvider = StateNotifierProvider<UserProvider, AppUser>(
-  (ref) => UserProvider(),
-);
-
-
-// Notifier del usuario que maneja el estado de la aplicación
-// y la persistencia de los datos del usuario en SharedPreferences
-class UserProvider extends StateNotifier<AppUser> {
+class UserProvider extends ChangeNotifier {
+  AppUser _user = AppUser(uuid: '', requestToken: '');
   late final Future<void> initializationFuture;
 
-  UserProvider() : super(AppUser(uuid: '', requestToken: '',)){
+  UserProvider() {
     initializationFuture = _initialize();
   }
 
-  Future<void> _loadUUID() async {
-    final prefs = await SharedPreferences.getInstance();
-    final savedUUID = prefs.getString('uuid') ?? '';
-    state = state.copyWith(uuid: savedUUID);
-  }
-  Future<void> _loadRequestToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    final savedToken = prefs.getString('token') ?? '';
-    state = state.copyWith(requestToken: savedToken);
-  }
-  
-  get requestToken => state.requestToken;
-  get uuid => state.uuid;
+  AppUser get user => _user;
+  String get uuid => _user.uuid;
+  String get requestToken => _user.requestToken;
 
   Future<void> _initialize() async {
     await _loadUUID();
     await _loadRequestToken();
   }
-  // Métodos para actualizar el estado del usuario y guardar los cambios en SharedPreferences
-  // Actualiza el UUID del usuario y lo guarda en SharedPreferences
+
+  Future<void> _loadUUID() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedUUID = prefs.getString('uuid') ?? '';
+    _user = _user.copyWith(uuid: savedUUID);
+    notifyListeners();
+  }
+
+  Future<void> _loadRequestToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedToken = prefs.getString('token') ?? '';
+    _user = _user.copyWith(requestToken: savedToken);
+    notifyListeners();
+  }
+
   Future<void> setUUID(String newUUID) async {
-    state = state.copyWith(uuid: newUUID);
+    _user = _user.copyWith(uuid: newUUID);
+    notifyListeners();
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('uuid', newUUID);
   }
 
   Future<void> setRequestToken(String token) async {
-    state = state.copyWith(requestToken: token);
+    _user = _user.copyWith(requestToken: token);
+    notifyListeners();
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('token', token);
   }
 
-  // Método para borrar los datos de usuario del estado y SharedPreferences
   Future<void> clearUserData() async {
-    state = state.copyWith(uuid: '', requestToken: '');
+    _user = _user.copyWith(uuid: '', requestToken: '');
+    notifyListeners();
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('uuid');  // Remove the UUID from SharedPreferences
-    await prefs.remove('token');  // Remove the token from SharedPreferences
+    await prefs.remove('uuid');
+    await prefs.remove('token');
   }
 }
