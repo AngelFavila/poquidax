@@ -36,11 +36,8 @@ class MainMenuWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<PokedexProvider>(
       builder: (context, pokedexProvider, child) {
-        final viewModel = pokedexProvider.viewModel as HomeViewModel;
-        final screenSize = pokedexProvider.screenSize;
-
-        print('MainMenuWidget: building — selected index ${viewModel.selectedIndex}');
-
+        final screenSize = MediaQuery.of(context).size;;
+        
         return Container(
           width: screenSize.width,
           height: screenSize.height,

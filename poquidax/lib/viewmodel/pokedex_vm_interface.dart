@@ -1,4 +1,9 @@
-abstract class PokedexVmInterface {
+import 'package:flutter/widgets.dart';
+
+abstract class PokedexVmInterface extends ChangeNotifier {
+  late Widget	_screenContent;	
+  Widget get screenContent=>_screenContent;
+
   late String _secondaryScreenText;
 
   String get secondaryScreenText => _secondaryScreenText;

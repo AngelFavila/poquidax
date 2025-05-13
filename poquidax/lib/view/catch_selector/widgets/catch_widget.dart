@@ -22,7 +22,7 @@ class _CatchState extends State<CatchWidget> {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<PokedexProvider>().viewModel as CatchSelectorViewModel;
-    final screenSize = context.watch<PokedexProvider>().screenSize;
+    final screenSize = MediaQuery.of(context).size;
 
     return Container(
       width: screenSize.width,

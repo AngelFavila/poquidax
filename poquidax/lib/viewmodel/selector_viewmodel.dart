@@ -4,7 +4,9 @@ import 'package:pokedax/viewmodel/pokedex_vm_interface.dart';
 
 class SelectorViewModel extends ChangeNotifier implements PokedexVmInterface{
 
-  SelectorViewModel();
+  SelectorViewModel() {
+    this.screenContent = Placeholder();
+  }
 
   @override
   void onBackButton() {
@@ -42,6 +44,13 @@ class SelectorViewModel extends ChangeNotifier implements PokedexVmInterface{
   @override
   // TODO: implement screenContent
   Widget get screenContent => throw UnimplementedError();
+  
+  @override
+  set screenContent(Widget value) {
+    // TODO: implement screenContent
+  }
+  
+
   
   
 }

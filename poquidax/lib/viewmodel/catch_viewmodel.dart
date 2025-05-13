@@ -8,12 +8,11 @@ class CatchViewModel extends ChangeNotifier implements PokedexVmInterface {
 
   @override
   void onBackButton() {
-    NavigationService.go('/');
+    NavigationService.pop();
   }
 
   @override
   void onAcceptButton() {
-    // TODO: implement onAcceptButton
   }
 
   @override
@@ -40,4 +39,5 @@ class CatchViewModel extends ChangeNotifier implements PokedexVmInterface {
   @override
   // TODO: implement screenContent
   Widget get screenContent => throw UnimplementedError();
+  
 }

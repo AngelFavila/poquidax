@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:pokedax/model/pokemon.dart';
+import 'package:pokedax/providers/pokedex_provider.dart';
 import 'package:pokedax/services/api_service.dart';
 import 'package:pokedax/services/navigation_service.dart';
 import 'package:pokedax/services/preferences_service.dart';
+import 'package:pokedax/view/home/widgets/main_menu_widget.dart';
+import 'package:pokedax/viewmodel/catch_selector_viewmodel.dart';
 import 'package:pokedax/viewmodel/pokedex_vm_interface.dart';
+import 'package:provider/provider.dart';
 
 class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
   void Function(int)? onSelectedIndexChanged;
-  
-  HomeViewModel() {
-    notifyListeners();
-  }
+  Widget _screenContent = MainMenuWidget();
+  Widget get screenContent => _screenContent;
 
   @override
   void onBackButton() {
@@ -23,6 +25,8 @@ class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
     if (selectedIndex == 0) {
       NavigationService.push('/selector');
     } else if (selectedIndex == 1) {
+      final provider = Provider.of<PokedexProvider>(NavigationService.navigatorKey.currentContext!, listen: false);
+      provider.changeModel(CatchSelectorViewModel());
       NavigationService.push('/catch_selector');
     } else if (selectedIndex == 2) {
       logOut();
@@ -77,5 +81,4 @@ class HomeViewModel extends ChangeNotifier implements PokedexVmInterface {
 
   @override
   String secondaryScreenText = 'Selecciona una opción del menú';
-  
 }

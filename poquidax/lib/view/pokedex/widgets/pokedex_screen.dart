@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:pokedax/providers/pokedex_provider.dart';
 import 'package:pokedax/view/pokedex/painters/cut_corner_painter.dart';
-import 'package:pokedax/viewmodel/pokedex_vm_interface.dart';
+import 'package:provider/provider.dart';
 
 class PokedexScreen extends StatelessWidget {
   final Size screenSize;
-  final Widget screenContent;
-  final PokedexVmInterface viewModel;
 
   PokedexScreen.pokedexScreen({
     super.key,
-    required this.screenContent,
     required this.screenSize,
-    required this.viewModel,
   });
 
 @override
 Widget build(BuildContext context) {
+
+  final viewModel = context.watch<PokedexProvider>().viewModel;
+  
   return SizedBox(
     width: screenSize.width,
     height: screenSize.height,
@@ -33,7 +33,7 @@ Widget build(BuildContext context) {
                 painter: CutCornerPainter(),
               ),
               // Panel of the pokedex (screen content)
-              pokedexPanel(screenContent, screenSize),
+              pokedexPanel(viewModel.screenContent, screenSize),
             ],
           ),
         ),

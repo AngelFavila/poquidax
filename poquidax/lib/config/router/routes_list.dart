@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pokedax/providers/pokedex_provider.dart';
-import 'package:pokedax/view/catch_selector/widgets/catch_widget.dart';
-import 'package:pokedax/view/home/widgets/main_menu_widget.dart';
+import 'package:pokedax/view/pokedex/pokedex_template.dart';
 import 'package:pokedax/view/pokedex/pokedex_view.dart';
 import 'package:pokedax/view/selector/selector_view.dart';
 import 'package:pokedax/view/session/login_view.dart';
@@ -18,13 +17,11 @@ final List<RouteBase> routesList = [
     builder: (BuildContext context, GoRouterState state) {
       return Consumer<PokedexProvider>(
         builder: (context, pokedexProvider, child) {
-          // Ensure the ViewModel is updated after the build phase
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            pokedexProvider.ensureModel(HomeViewModel(), MainMenuWidget());
-            pokedexProvider.screenSize = MediaQuery.of(context).size;
-          });
+          // WidgetsBinding.instance.addPostFrameCallback((_) {
+          //   context.read<PokedexProvider>().changeModel(HomeViewModel());
+          // });
 
-          return PokedexView();
+          return PokedexTemplate();
         },
       );
     },
@@ -52,29 +49,18 @@ final List<RouteBase> routesList = [
       final int? number =
           numberString != null ? int.tryParse(numberString) : null;
 
-      return Consumer<PokedexProvider>(
-        builder: (context, pokedexProvider, child) {
-          pokedexProvider.changeModel(CatchSelectorViewModel(), CatchWidget());
-          pokedexProvider.screenSize = MediaQuery.of(context).size;
-
-          return PokedexView();
-        },
-      );
+      return PokedexView();
     },
   ),
   GoRoute(
     path: '/catch_selector',
     name: 'catch_selector',
     builder: (BuildContext context, GoRouterState state) {
-      return Consumer<PokedexProvider>(
-        builder: (context, pokedexProvider, child) {
-          pokedexProvider.changeModel(
-              CatchSelectorViewModel(), CatchWidget());
-          pokedexProvider.screenSize = MediaQuery.of(context).size;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        context.read<PokedexProvider>().changeModel(CatchSelectorViewModel());
+      });
 
-          return PokedexView();
-        },
-      );
+      return PokedexView();
     },
   ),
 ];

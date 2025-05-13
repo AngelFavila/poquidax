@@ -20,9 +20,7 @@ class SelectorView extends StatelessWidget {
               width: screenSize.width,
               height: screenSize.height,
               alignment: Alignment.center,
-              child: PokedexTemplate(// Se asigna el ViewModel al PokedexView
-                screenSize: screenSize,
-              ),
+              child: PokedexTemplate(),
             ),
           );
         },

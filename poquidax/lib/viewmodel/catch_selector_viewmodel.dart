@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:pokedax/model/pokemon.dart';
+import 'package:pokedax/providers/pokedex_provider.dart';
 import 'package:pokedax/services/api_service.dart';
 import 'package:pokedax/services/navigation_service.dart';
+import 'package:pokedax/view/catch_selector/widgets/catch_widget.dart';
+import 'package:pokedax/viewmodel/home_viewmodel.dart';
 import 'package:pokedax/viewmodel/pokedex_vm_interface.dart';
+import 'package:provider/provider.dart';
 
 class CatchSelectorViewModel extends ChangeNotifier
   implements PokedexVmInterface {
@@ -19,6 +23,8 @@ class CatchSelectorViewModel extends ChangeNotifier
 
   @override
   void onBackButton() {
+    final provider = Provider.of<PokedexProvider>(NavigationService.navigatorKey.currentContext!, listen: false);
+      provider.changeModel(HomeViewModel());
     NavigationService.pop();
     notifyListeners();
   }
@@ -79,6 +85,6 @@ class CatchSelectorViewModel extends ChangeNotifier
   String secondaryScreenText = 'Selecciona un pokemon para atrapar';
   
   @override
-  // TODO: implement screenContent
-  Widget get screenContent => throw UnimplementedError();
+  Widget get screenContent => CatchWidget();
+
 }

@@ -4,58 +4,34 @@ import 'package:pokedax/viewmodel/pokedex_vm_interface.dart';
 
 class PokedexProvider extends ChangeNotifier {
   late PokedexVmInterface _viewModel;
-  late Widget _screenContent;
-
   late VoidCallback _viewModelListener;
 
   PokedexVmInterface get viewModel => _viewModel;
-  Widget get screenContent => _screenContent;
-
-  Size screenSize = const Size(0, 0); 
 
   PokedexProvider() {
-    _viewModel = DummyViewModel();  
-    _screenContent = const Placeholder(); 
-    
-    _viewModelListener = () {
-      notifyListeners();
-    };
+    _viewModel = DummyViewModel();
+    _viewModelListener = () => notifyListeners();
+    _viewModel.addListener(_viewModelListener);
   }
 
-  void changeModel(PokedexVmInterface newModel, Widget newScreenContent) {
-    print("changeModel called with newModel: ${newModel.runtimeType}");
-    // Remove the listener from the old model if it's a ChangeNotifier
-    if (_viewModel is ChangeNotifier) {
-      (_viewModel as ChangeNotifier).removeListener(_viewModelListener);
-    }
+  void changeModel(PokedexVmInterface newModel) {
+  if (_viewModel.runtimeType == newModel.runtimeType) return; // ✅ Prevent unnecessary change
 
-    // Assign the new model and screen content
-    _viewModel = newModel;
-    _screenContent = newScreenContent;
+  print("changeModel called with newModel: ${newModel.runtimeType}");
 
-    // Add the listener to the new model if it's a ChangeNotifier
-    if (_viewModel is ChangeNotifier) {
-      (_viewModel as ChangeNotifier).addListener(_viewModelListener);
-    }
+  _viewModel.removeListener(_viewModelListener);
+  _viewModel = newModel;
+  _viewModel.addListener(_viewModelListener);
 
-    // Notify listeners immediately
+  WidgetsBinding.instance.addPostFrameCallback((_) {
     notifyListeners();
-  }
-
-  void ensureModel(PokedexVmInterface vm, Widget content) {
-    print("ensureModel called with vm: ${vm.runtimeType}");
-    final sameVM = _viewModel.runtimeType == vm.runtimeType;
-    final sameContent = _screenContent.runtimeType == content.runtimeType;
-
-    // Only update if the VM or content has actually changed
-    if (!sameVM || !sameContent) {
-      _viewModel = vm;
-      _screenContent = content;
-      
-      // Notify listeners immediately
-      notifyListeners();
-    }
-  }
+  });
 }
 
 
+  @override
+  void dispose() {
+    _viewModel.removeListener(_viewModelListener);
+    super.dispose();
+  }
+}
