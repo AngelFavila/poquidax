@@ -78,8 +78,9 @@ class CatchSelectorViewModel extends ChangeNotifier with ViewModelNavigator impl
   // y devuelve una lista de pokemones filtrados o la lista completa
   List<Pokemon> filterPokemons(String query) {
     notifyListeners();
+    _filteredPokemons = query.isEmpty ? _pokemons : _isNotEmptyFilterPokemons(query);
 
-    return query.isEmpty ? _pokemons : _isNotEmptyFilterPokemons(query);
+    return filteredPokemons;
   }
 
   // Filtra los pokemones por nombre
