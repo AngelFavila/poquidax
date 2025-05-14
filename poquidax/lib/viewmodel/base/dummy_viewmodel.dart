@@ -6,7 +6,7 @@ class DummyViewModel extends ChangeNotifier implements PokedexVmInterface {
   String secondaryScreenText = "Dummy Screen";
 
   @override
-  Widget screenContent = Placeholder(); 
+  Widget screenContent = Expanded(child: Container(color: Colors.black, ),); 
   
   @override
   void onBackButton() {

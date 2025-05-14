@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokedax/providers/pokedex_provider.dart';
+import 'package:pokedax/view/widgets/pokemon/pokemon_image_loader.dart';
 import 'package:pokedax/viewmodel/pokemon_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -14,16 +15,19 @@ class PokemonWidget extends StatelessWidget {
         final pokemon = viewModel.pokemon;
 
         if (pokemon == null) {
-          return const Center(child: CircularProgressIndicator());
+          return 
+          Expanded(
+          child: Container(
+            color: Colors.black, 
+            child: Center(child: CircularProgressIndicator(color: Colors.white,))
+          ),
+        );
         }
 
         return Expanded(
           child: Container(
             color: Colors.black, 
-            child: Image.network(
-              pokemon.sprite,
-              fit: BoxFit.contain,
-            ),
+            child: PokemonImageLoader(imageUrl: pokemon.sprite)
           ),
         );
       },
