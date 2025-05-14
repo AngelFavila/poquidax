@@ -3,10 +3,11 @@ import 'package:pokedax/providers/pokedex_provider.dart';
 import 'package:pokedax/services/firebase/auth_service.dart';
 import 'package:pokedax/services/navigation_service.dart';
 import 'package:pokedax/services/preferences_service.dart';
+import 'package:pokedax/viewmodel/base/viewmodel_navigator.dart';
 import 'package:pokedax/viewmodel/home_viewmodel.dart';
 import 'package:provider/provider.dart';
 
-class LoginViewModel extends ChangeNotifier {
+class LoginViewModel extends ChangeNotifier with ViewModelNavigator{
   // Variables privadas de email y contraseña
   String _email = '';
   String _password = '';
@@ -36,13 +37,12 @@ class LoginViewModel extends ChangeNotifier {
 
   // Dispara al método callback en el MainViewModel y le regresa un booleano con la prueba de las credenciales
   Future<void> handleLogin() async {
-    String? uid = await AuthService()
-        .verify_credentials(email: _email, password: _password);
+    String? uid = await AuthService().verify_credentials(email: _email, password: _password);
     if (uid != null) {
       final provider = Provider.of<PokedexProvider>(NavigationService.navigatorKey.currentContext!, listen: false);
       provider.changeModel(HomeViewModel());
       await PreferencesService().setUUID(uid);
-      NavigationService.push("/");
+      navigateTo("/");
       print("Login successful, uid: $uid");
     }
   }

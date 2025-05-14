@@ -1,34 +1,30 @@
 import requests
 
-api_url = "https://pokeapi.co/api/v2/pokemon/" #pokemon ui
+api_url = "https://pokeapi.co/api/v2/pokemon/"
+
 class Pokemon:
-    def __init__(self,id,name,sprite,types,weight,hp,attack,speed):
-        self.id = id
+    def __init__(self, number, name, sprite, type, hp):
+        self.number = number
         self.name = name
         self.sprite = sprite
-        self.types = types
-        self.weight = weight
+        self.type = type
         self.hp = hp
-        self.attack = attack
-        self.speed = speed
 
-def get_pokemon_json_by_id(id):
+def get_pokemon_by_id(id):
     """
-    Retrieves a Pokemon's Information based on it's number ID.
+    Fetches the Pokémon from the API and returns a Pokemon object.
     """
-    response = requests.get(f'{api_url}{id}')
-    if response == 'Not Found': 
-        return
-    return response.json()
-
-def get_pokemon_by_id(id): 
-    json = get_pokemon_json_by_id(id)
-    if json is None:
+    try:
+        response = requests.get(f'{api_url}{id}', timeout=5)
+        if response.status_code != 200:
+            return None
+        json = response.json()
+    except (requests.exceptions.RequestException, requests.exceptions.JSONDecodeError) as e:
+        print(f"[ERROR] Failed to get or decode data for ID {id}: {e}")
         return None
 
     name = json["name"]
-    main_type = json["types"][0]["type"]["name"]  # First type
+    main_type = json["types"][0]["type"]["name"]
     hp = next(stat["base_stat"] for stat in json["stats"] if stat["stat"]["name"] == "hp")
-
-    pokemon = Pokemon(id, name, None, main_type, None, hp, None, None)
-    return pokemon
+    sprite = json["sprites"]["front_default"]
+    return Pokemon(number=id, name=name, sprite=sprite, type=main_type, hp=hp)
