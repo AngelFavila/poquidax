@@ -34,7 +34,6 @@ class CatchSelectorViewModel extends ChangeNotifier with ViewModelNavigator impl
   void onBackButton() {
     // Regresa al menú principal con un pop
     changeModelAndPop(HomeViewModel());
-    notifyListeners();
   }
 
   @override

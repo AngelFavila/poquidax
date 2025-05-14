@@ -14,49 +14,107 @@ class ApiService {
 
   http.Client _createUnsafeClient() {
     final ioClient = HttpClient()
-      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
-    
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+
     return IOClient(ioClient);
   }
 
+  //Obtiene los Pokémon de un usuario específico por su UID
   Future<List<CustomPokemon>> getPokemonsByUID(String uid) async {
     final client = _createUnsafeClient();
     final response = await client.get(Uri.parse('$_baseUrl/pokemons?id=$uid'));
 
     if (response.statusCode == 200) {
       final List<dynamic> jsonList = jsonDecode(response.body);
-      
-      return jsonList.map((e) => CustomPokemon.fromJson(e as Map<String, dynamic>)).toList();
+
+      return jsonList
+          .map((e) => CustomPokemon.fromJson(e as Map<String, dynamic>))
+          .toList();
     } else {
       throw Exception('Failed to load pokemons');
     }
   }
 
-  Future<Pokemon> getPokemonByNumber(int number) async {
-  try {
+  // Guarda un Pokémon específico del usuario
+  Future<void> savePokemon(CustomPokemon pokemon) async {
     final client = _createUnsafeClient();
-    final response = await client.get(Uri.parse('$_baseUrl/get_pokemon?number=$number'));
+    final url = Uri.parse('$_baseUrl/user_pokemon/add_custom');
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.body);
-      return Pokemon.fromJson(data);
-    } else {
-      throw Exception('Failed to load Pokémon: ${response.statusCode}');
+    final response = await client.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(pokemon.toJson()),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to save pokemon');
     }
-  } catch (e) {
-    print('Error in getPokemonByNumber: $e'+e.toString());
-    rethrow; // or return a fallback Pokémon if desired
   }
-}
 
+  // Actualiza un Pokémon específico del usuario
+  Future<void> updatePokemon(CustomPokemon pokemon) async {
+    final client = _createUnsafeClient();
+    final url = Uri.parse('$_baseUrl/user_pokemon/modify_custom');
 
+    final response = await client.put(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(pokemon.toJson()),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to save pokemon');
+    }
+  }
+
+  // Elimina un Pokémon específico del usuario
+  Future<void> removePokemon(CustomPokemon pokemon) async {
+    final client = _createUnsafeClient();
+    final url = Uri.parse('$_baseUrl/user_pokemon/delete_custom');
+
+    final response = await client.delete(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(pokemon.toJson()),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to save pokemon');
+    }
+  }
+
+  // Obtiene la información de un Pokémon específico por su número
+  Future<Pokemon> getPokemonByNumber(int number) async {
+    try {
+      final client = _createUnsafeClient();
+      final response =
+          await client.get(Uri.parse('$_baseUrl/get_pokemon?number=$number'));
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = jsonDecode(response.body);
+
+        return Pokemon.fromJson(data);
+      } else {
+        throw Exception('Failed to load Pokémon: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error in getPokemonByNumber: $e' + e.toString());
+      rethrow;
+    }
+  }
+
+  // Obtiene el listado completo de Pokémon
   Future<List<Pokemon>> getAllPokemons() async {
     final client = _createUnsafeClient();
     final response = await client.get(Uri.parse('$_baseUrl/get_cache'));
 
     if (response.statusCode == 200) {
       final List<dynamic> jsonList = jsonDecode(response.body);
-      return jsonList.map((e) =>Pokemon.fromJson(e as Map<String, dynamic>)).toList();
+
+      return jsonList
+          .map((e) => Pokemon.fromJson(e as Map<String, dynamic>))
+          .toList();
     } else {
       throw Exception('Failed to load pokemons');
     }

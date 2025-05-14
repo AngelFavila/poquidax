@@ -5,8 +5,6 @@ import 'package:pokedax/providers/pokedex_provider.dart';
 import 'package:pokedax/services/firebase/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:pokedax/services/preferences_service.dart';
-import 'package:pokedax/viewmodel/session/login_viewmodel.dart';
-import 'package:pokedax/viewmodel/session/signup_viewModel.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -31,8 +29,6 @@ void main() async {
     runApp(MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => PokedexProvider()),
-        ChangeNotifierProvider(create: (_) => LoginViewModel()),
-        ChangeNotifierProvider(create: (_) => SignUpViewModel()),
       ],
       child: const Main(),
     ));

@@ -20,6 +20,7 @@ class PokedexProvider extends ChangeNotifier {
   print("changeModel called with newModel: ${newModel.runtimeType}");
 
   _viewModel.removeListener(_viewModelListener);
+  _viewModel.dispose();
   _viewModel = newModel;
   _viewModel.addListener(_viewModelListener);
 

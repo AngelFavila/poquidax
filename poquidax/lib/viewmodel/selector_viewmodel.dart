@@ -35,7 +35,6 @@ class SelectorViewModel extends ChangeNotifier with ViewModelNavigator implement
   void onBackButton() {
     // Regresa al menú principal con un pop
     changeModelAndPop(HomeViewModel());
-    notifyListeners();
   }
 
   @override

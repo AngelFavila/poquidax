@@ -35,4 +35,13 @@ class CustomPokemon {
       _ => throw const FormatException('Failed to load pokemon.'),
     };
   }
+
+  Map<String, dynamic> toJson() => {
+        'user': user,
+        'id': id,
+        'number': number,
+        'name': name,
+        'level': level,
+        'hp': hp,
+      };
 }

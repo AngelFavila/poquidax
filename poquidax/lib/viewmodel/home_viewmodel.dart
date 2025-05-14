@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedax/model/custom_pokemon.dart';
 import 'package:pokedax/model/pokemon.dart';
 import 'package:pokedax/services/api_service.dart';
 import 'package:pokedax/services/preferences_service.dart';
@@ -57,8 +58,9 @@ class HomeViewModel extends ChangeNotifier with ViewModelNavigator implements Po
   }
 
   @override
-  void onDPadRight() {
+  Future<void> onDPadRight() async {
     print("DPad Right pressed");
+    await ApiService().removePokemon(CustomPokemon(user: PreferencesService().uuid, id: 3, number: 8, name: 'Vulvasaurio cambiado', level: 5, hp: 20));
   }
 
   // Metodos adicionales

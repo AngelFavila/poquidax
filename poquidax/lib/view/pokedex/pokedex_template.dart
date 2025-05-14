@@ -121,7 +121,7 @@ class _PokedexTemplateState extends State<PokedexTemplate> {
 
   Widget _acceptButton(PokedexVmInterface viewModel) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.25,
+      width: MediaQuery.of(context).size.width * 0.3,
       child: ElevatedButton(
         onPressed: () {
           viewModel.onAcceptButton();
@@ -130,7 +130,7 @@ class _PokedexTemplateState extends State<PokedexTemplate> {
           backgroundColor: const Color(0xff2c6f95),
           foregroundColor: Colors.white,
           textStyle: const TextStyle(
-            fontSize: 20,
+            fontSize: 25,
             fontFamily: 'Jersey',
           ),
         ),
@@ -141,7 +141,7 @@ class _PokedexTemplateState extends State<PokedexTemplate> {
 
   Widget _backButton(PokedexVmInterface viewModel) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.25,
+      width: MediaQuery.of(context).size.width * 0.3,
       child: ElevatedButton(
         onPressed: () {
           viewModel.onBackButton();
@@ -150,7 +150,7 @@ class _PokedexTemplateState extends State<PokedexTemplate> {
           backgroundColor: const Color(0xFF901825),
           foregroundColor: Colors.white,
           textStyle: const TextStyle(
-            fontSize: 20, // adjust size as needed
+            fontSize: 25, // adjust size as needed
             fontFamily: 'Jersey',
           ),
         ),

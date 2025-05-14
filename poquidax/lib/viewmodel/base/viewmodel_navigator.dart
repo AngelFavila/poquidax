@@ -31,6 +31,13 @@ mixin ViewModelNavigator {
     NavigationService.push(route);
   }
 
+  void goTo(String route) {
+    final viewModel = _viewModelForRoute(route);
+    changeModel(viewModel);
+    // Cambia el viewmodel y hace push
+    NavigationService.go(route);
+  }
+
   // Determina el viewmodel dependiendo de la ruta
   PokedexVmInterface _viewModelForRoute(String route) {
   // Extrae el path de la ruta, ignorando los parámetros de consulta

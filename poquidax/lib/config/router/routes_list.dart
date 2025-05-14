@@ -3,22 +3,33 @@ import 'package:go_router/go_router.dart';
 import 'package:pokedax/view/pokedex/pokedex_template.dart';
 import 'package:pokedax/view/session/login_view.dart';
 import 'package:pokedax/view/session/signup_view.dart';
+import 'package:pokedax/viewmodel/session/login_viewmodel.dart';
+import 'package:pokedax/viewmodel/session/signup_viewModel.dart';
+import 'package:provider/provider.dart';
 
 final List<RouteBase> routesList = [
   GoRoute(
     path: '/',
     name: 'home',
-    builder: (BuildContext context, GoRouterState state)  => PokedexTemplate(),
+    builder: (BuildContext context, GoRouterState state) => PokedexTemplate(),
   ),
   GoRoute(
     path: '/login',
     name: 'login',
-    builder: (BuildContext context, GoRouterState state) => LoginView(),
+    builder: (BuildContext context, GoRouterState state) =>
+        ChangeNotifierProvider(
+      create: (_) => LoginViewModel(),
+      child: LoginView(),
+    ),
   ),
   GoRoute(
     path: '/signup',
     name: 'signup',
-    builder: (BuildContext context, GoRouterState state) => SignUpView(),
+    builder: (BuildContext context, GoRouterState state) =>
+        ChangeNotifierProvider(
+      create: (_) => SignUpViewModel(),
+      child: SignUpView(),
+    ),
   ),
   GoRoute(
     path: '/selector',
