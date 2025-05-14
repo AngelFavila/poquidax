@@ -41,12 +41,11 @@ class _PokedexTemplateState extends State<PokedexTemplate> {
 
     // Si es la pantalla de Pokemon, se obtiene el número del pokemon
     final number = int.tryParse(numberStr ?? '');
-  if (number != null && viewModel is PokemonViewModel) {
-    // Only call it if it's not already loaded
-    if (viewModel.pokemon?.number != number) {
-      Future.microtask(() => viewModel.setSelectePokemonNumber(number));
+    if (number != null && viewModel is PokemonViewModel) {
+      if (viewModel.pokemon?.number != number) {
+        Future.microtask(() => viewModel.setSelectePokemonNumber(number));
+      }
     }
-  }
   }
 
   @override
