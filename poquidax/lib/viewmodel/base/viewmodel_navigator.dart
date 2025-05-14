@@ -6,6 +6,7 @@ import 'package:pokedax/viewmodel/catch_selector_viewmodel.dart';
 import 'package:pokedax/viewmodel/catch_viewmodel.dart';
 import 'package:pokedax/viewmodel/home_viewmodel.dart';
 import 'package:pokedax/viewmodel/pokemon_viewmodel.dart';
+import 'package:pokedax/viewmodel/selector_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 mixin ViewModelNavigator {
@@ -44,6 +45,8 @@ mixin ViewModelNavigator {
       return CatchViewModel();
     case '/pokemon':
       return PokemonViewModel();
+    case '/selector':
+      return SelectorViewModel();
     default:
       return DummyViewModel();
   }

@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:pokedax/model/pokemon.dart';
 import 'package:pokedax/services/api_service.dart';
+import 'package:pokedax/view/helpers/string_helper.dart';
 import 'package:pokedax/view/widgets/pokemon/pokemon_widget.dart';
 import 'package:pokedax/viewmodel/base/pokedex_vm_interface.dart';
 import 'package:pokedax/viewmodel/base/viewmodel_navigator.dart';
 import 'package:pokedax/viewmodel/home_viewmodel.dart';
 
 class PokemonViewModel extends ChangeNotifier
-    with ViewModelNavigator
+    with ViewModelNavigator, StringHelper
     implements PokedexVmInterface {
   @override
-  String secondaryScreenText = 'Cargando pokemon...';
+  String secondaryScreenText = '';
 
   @override
   Widget get screenContent => PokemonWidget();
@@ -56,7 +57,7 @@ class PokemonViewModel extends ChangeNotifier
 
     try {
       _pokemon = await ApiService().getPokemonByNumber(index);
-      secondaryScreenText = 'Especie:'+_pokemon!.name+'\nTipo:'+_pokemon!.type;
+      secondaryScreenText = 'Especie:'+formatAsTitle(pokemon!.name)+'\nTipo:'+formatAsTitle(_pokemon!.type);
     } catch (e) {
       print("Failed to fetch pokemon: $e");
     }

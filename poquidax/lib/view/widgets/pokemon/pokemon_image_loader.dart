@@ -22,11 +22,17 @@ class _PokemonImageLoaderState extends State<PokemonImageLoader> {
       precacheImage(AssetImage('assets/animations/pokeball.gif'), context)
           .then((_) {
         Future.delayed(Duration(milliseconds: 1400), () {
-          setState(() => _stage = 1); // white screen
-          Future.delayed(Duration(milliseconds: 200), () {
-            setState(() => _stage = 2); // yellow screen
-            Future.delayed(Duration(milliseconds: 200), () {
-              setState(() => _stage = 3); // final image
+          setState(() => _stage = 1);
+          Future.delayed(Duration(milliseconds: 100), () {
+            setState(() => _stage = 2);
+            Future.delayed(Duration(milliseconds: 100), () {
+              setState(() => _stage = 3);
+              Future.delayed(Duration(milliseconds: 100), () {
+                setState(() => _stage = 4);
+                Future.delayed(Duration(milliseconds: 100), () {
+                  setState(() => _stage = 5);
+                });
+              });
             });
           });
         });
@@ -50,6 +56,11 @@ class _PokemonImageLoaderState extends State<PokemonImageLoader> {
         content = Container(color: Colors.yellow);
         break;
       case 3:
+        content = Container(color: Colors.orange);
+        break;
+      case 4:
+        content = Container(color: Colors.yellow);
+        break;
       default:
         content = Image.network(widget.imageUrl, fit: BoxFit.contain);
     }

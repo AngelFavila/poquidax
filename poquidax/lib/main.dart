@@ -50,7 +50,7 @@ class Main extends StatelessWidget {
     return MaterialApp.router(
       title: 'Pokedax',
       debugShowCheckedModeBanner: false,
-      routerConfig: appRouter, // Make sure appRouter is defined elsewhere
+      routerConfig: appRouter,
       theme: ThemeData(
         fontFamily: 'Jersey',
         textTheme: TextTheme(

@@ -53,13 +53,13 @@ class DPad extends StatelessWidget {
         else if(direction == "Right") { onRightPressed() },
       },
       child: Container(
-        width: size * 0.4,
-        height: size * 0.4,
+        width: size * 0.35,
+        height: size * 0.35,
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.transparent
+          shape: BoxShape.rectangle,
+          color: Colors.transparent,
         ),
-        child: Icon(icon, color: Colors.grey.shade900),
+        child: Icon(icon, color: Colors.grey.shade700),
       ),
     );
   }
@@ -76,10 +76,18 @@ class DPadPainter extends CustomPainter {
 
     double centerX = size.width / 2;
     double centerY = size.width / 2;
-    double buttonSize = size.width*0.17;
+    double buttonSize = size.width * 0.17;
+    double borderRadius = 11.0; 
 
-    path.addRect(Rect.fromLTWH(centerX - buttonSize, 0, buttonSize * 2, size.height));
-    path.addRect(Rect.fromLTWH(0, centerY - buttonSize, size.width, buttonSize * 2));
+    path.addRRect(RRect.fromRectAndRadius(
+      Rect.fromLTWH(centerX - buttonSize, 0, buttonSize * 2, size.height),
+      Radius.circular(borderRadius),
+    ));
+
+    path.addRRect(RRect.fromRectAndRadius(
+      Rect.fromLTWH(0, centerY - buttonSize, size.width, buttonSize * 2),
+      Radius.circular(borderRadius),
+    ));
 
     canvas.drawPath(path, paint);
   }

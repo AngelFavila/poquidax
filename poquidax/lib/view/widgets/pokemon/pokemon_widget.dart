@@ -11,15 +11,13 @@ class PokemonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<PokedexProvider>(
       builder: (context, pokedexProvider, child) {
-        final viewModel =
-            context.watch<PokedexProvider>().viewModel as PokemonViewModel;
+        final viewModel = context.watch<PokedexProvider>().viewModel as PokemonViewModel;
         final pokemon = viewModel.pokemon;
 
         if (pokemon == null) {
           return Container(
             color: Colors.black,
-            child:
-                Center(child: CircularProgressIndicator(color: Colors.white)),
+            // child: Center(child: CircularProgressIndicator(color: Colors.white)),
           );
         }
 

@@ -18,6 +18,7 @@ class CatchSelectorViewModel extends ChangeNotifier with ViewModelNavigator impl
   List<Pokemon> _filteredPokemons = [];
   get filteredPokemons => _filteredPokemons;
   var selectedIndex;
+  var focusedIndex = 0;
 
   CatchSelectorViewModel() {
     _init();
@@ -38,23 +39,42 @@ class CatchSelectorViewModel extends ChangeNotifier with ViewModelNavigator impl
 
   @override
   void onAcceptButton() {
-    navigateTo('/catch');
+    if (focusedIndex == -1) return;
+    if (_filteredPokemons.isEmpty) return;
+    final number = _filteredPokemons[focusedIndex].number;
+    navigateTo('/catch?number=$number');
   }
 
   @override
-  void onDPadUp(){}
+  void onDPadUp(){
+    if(focusedIndex > 0) {
+      focusedIndex--;
+      notifyListeners();
+    }
+  }
 
   @override
-  void onDPadDown() {}
+  void onDPadDown() {
+    if(focusedIndex < _filteredPokemons.length - 1) {
+      focusedIndex++;
+      notifyListeners();
+    }
+  }
 
   @override
   void onDPadLeft() {
-    print("DPad Left pressed");
+    if(focusedIndex > 0) {
+      focusedIndex--;
+      notifyListeners();
+    }
   }
 
   @override
   void onDPadRight() {
-    print("DPad Right pressed");
+    if(focusedIndex < _filteredPokemons.length - 1) {
+      focusedIndex++;
+      notifyListeners();
+    }
   }
 
   // Metodos adicionales
@@ -77,6 +97,7 @@ class CatchSelectorViewModel extends ChangeNotifier with ViewModelNavigator impl
   // Filtra los pokemones por nombre si el query no está vacío
   // y devuelve una lista de pokemones filtrados o la lista completa
   List<Pokemon> filterPokemons(String query) {
+    focusedIndex = 0;
     _filteredPokemons = query.isEmpty ? _pokemons : _isNotEmptyFilterPokemons(query);
     notifyListeners();
     

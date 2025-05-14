@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:pokedax/providers/pokedex_provider.dart';
 import 'package:pokedax/view/helpers/string_helper.dart';
 import 'package:pokedax/viewmodel/catch_selector_viewmodel.dart';
+import 'package:pokedax/viewmodel/selector_viewmodel.dart';
 import 'package:provider/provider.dart';
 
-class CatchWidget extends StatefulWidget {
-  CatchWidget();
+class SelectorWidget extends StatefulWidget {
+  SelectorWidget();
 
   @override
-  _CatchState createState() => _CatchState();
+  _SelectorState createState() => _SelectorState();
 }
 
-class _CatchState extends State<CatchWidget> with StringHelper {
+class _SelectorState extends State<SelectorWidget> with StringHelper {
   final controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
@@ -29,7 +30,7 @@ class _CatchState extends State<CatchWidget> with StringHelper {
   @override
   Widget build(BuildContext context) {
     final viewModel =
-        context.watch<PokedexProvider>().viewModel as CatchSelectorViewModel;
+        context.watch<PokedexProvider>().viewModel as SelectorViewModel;
     final screenSize = MediaQuery.of(context).size;
 
     // Scroll to the focused index if necessary
@@ -87,8 +88,7 @@ class _CatchState extends State<CatchWidget> with StringHelper {
   }
 
   TextField SearchBarWidget() {
-    final viewModel =
-        context.read<PokedexProvider>().viewModel as CatchSelectorViewModel;
+    final viewModel = context.read<PokedexProvider>().viewModel as SelectorViewModel;
 
     return TextField(
       controller: controller,

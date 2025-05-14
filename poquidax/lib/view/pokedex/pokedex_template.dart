@@ -170,7 +170,10 @@ class _PokedexTemplateState extends State<PokedexTemplate> {
           child: Container(
             width: MediaQuery.of(context).size.width * 0.4,
             height: MediaQuery.of(context).size.width * 0.4,
-            color: Colors.green,
+            decoration: BoxDecoration(
+              color: Colors.green,
+              borderRadius: BorderRadius.circular(20),
+            ),
             child: Center(
               child: Text(
                 viewModel.secondaryScreenText,

@@ -25,7 +25,7 @@ class HomeViewModel extends ChangeNotifier with ViewModelNavigator implements Po
   void onAcceptButton() {
     print("Accept Button pressed");
     if (selectedIndex == 0) {
-      navigateTo('/pokemon?number=25');
+      navigateTo('/selector');
     } else if (selectedIndex == 1) {
       navigateTo('/catch_selector');
     } else if (selectedIndex == 2) {
