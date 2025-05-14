@@ -51,15 +51,13 @@ class _PokemonImageLoaderState extends State<PokemonImageLoader> {
         break;
       case 3:
       default:
-        content = SizedBox.expand(
-          child: Image.network(widget.imageUrl, fit: BoxFit.contain),
-        );
+        content = Image.network(widget.imageUrl, fit: BoxFit.contain);
     }
 
     return SizedBox.expand(
       child: AnimatedSwitcher(
         duration: Duration(milliseconds: 200),
-        child: content,
+        child: SizedBox.expand(child: content),
       ),
     );
   }
