@@ -2,6 +2,7 @@ import 'package:pokedax/providers/pokedex_provider.dart';
 import 'package:pokedax/services/navigation_service.dart';
 import 'package:pokedax/viewmodel/base/dummy_viewmodel.dart';
 import 'package:pokedax/viewmodel/base/pokedex_vm_interface.dart';
+import 'package:pokedax/viewmodel/catch_form_viewmodel.dart';
 import 'package:pokedax/viewmodel/catch_selector_viewmodel.dart';
 import 'package:pokedax/viewmodel/catch_viewmodel.dart';
 import 'package:pokedax/viewmodel/home_viewmodel.dart';
@@ -40,23 +41,25 @@ mixin ViewModelNavigator {
 
   // Determina el viewmodel dependiendo de la ruta
   PokedexVmInterface _viewModelForRoute(String route) {
-  // Extrae el path de la ruta, ignorando los parámetros de consulta
-  String path = route.contains('?') ? route.substring(0, route.indexOf('?')) : route;
+    // Extrae el path de la ruta, ignorando los parámetros de consulta
+    String path =
+        route.contains('?') ? route.substring(0, route.indexOf('?')) : route;
 
-  switch (path) {
-    case '/':
-      return HomeViewModel();
-    case '/catch_selector':
-      return CatchSelectorViewModel();
-    case '/catch':
-      return CatchViewModel();
-    case '/pokemon':
-      return PokemonViewModel();
-    case '/selector':
-      return SelectorViewModel();
-    default:
-      return DummyViewModel();
+    switch (path) {
+      case '/':
+        return HomeViewModel();
+      case '/catch_selector':
+        return CatchSelectorViewModel();
+      case '/catch':
+        return CatchViewModel();
+      case '/pokemon':
+        return PokemonViewModel();
+      case '/selector':
+        return SelectorViewModel();
+      case '/catch_form':
+        return CatchFormViewmodel();
+      default:
+        return DummyViewModel();
+    }
   }
-}
-
 }

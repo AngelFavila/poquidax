@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokedax/providers/pokedex_provider.dart';
 import 'package:pokedax/view/helpers/string_helper.dart';
-import 'package:pokedax/viewmodel/catch_selector_viewmodel.dart';
 import 'package:pokedax/viewmodel/selector_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -36,12 +35,13 @@ class _SelectorState extends State<SelectorWidget> with StringHelper {
     // Scroll to the focused index if necessary
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (viewModel.focusedIndex != -1) {
-        _scrollToIndex(viewModel.focusedIndex, itemHeight: screenSize.width*.12);
+        _scrollToIndex(viewModel.focusedIndex,
+            itemHeight: screenSize.width * .12);
       }
     });
 
     return Container(
-      width: screenSize.width*.8,
+      width: screenSize.width * .8,
       height: screenSize.height,
       color: Colors.white,
       child: Column(
@@ -55,7 +55,7 @@ class _SelectorState extends State<SelectorWidget> with StringHelper {
                 final pokemon = viewModel.filteredPokemons[index];
 
                 return SizedBox(
-                  height: screenSize.width*.12,
+                  height: screenSize.width * .12,
                   child: GestureDetector(
                     onTap: () {
                       viewModel.selectPokemon(index);
@@ -73,11 +73,12 @@ class _SelectorState extends State<SelectorWidget> with StringHelper {
                         ),
                       ),
                       child: ListTile(
-                        title: Text(formatAsTitle(pokemon.name), 
+                        title: Text(formatAsTitle(pokemon.name),
                             style: TextStyle(
                                 fontSize: screenSize.height * .024,
                                 color: Colors.black)),
-                        contentPadding: EdgeInsets.all(16), // Adjust padding as needed
+                        contentPadding:
+                            EdgeInsets.all(16), // Adjust padding as needed
                       ),
                     ),
                   ),
@@ -91,7 +92,8 @@ class _SelectorState extends State<SelectorWidget> with StringHelper {
   }
 
   TextField SearchBarWidget() {
-    final viewModel = context.read<PokedexProvider>().viewModel as SelectorViewModel;
+    final viewModel =
+        context.read<PokedexProvider>().viewModel as SelectorViewModel;
 
     return TextField(
       controller: controller,
@@ -106,13 +108,12 @@ class _SelectorState extends State<SelectorWidget> with StringHelper {
   }
 
   void _scrollToIndex(int index, {double itemHeight = 60.0}) {
-  double offset = itemHeight * index; 
-  
-  _scrollController.animateTo(
-    offset,
-    duration: Duration(milliseconds: 200),
-    curve: Curves.easeInOut,
-  );
-}
+    double offset = itemHeight * index;
 
+    _scrollController.animateTo(
+      offset,
+      duration: Duration(milliseconds: 200),
+      curve: Curves.easeInOut,
+    );
+  }
 }
