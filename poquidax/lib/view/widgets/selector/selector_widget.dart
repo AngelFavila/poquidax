@@ -73,7 +73,10 @@ class _SelectorState extends State<SelectorWidget> with StringHelper {
                         ),
                       ),
                       child: ListTile(
-                        title: Text(formatAsTitle(pokemon.name)),
+                        title: Text(formatAsTitle(pokemon.name), 
+                            style: TextStyle(
+                                fontSize: screenSize.height * .024,
+                                color: Colors.black)),
                         contentPadding: EdgeInsets.all(16), // Adjust padding as needed
                       ),
                     ),
