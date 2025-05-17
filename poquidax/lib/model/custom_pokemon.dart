@@ -1,12 +1,12 @@
 class CustomPokemon {
-  final String user;
-  final int id;
-  final int number;
-  final String name;
-  final int level;
-  final int hp;
+  String user;
+  int id;
+  int number;
+  String name;
+  int level;
+  int hp;
 
-  const CustomPokemon(
+  CustomPokemon(
       {required this.user,
       required this.id,
       required this.number,

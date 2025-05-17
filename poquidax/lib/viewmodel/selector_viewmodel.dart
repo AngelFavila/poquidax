@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pokedax/model/custom_pokemon.dart';
 import 'package:pokedax/model/pokemon.dart';
 import 'package:pokedax/services/api_service.dart';
+import 'package:pokedax/services/preferences_service.dart';
 import 'package:pokedax/view/widgets/selector/selector_widget.dart';
 import 'package:pokedax/viewmodel/base/pokedex_vm_interface.dart';
 import 'package:pokedax/viewmodel/base/viewmodel_navigator.dart';
@@ -14,10 +16,10 @@ class SelectorViewModel extends ChangeNotifier with ViewModelNavigator implement
   @override
   Widget get screenContent => SelectorWidget();
   
-  List<Pokemon> _pokemons = [];
-  get pokemons => _pokemons;
-  List<Pokemon> _filteredPokemons = [];
-  get filteredPokemons => _filteredPokemons;
+  List<CustomPokemon> _customPokemons = [];
+  get pokemons => _customPokemons;
+  List<CustomPokemon> _filteredCustomPokemons = [];
+  get filteredPokemons => _filteredCustomPokemons;
   var selectedIndex;
   var focusedIndex = 0;
 
@@ -27,7 +29,7 @@ class SelectorViewModel extends ChangeNotifier with ViewModelNavigator implement
 
   Future<void> _init() async {
     await getPokemons();
-    _filteredPokemons = _pokemons;
+    _filteredCustomPokemons = _customPokemons;
   }
 
   // Metodos de la interfaz
@@ -40,8 +42,8 @@ class SelectorViewModel extends ChangeNotifier with ViewModelNavigator implement
   @override
   void onAcceptButton() {
     if (focusedIndex == -1) return;
-    if (_filteredPokemons.isEmpty) return;
-    final number = _filteredPokemons[focusedIndex].number;
+    if (_filteredCustomPokemons.isEmpty) return;
+    final number = _filteredCustomPokemons[focusedIndex].number;
     navigateTo('/pokemon?number=$number');
   }
 
@@ -55,7 +57,7 @@ class SelectorViewModel extends ChangeNotifier with ViewModelNavigator implement
 
   @override
   void onDPadDown() {
-    if(focusedIndex < _filteredPokemons.length - 1) {
+    if(focusedIndex < _filteredCustomPokemons.length - 1) {
       focusedIndex++;
       notifyListeners();
     }
@@ -71,43 +73,44 @@ class SelectorViewModel extends ChangeNotifier with ViewModelNavigator implement
 
   @override
   void onDPadRight() {
-    if(focusedIndex < _filteredPokemons.length - 1) {
+    if(focusedIndex < _filteredCustomPokemons.length - 1) {
       focusedIndex++;
       notifyListeners();
     }
   }
 
   // Metodos adicionales
-  Future<List<Pokemon>> getPokemons() async {
-    if (_pokemons.isEmpty) {
-      _pokemons = await ApiService().getAllPokemons();
+  Future<List<CustomPokemon>> getPokemons() async {
+    String uid = await PreferencesService().uuid;
+    if (_customPokemons.isEmpty) {
+      _customPokemons = await ApiService().getPokemonsByUID(uid);
     }
     notifyListeners();
 
-    return _pokemons;
+    return _customPokemons;
   }
 
   // Manda a la pantalla de atrapar pokemon
   // y le pasa el numero del pokemon seleccionado
   void selectPokemon(int index) {
-    final number = _filteredPokemons[index].number;
+    final number = _filteredCustomPokemons[index].number;
     navigateTo('/pokemon?number=$number');
   }
 
   // Filtra los pokemones por nombre si el query no está vacío
   // y devuelve una lista de pokemones filtrados o la lista completa
-  List<Pokemon> filterPokemons(String query) {
+  List<CustomPokemon> filterPokemons(String query) {
     focusedIndex = 0;
-    _filteredPokemons = query.isEmpty ? _pokemons : _isNotEmptyFilterPokemons(query);
+    _filteredCustomPokemons = query.isEmpty ? _customPokemons : _isNotEmptyFilterPokemons(query);
     notifyListeners();
     
-    return _filteredPokemons;
+    return _filteredCustomPokemons;
   }
 
   // Filtra los pokemones por nombre
   // y devuelve una lista de pokemones filtrados
-  List<Pokemon> _isNotEmptyFilterPokemons(String query) {
-    return _pokemons.where((pokemon) {
+  List<CustomPokemon> _isNotEmptyFilterPokemons(String query) {
+    return _customPokemons.where((pokemon) {
       return pokemon.name.toLowerCase().contains(query.toLowerCase());
     }).toList();
   }

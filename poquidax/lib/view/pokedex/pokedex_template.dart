@@ -5,8 +5,8 @@ import 'package:pokedax/providers/scheme_provider.dart';
 import 'package:pokedax/view/pokedex/pokedex_banner.dart';
 import 'package:pokedax/view/pokedex/widgets/dpad.dart';
 import 'package:pokedax/viewmodel/base/pokedex_vm_interface.dart';
-import 'package:pokedax/viewmodel/catch_viewmodel.dart';
 import 'package:pokedax/viewmodel/pokemon_viewmodel.dart';
+import 'package:pokedax/viewmodel/catch_form_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'widgets/pokedex_screen.dart';
 
@@ -18,10 +18,7 @@ class PokedexTemplate extends StatefulWidget {
 }
 
 class _PokedexTemplateState extends State<PokedexTemplate> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  final Map<String, int> _initializedNumbers = {};
 
   @override
   void didChangeDependencies() {
@@ -29,24 +26,31 @@ class _PokedexTemplateState extends State<PokedexTemplate> {
 
     final uri = GoRouterState.of(context).uri;
     final numberStr = uri.queryParameters['number'];
+    final number = int.tryParse(numberStr ?? '');
     final viewModel = context.read<PokedexProvider>().viewModel;
 
-    // Si es la pantalla de atrapar, se obtiene el número del pokemon
-    if (viewModel is CatchViewModel && numberStr != null) {
-      final number = int.tryParse(numberStr);
-      if (number != null) {
-        viewModel.setSelectePokemonNumber(number);
+    if (number == null) return;
+
+    // CatchFormViewModel case
+    if (viewModel is CatchFormViewModel) {
+      if (_initializedNumbers['catch'] != number &&
+          viewModel.pokemon?.number != number) {
+        _initializedNumbers['catch'] = number;
+        Future.microtask(() => viewModel.setSelectePokemonNumber(number));
       }
     }
 
-    // Si es la pantalla de Pokemon, se obtiene el número del pokemon
-    final number = int.tryParse(numberStr ?? '');
-    if (number != null && viewModel is PokemonViewModel) {
-      if (viewModel.pokemon?.number != number) {
+    // PokemonViewModel case
+    if (viewModel is PokemonViewModel) {
+      if (_initializedNumbers['pokemon'] != number &&
+          viewModel.pokemon?.number != number) {
+        _initializedNumbers['pokemon'] = number;
         Future.microtask(() => viewModel.setSelectePokemonNumber(number));
       }
     }
   }
+
+  
 
   @override
   Widget build(BuildContext context) {

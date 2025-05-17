@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pokedax/view/pokedex/pokedex_template.dart';
 import 'package:pokedax/view/session/login_view.dart';
 import 'package:pokedax/view/session/signup_view.dart';
+import 'package:pokedax/viewmodel/catch_form_viewmodel.dart';
 import 'package:pokedax/viewmodel/session/login_viewmodel.dart';
 import 'package:pokedax/viewmodel/session/signup_viewModel.dart';
 import 'package:provider/provider.dart';
@@ -37,10 +38,19 @@ final List<RouteBase> routesList = [
     builder: (BuildContext context, GoRouterState state) => PokedexTemplate(),
   ),
   GoRoute(
-    path: '/catch',
-    name: 'catch',
-    builder: (BuildContext context, GoRouterState state) => PokedexTemplate(),
-  ),
+  path: '/catch',
+  name: 'catch',
+  builder: (BuildContext context, GoRouterState state) {
+    final numberStr = state.uri.queryParameters['number'];
+    final number = int.tryParse(numberStr ?? '');
+
+    return ChangeNotifierProvider(
+      create: (_) => CatchFormViewModel()..setSelectePokemonNumber(number ?? 1),
+      child: const PokedexTemplate(),
+    );
+  },
+),
+
   GoRoute(
     path: '/catch_selector',
     name: 'catch_selector',

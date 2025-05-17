@@ -4,7 +4,6 @@ import 'package:pokedax/viewmodel/base/dummy_viewmodel.dart';
 import 'package:pokedax/viewmodel/base/pokedex_vm_interface.dart';
 import 'package:pokedax/viewmodel/catch_form_viewmodel.dart';
 import 'package:pokedax/viewmodel/catch_selector_viewmodel.dart';
-import 'package:pokedax/viewmodel/catch_viewmodel.dart';
 import 'package:pokedax/viewmodel/home_viewmodel.dart';
 import 'package:pokedax/viewmodel/pokemon_viewmodel.dart';
 import 'package:pokedax/viewmodel/selector_viewmodel.dart';
@@ -50,14 +49,12 @@ mixin ViewModelNavigator {
         return HomeViewModel();
       case '/catch_selector':
         return CatchSelectorViewModel();
-      case '/catch':
-        return CatchViewModel();
       case '/pokemon':
         return PokemonViewModel();
       case '/selector':
         return SelectorViewModel();
-      case '/catch_form':
-        return CatchFormViewmodel();
+      case '/catch':
+        return CatchFormViewModel();
       default:
         return DummyViewModel();
     }

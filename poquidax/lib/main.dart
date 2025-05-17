@@ -47,6 +47,7 @@ class Main extends StatelessWidget {
       title: 'Pokedax',
       debugShowCheckedModeBanner: false,
       routerConfig: appRouter,
+      
       theme: ThemeData(
         fontFamily: 'Jersey',
         textTheme: TextTheme(

@@ -23,7 +23,7 @@ class ApiService {
   //Obtiene los Pokémon de un usuario específico por su UID
   Future<List<CustomPokemon>> getPokemonsByUID(String uid) async {
     final client = _createUnsafeClient();
-    final response = await client.get(Uri.parse('$_baseUrl/pokemons?id=$uid'));
+    final response = await client.get(Uri.parse('$_baseUrl/user_pokemons?id=$uid'));
 
     if (response.statusCode == 200) {
       final List<dynamic> jsonList = jsonDecode(response.body);
