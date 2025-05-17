@@ -11,7 +11,7 @@ class CatchFormViewModel extends ChangeNotifier
     with ViewModelNavigator
     implements PokedexVmInterface {
   @override
-  String secondaryScreenText = 'Atrapa un pokemon';
+  Widget secondaryScreenWidget = Text('Atrapa un pokemon');
 
   Pokemon? _pokemon;
   Pokemon? get pokemon => _pokemon;
@@ -41,13 +41,20 @@ class CatchFormViewModel extends ChangeNotifier
   }
 
   @override
-  void onAcceptButton() {
-    // TODO: implement onAcceptButton
+  Future<void> onAcceptButton() async {
+    _isLoading = true;
+    notifyListeners();
+    await Future.wait([
+      ApiService().savePokemon(_customPokemon!),
+      Future.delayed(Duration(milliseconds: 2000)),
+    ]);
+
+    navigateTo('/selector');
   }
 
   @override
   void onBackButton() {
-    navigateTo('/catch_selector');	
+    navigateTo('/catch_selector');
   }
 
   @override
@@ -75,18 +82,20 @@ class CatchFormViewModel extends ChangeNotifier
   Widget get screenContent => CatchFormView();
 
   Future<void> setSelectePokemonNumber(int number) async {
-    _isLoading = true;
-    notifyListeners();
-
     try {
       _pokemon = await ApiService().getPokemonByNumber(number);
-      _customPokemon = CustomPokemon(user: _userUid, id:-1, number: number, name:'', level: 1, hp: _pokemon!.hp);
+      _customPokemon = CustomPokemon(
+          user: _userUid,
+          id: -1,
+          number: number,
+          name: '',
+          level: 1,
+          hp: _pokemon!.hp);
       notifyListeners();
     } catch (e) {
       print("Failed to fetch pokemon: $e");
     }
 
-    _isLoading = false;
     notifyListeners();
   }
 
@@ -101,7 +110,8 @@ class CatchFormViewModel extends ChangeNotifier
     }
     print(_customPokemon!.name);
     notifyListeners();
-  } 
+  }
+
   void setCustomPokemonLevel(int level) {
     if (_customPokemon != null) {
       _customPokemon!.level = level;
@@ -109,4 +119,8 @@ class CatchFormViewModel extends ChangeNotifier
     print(_customPokemon!.level);
     notifyListeners();
   }
+
+  @override
+  // TODO: implement secondaryScreenContent
+  Widget get secondaryScreenContent => Text('Atrapa un pokemon');
 }

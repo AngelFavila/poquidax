@@ -42,12 +42,15 @@ class _PokedexTemplateState extends State<PokedexTemplate> {
 
     // PokemonViewModel case
     if (viewModel is PokemonViewModel) {
-      if (_initializedNumbers['pokemon'] != number &&
-          viewModel.pokemon?.number != number) {
-        _initializedNumbers['pokemon'] = number;
-        Future.microtask(() => viewModel.setSelectePokemonNumber(number));
-      }
-    }
+  final userStr = uri.queryParameters['uid'];
+  if (userStr != null &&
+      _initializedNumbers['pokemon'] != number &&
+      viewModel.pokemon?.number != number) {
+    _initializedNumbers['pokemon'] = number;
+    Future.microtask(() => viewModel.setSelectePokemonNumber(number, userStr));
+  }
+}
+
   }
 
   
@@ -178,11 +181,11 @@ class _PokedexTemplateState extends State<PokedexTemplate> {
               color: Colors.green,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Center(
-              child: Text(
-                viewModel.secondaryScreenText,
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.black),
+            child: Padding(
+              padding: EdgeInsets.all(
+                  MediaQuery.of(context).size.width * 0.03),
+              child: Center(
+                child: viewModel.secondaryScreenContent,
               ),
             ),
           ),

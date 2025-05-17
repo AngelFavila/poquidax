@@ -12,7 +12,7 @@ class HomeViewModel extends ChangeNotifier with ViewModelNavigator implements Po
   Widget _screenContent = MainMenuWidget();
   Widget get screenContent => _screenContent;
   @override
-  String secondaryScreenText = 'Selecciona una opción del menú';
+  Widget secondaryScreenContent = Text('Selecciona una opción del menú');
 
   int _selectedIndex = 0;
   int get selectedIndex => _selectedIndex;
@@ -76,6 +76,11 @@ class HomeViewModel extends ChangeNotifier with ViewModelNavigator implements Po
   Future<void> logOut() async {
     await PreferencesService().clearUserData();
     navigateTo('/login');
+  }
+  
+  @override
+  set secondaryScreenWidget(Widget value) {
+    // TODO: implement secondaryScreenWidget
   }
 
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pokedax/model/custom_pokemon.dart';
-import 'package:pokedax/model/pokemon.dart';
 import 'package:pokedax/services/api_service.dart';
 import 'package:pokedax/services/preferences_service.dart';
 import 'package:pokedax/view/widgets/selector/selector_widget.dart';
@@ -11,7 +10,7 @@ import 'package:pokedax/viewmodel/home_viewmodel.dart';
 class SelectorViewModel extends ChangeNotifier with ViewModelNavigator implements PokedexVmInterface{
 
    @override
-  String secondaryScreenText = 'Selecciona un pokemon para atrapar';
+  Widget secondaryScreenContent = Text('Selecciona un pokemon para atrapar');
   
   @override
   Widget get screenContent => SelectorWidget();
@@ -43,8 +42,7 @@ class SelectorViewModel extends ChangeNotifier with ViewModelNavigator implement
   void onAcceptButton() {
     if (focusedIndex == -1) return;
     if (_filteredCustomPokemons.isEmpty) return;
-    final number = _filteredCustomPokemons[focusedIndex].number;
-    navigateTo('/pokemon?number=$number');
+    selectPokemon(focusedIndex);
   }
 
   @override
@@ -93,8 +91,8 @@ class SelectorViewModel extends ChangeNotifier with ViewModelNavigator implement
   // Manda a la pantalla de atrapar pokemon
   // y le pasa el numero del pokemon seleccionado
   void selectPokemon(int index) {
-    final number = _filteredCustomPokemons[index].number;
-    navigateTo('/pokemon?number=$number');
+    final number = _filteredCustomPokemons[index].id;
+    navigateTo('/pokemon?number=$number&uid=${_filteredCustomPokemons[index].user}');
   }
 
   // Filtra los pokemones por nombre si el query no está vacío
@@ -114,5 +112,11 @@ class SelectorViewModel extends ChangeNotifier with ViewModelNavigator implement
       return pokemon.name.toLowerCase().contains(query.toLowerCase());
     }).toList();
   }
+  
+  @override
+  set secondaryScreenWidget(Widget value) {
+    // TODO: implement secondaryScreenWidget
+  }
+
   
 }

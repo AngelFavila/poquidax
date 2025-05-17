@@ -17,7 +17,6 @@ class PokemonWidget extends StatelessWidget {
         if (pokemon == null) {
           return Container(
             color: Colors.black,
-            // child: Center(child: CircularProgressIndicator(color: Colors.white)),
           );
         }
 

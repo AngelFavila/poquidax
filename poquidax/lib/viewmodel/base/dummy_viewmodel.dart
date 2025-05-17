@@ -3,7 +3,7 @@ import 'package:pokedax/viewmodel/base/pokedex_vm_interface.dart';
 
 class DummyViewModel extends ChangeNotifier implements PokedexVmInterface {
   @override
-  String secondaryScreenText = "Dummy Screen";
+  Widget secondaryScreenContent = Text("Dummy Screen");
 
   @override
   Widget screenContent = Expanded(child: Container(color: Colors.black, ),); 
@@ -42,5 +42,10 @@ class DummyViewModel extends ChangeNotifier implements PokedexVmInterface {
   void onDPadRight() {
     print("DPad Right pressed");
     notifyListeners();
+  }
+  
+  @override
+  set secondaryScreenWidget(Widget value) {
+    // TODO: implement secondaryScreenWidget
   }
 }

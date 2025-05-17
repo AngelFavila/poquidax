@@ -4,11 +4,13 @@ abstract class PokedexVmInterface extends ChangeNotifier{
   late Widget	_screenContent;	
   Widget get screenContent=>_screenContent;
 
-  late String _secondaryScreenText;
+  late Widget _secondaryScreenContent;
 
-  String get secondaryScreenText => _secondaryScreenText;
+  Widget get secondaryScreenContent => _secondaryScreenContent;
 
-  set secondaryScreenText(String value);
+  set secondaryScreenWidget(Widget value) {
+    _secondaryScreenContent = value;
+  }
 
   // Remove the screenContent management from the ViewModel
   void onBackButton();

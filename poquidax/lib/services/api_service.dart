@@ -36,6 +36,33 @@ class ApiService {
     }
   }
 
+  Future<CustomPokemon?> fetchByIdAndUser(int id, String user) async {
+  final client = _createUnsafeClient();
+  final response = await client.get(Uri.parse('$_baseUrl/user_pokemons?id=$user'));
+
+  if (response.statusCode == 200) {
+    final List<dynamic> jsonList = jsonDecode(response.body);
+
+    final match = jsonList.firstWhere(
+      (item) => item['id'] == id && item['user'] == user,
+      orElse: () => null,
+    );
+
+    if (match != null) {
+      return CustomPokemon(
+        user: match['user'],
+        id: match['id'],
+        number: match['number'],
+        name: match['name'],
+        level: match['level'],
+        hp: match['hp'],
+      );
+    }
+  }
+
+  return null;
+}
+
   // Guarda un Pokémon específico del usuario
   Future<void> savePokemon(CustomPokemon pokemon) async {
     final client = _createUnsafeClient();

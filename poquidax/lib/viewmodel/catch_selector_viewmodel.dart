@@ -8,7 +8,7 @@ import 'package:pokedax/viewmodel/base/pokedex_vm_interface.dart';
 
 class CatchSelectorViewModel extends ChangeNotifier with ViewModelNavigator implements PokedexVmInterface {
   @override
-  String secondaryScreenText = 'Selecciona un pokemon para atrapar';
+  Widget secondaryScreenContent = Text('Selecciona un pokemon para atrapar');
   
   @override
   Widget get screenContent => CatchWidget();
@@ -109,6 +109,11 @@ class CatchSelectorViewModel extends ChangeNotifier with ViewModelNavigator impl
     return _pokemons.where((pokemon) {
       return pokemon.name.toLowerCase().contains(query.toLowerCase());
     }).toList();
+  }
+  
+  @override
+  set secondaryScreenWidget(Widget value) {
+    // TODO: implement secondaryScreenWidget
   }
 
 }

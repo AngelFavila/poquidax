@@ -40,6 +40,25 @@ class CutCornerPainter extends CustomPainter {
       radius,
       circlePaint,
     );
+
+    double borderRadius = 11.0; 
+    path = Path();
+    paint.color = Color.fromARGB(206, 43, 45, 46); // Border color
+    path.addRRect(RRect.fromRectAndRadius(
+      Rect.fromLTWH(size.width *.73,size.height*.83, size.width *.13, size.height*.025),
+      Radius.circular(borderRadius),
+    ));
+
+    path.addRRect(RRect.fromRectAndRadius(
+      Rect.fromLTWH(size.width *.73,size.height*.87, size.width *.13, size.height*.025),
+      Radius.circular(borderRadius),
+    ));
+    path.addRRect(RRect.fromRectAndRadius(
+      Rect.fromLTWH(size.width *.73,size.height*.91, size.width *.13, size.height*.025),
+      Radius.circular(borderRadius),
+    ));
+
+    canvas.drawPath(path, paint);
   }
 
   @override
