@@ -7,14 +7,15 @@ import 'package:pokedax/viewmodel/base/pokedex_vm_interface.dart';
 import 'package:pokedax/viewmodel/base/viewmodel_navigator.dart';
 import 'package:pokedax/viewmodel/home_viewmodel.dart';
 
-class SelectorViewModel extends ChangeNotifier with ViewModelNavigator implements PokedexVmInterface{
-
-   @override
+class SelectorViewModel extends ChangeNotifier
+    with ViewModelNavigator
+    implements PokedexVmInterface {
+  @override
   Widget secondaryScreenContent = Text('Selecciona un pokemon para atrapar');
-  
+
   @override
   Widget get screenContent => SelectorWidget();
-  
+
   List<CustomPokemon> _customPokemons = [];
   get pokemons => _customPokemons;
   List<CustomPokemon> _filteredCustomPokemons = [];
@@ -46,35 +47,33 @@ class SelectorViewModel extends ChangeNotifier with ViewModelNavigator implement
   }
 
   @override
-  void onDPadUp(){
-    if(focusedIndex > 0) {
-      focusedIndex--;
-      notifyListeners();
-    }
+  void onDPadUp() {
+    if (_filteredCustomPokemons.isEmpty) return;
+    focusedIndex = (focusedIndex - 1 + _filteredCustomPokemons.length) %
+        _filteredCustomPokemons.length;
+    notifyListeners();
   }
 
   @override
   void onDPadDown() {
-    if(focusedIndex < _filteredCustomPokemons.length - 1) {
-      focusedIndex++;
-      notifyListeners();
-    }
+    if (_filteredCustomPokemons.isEmpty) return;
+    focusedIndex = (focusedIndex + 1) % _filteredCustomPokemons.length;
+    notifyListeners();
   }
 
   @override
   void onDPadLeft() {
-    if(focusedIndex > 0) {
-      focusedIndex--;
-      notifyListeners();
-    }
+    if (_filteredCustomPokemons.isEmpty) return;
+    focusedIndex = (focusedIndex - 1 + _filteredCustomPokemons.length) %
+        _filteredCustomPokemons.length;
+    notifyListeners();
   }
 
   @override
   void onDPadRight() {
-    if(focusedIndex < _filteredCustomPokemons.length - 1) {
-      focusedIndex++;
-      notifyListeners();
-    }
+    if (_filteredCustomPokemons.isEmpty) return;
+    focusedIndex = (focusedIndex + 1) % _filteredCustomPokemons.length;
+    notifyListeners();
   }
 
   // Metodos adicionales
@@ -92,16 +91,18 @@ class SelectorViewModel extends ChangeNotifier with ViewModelNavigator implement
   // y le pasa el numero del pokemon seleccionado
   void selectPokemon(int index) {
     final number = _filteredCustomPokemons[index].id;
-    navigateTo('/pokemon?number=$number&uid=${_filteredCustomPokemons[index].user}');
+    navigateTo(
+        '/pokemon?number=$number&uid=${_filteredCustomPokemons[index].user}');
   }
 
   // Filtra los pokemones por nombre si el query no está vacío
   // y devuelve una lista de pokemones filtrados o la lista completa
   List<CustomPokemon> filterPokemons(String query) {
     focusedIndex = 0;
-    _filteredCustomPokemons = query.isEmpty ? _customPokemons : _isNotEmptyFilterPokemons(query);
+    _filteredCustomPokemons =
+        query.isEmpty ? _customPokemons : _isNotEmptyFilterPokemons(query);
     notifyListeners();
-    
+
     return _filteredCustomPokemons;
   }
 
@@ -112,11 +113,9 @@ class SelectorViewModel extends ChangeNotifier with ViewModelNavigator implement
       return pokemon.name.toLowerCase().contains(query.toLowerCase());
     }).toList();
   }
-  
+
   @override
   set secondaryScreenWidget(Widget value) {
     // TODO: implement secondaryScreenWidget
   }
-
-  
 }

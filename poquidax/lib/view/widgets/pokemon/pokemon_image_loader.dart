@@ -21,7 +21,7 @@ class _PokemonImageLoaderState extends State<PokemonImageLoader> {
 
       precacheImage(AssetImage('assets/animations/pokeball.gif'), context)
           .then((_) {
-        Future.delayed(Duration(milliseconds: 1400), () {
+        Future.delayed(Duration(milliseconds: 1200), () {
           setState(() => _stage = 1);
           Future.delayed(Duration(milliseconds: 100), () {
             setState(() => _stage = 2);

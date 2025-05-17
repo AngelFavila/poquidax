@@ -6,13 +6,15 @@ import 'package:pokedax/viewmodel/base/viewmodel_navigator.dart';
 import 'package:pokedax/viewmodel/home_viewmodel.dart';
 import 'package:pokedax/viewmodel/base/pokedex_vm_interface.dart';
 
-class CatchSelectorViewModel extends ChangeNotifier with ViewModelNavigator implements PokedexVmInterface {
+class CatchSelectorViewModel extends ChangeNotifier
+    with ViewModelNavigator
+    implements PokedexVmInterface {
   @override
   Widget secondaryScreenContent = Text('Selecciona un pokemon para atrapar');
-  
+
   @override
   Widget get screenContent => CatchWidget();
-  
+
   List<Pokemon> _pokemons = [];
   get pokemons => _pokemons;
   List<Pokemon> _filteredPokemons = [];
@@ -45,35 +47,33 @@ class CatchSelectorViewModel extends ChangeNotifier with ViewModelNavigator impl
   }
 
   @override
-  void onDPadUp(){
-    if(focusedIndex > 0) {
-      focusedIndex--;
-      notifyListeners();
-    }
+  void onDPadUp() {
+    if (_filteredPokemons.isEmpty) return;
+    focusedIndex = (focusedIndex - 1 + _filteredPokemons.length) %
+        _filteredPokemons.length;
+    notifyListeners();
   }
 
   @override
   void onDPadDown() {
-    if(focusedIndex < _filteredPokemons.length - 1) {
-      focusedIndex++;
-      notifyListeners();
-    }
+    if (_filteredPokemons.isEmpty) return;
+    focusedIndex = (focusedIndex + 1) % _filteredPokemons.length;
+    notifyListeners();
   }
 
   @override
   void onDPadLeft() {
-    if(focusedIndex > 0) {
-      focusedIndex--;
-      notifyListeners();
-    }
+    if (_filteredPokemons.isEmpty) return;
+    focusedIndex = (focusedIndex - 1 + _filteredPokemons.length) %
+        _filteredPokemons.length;
+    notifyListeners();
   }
 
   @override
   void onDPadRight() {
-    if(focusedIndex < _filteredPokemons.length - 1) {
-      focusedIndex++;
-      notifyListeners();
-    }
+    if (_filteredPokemons.isEmpty) return;
+    focusedIndex = (focusedIndex + 1) % _filteredPokemons.length;
+    notifyListeners();
   }
 
   // Metodos adicionales
@@ -97,9 +97,10 @@ class CatchSelectorViewModel extends ChangeNotifier with ViewModelNavigator impl
   // y devuelve una lista de pokemones filtrados o la lista completa
   List<Pokemon> filterPokemons(String query) {
     focusedIndex = 0;
-    _filteredPokemons = query.isEmpty ? _pokemons : _isNotEmptyFilterPokemons(query);
+    _filteredPokemons =
+        query.isEmpty ? _pokemons : _isNotEmptyFilterPokemons(query);
     notifyListeners();
-    
+
     return _filteredPokemons;
   }
 
@@ -110,10 +111,9 @@ class CatchSelectorViewModel extends ChangeNotifier with ViewModelNavigator impl
       return pokemon.name.toLowerCase().contains(query.toLowerCase());
     }).toList();
   }
-  
+
   @override
   set secondaryScreenWidget(Widget value) {
     // TODO: implement secondaryScreenWidget
   }
-
 }
