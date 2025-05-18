@@ -94,7 +94,30 @@ class PokemonViewModel extends ChangeNotifier
   }
 
   @override
-  set secondaryScreenWidget(Widget value) {
-    // TODO: implement secondaryScreenWidget
+  set secondaryScreenWidget(Widget value) {}
+
+  String _dialogText = 'Yes or no?';
+
+  @override
+  String get dialogText => _dialogText;
+  
+  bool _isDialogVisible = false;
+  @override
+
+  bool get isDialogVisible => _isDialogVisible;
+  
+  @override
+  void noPressed() {
+    print("No pressed");
+  }
+  
+  @override
+  void yesPressed() {
+    print("Yes pressed");
+  }
+  
+  @override
+  void showDialog() {
+    // TODO: implement showDialog
   }
 }

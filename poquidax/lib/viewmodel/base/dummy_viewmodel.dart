@@ -48,4 +48,28 @@ class DummyViewModel extends ChangeNotifier implements PokedexVmInterface {
   set secondaryScreenWidget(Widget value) {
     // TODO: implement secondaryScreenWidget
   }
+  
+  bool _isDialogVisible = false;
+  @override
+  // TODO: implement dialogText
+  String get dialogText => throw UnimplementedError();
+  
+  @override
+  // TODO: implement isDialogVisible
+  bool get isDialogVisible => _isDialogVisible;
+  
+  @override
+  void noPressed() {
+    // TODO: implement noPressed
+  }
+  
+  @override
+  void yesPressed() {
+    // TODO: implement yesPressed
+  }
+  
+  @override
+  void showDialog() {
+    // TODO: implement showDialog
+  }
 }

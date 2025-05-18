@@ -121,6 +121,28 @@ class CatchFormViewModel extends ChangeNotifier
   }
 
   @override
-  // TODO: implement secondaryScreenContent
   Widget get secondaryScreenContent => Text('Atrapa un pokemon');
+  
+  @override
+  String get dialogText => throw UnimplementedError();
+  
+  bool _isDialogVisible = false;
+
+  @override
+  bool get isDialogVisible => _isDialogVisible;
+  
+  @override
+  void noPressed() {
+    // TODO: implement noPressed
+  }
+  
+  @override
+  void yesPressed() {
+    // TODO: implement yesPressed
+  }
+  
+  @override
+  void showDialog() {
+    // TODO: implement showDialog
+  }
 }

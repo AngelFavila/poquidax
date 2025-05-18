@@ -19,7 +19,10 @@ class HomeViewModel extends ChangeNotifier with ViewModelNavigator implements Po
   
   @override
   void onBackButton() {
-    logOut();
+    if (!_isDialogVisible) {
+    _isDialogVisible = true;
+    notifyListeners();
+  }
   }
 
   @override
@@ -81,6 +84,29 @@ class HomeViewModel extends ChangeNotifier with ViewModelNavigator implements Po
   @override
   set secondaryScreenWidget(Widget value) {
     // TODO: implement secondaryScreenWidget
+  }
+  
+  String _dialogText = 'Cerrar sesión?';
+
+  @override
+  String get dialogText => _dialogText;
+  
+  bool _isDialogVisible = false;
+  @override
+
+  bool get isDialogVisible => _isDialogVisible;
+  
+  @override
+  void noPressed() {}
+  
+  @override
+  void yesPressed() {
+    logOut();
+  }
+  
+  @override
+  void showDialog() {
+    _isDialogVisible = false;
   }
 
 

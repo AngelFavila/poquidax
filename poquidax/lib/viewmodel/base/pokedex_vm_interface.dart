@@ -24,4 +24,14 @@ abstract class PokedexVmInterface extends ChangeNotifier{
   void onDPadLeft();
 
   void onDPadRight();
+
+  bool _isDialogVisible = false;
+  bool get isDialogVisible => _isDialogVisible;
+
+  String _dialogText = '';
+  String get dialogText => _dialogText;
+
+  void noPressed();
+  void yesPressed();
+  void showDialog();
 }

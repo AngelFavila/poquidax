@@ -42,22 +42,50 @@ class _PokedexTemplateState extends State<PokedexTemplate> {
 
     // PokemonViewModel case
     if (viewModel is PokemonViewModel) {
-  final userStr = uri.queryParameters['uid'];
-  if (userStr != null &&
-      _initializedNumbers['pokemon'] != number &&
-      viewModel.pokemon?.number != number) {
-    _initializedNumbers['pokemon'] = number;
-    Future.microtask(() => viewModel.setSelectePokemonNumber(number, userStr));
+      final userStr = uri.queryParameters['uid'];
+      if (userStr != null &&
+          _initializedNumbers['pokemon'] != number &&
+          viewModel.pokemon?.number != number) {
+        _initializedNumbers['pokemon'] = number;
+        Future.microtask(
+            () => viewModel.setSelectePokemonNumber(number, userStr));
+      }
+    }
   }
-}
-
-  }
-
-  
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+    var viewModel = context.watch<PokedexProvider>().viewModel;
+
+    if (viewModel.isDialogVisible) {
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    viewModel.showDialog(); // reset the flag
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Text(viewModel.dialogText),
+        actions: [
+          TextButton(
+            onPressed: () {
+              viewModel.noPressed();
+              Navigator.of(context).pop();
+            },
+            child: const Text('No'),
+          ),
+          TextButton(
+            onPressed: () {
+              viewModel.yesPressed();
+              Navigator.of(context).pop();
+            },
+            child: const Text('Si'),
+          ),
+        ],
+      ),
+    );
+  });
+}
+
 
     return Scaffold(
       backgroundColor: myColorScheme.primary,
@@ -182,8 +210,7 @@ class _PokedexTemplateState extends State<PokedexTemplate> {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Padding(
-              padding: EdgeInsets.all(
-                  MediaQuery.of(context).size.width * 0.03),
+              padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03),
               child: Center(
                 child: viewModel.secondaryScreenContent,
               ),
