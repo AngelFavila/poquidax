@@ -11,6 +11,9 @@ class CatchFormViewModel extends ChangeNotifier
     with ViewModelNavigator
     implements PokedexVmInterface {
   @override
+  Widget get screenContent => CatchFormView();
+
+  @override
   Widget secondaryScreenWidget = Text('Atrapa un pokemon');
 
   Pokemon? _pokemon;
@@ -77,10 +80,6 @@ class CatchFormViewModel extends ChangeNotifier
     // TODO: implement onDPadUp
   }
 
-  @override
-  // TODO: implement screenContent
-  Widget get screenContent => CatchFormView();
-
   Future<void> setSelectePokemonNumber(int number) async {
     try {
       _pokemon = await ApiService().getPokemonByNumber(number);
@@ -122,25 +121,25 @@ class CatchFormViewModel extends ChangeNotifier
 
   @override
   Widget get secondaryScreenContent => Text('Atrapa un pokemon');
-  
+
   @override
   String get dialogText => throw UnimplementedError();
-  
+
   bool _isDialogVisible = false;
 
   @override
   bool get isDialogVisible => _isDialogVisible;
-  
+
   @override
   void noPressed() {
     // TODO: implement noPressed
   }
-  
+
   @override
   void yesPressed() {
     // TODO: implement yesPressed
   }
-  
+
   @override
   void showDialog() {
     // TODO: implement showDialog

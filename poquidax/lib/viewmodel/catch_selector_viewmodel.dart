@@ -10,10 +10,10 @@ class CatchSelectorViewModel extends ChangeNotifier
     with ViewModelNavigator
     implements PokedexVmInterface {
   @override
-  Widget secondaryScreenContent = Text('Selecciona un pokemon para atrapar');
+  Widget get screenContent => CatchWidget();
 
   @override
-  Widget get screenContent => CatchWidget();
+  Widget secondaryScreenContent = Text('Selecciona un pokemon para atrapar');
 
   List<Pokemon> _pokemons = [];
   get pokemons => _pokemons;
@@ -116,27 +116,27 @@ class CatchSelectorViewModel extends ChangeNotifier
   set secondaryScreenWidget(Widget value) {
     // TODO: implement secondaryScreenWidget
   }
-  
+
   @override
   // TODO: implement dialogText
   String get dialogText => throw UnimplementedError();
-  
+
   bool _isDialogVisible = false;
 
   @override
   // TODO: implement isDialogVisible
   bool get isDialogVisible => _isDialogVisible;
-  
+
   @override
   void noPressed() {
     // TODO: implement noPressed
   }
-  
+
   @override
   void yesPressed() {
     // TODO: implement yesPressed
   }
-  
+
   @override
   void showDialog() {
     // TODO: implement showDialog
